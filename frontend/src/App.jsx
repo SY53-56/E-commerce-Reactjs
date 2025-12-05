@@ -31,5 +31,5 @@ function App() {
     </>
   )
 }
-
+//mongodb+srv://yadavsahul220_db_user:3nbDPDJJrNbxs7np@e-commerce.zdvtgge.mongodb.net/?appName=e-commerce
 export default App
