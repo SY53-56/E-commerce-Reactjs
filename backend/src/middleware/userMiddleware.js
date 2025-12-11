@@ -31,4 +31,4 @@ console.log("sahul token", token)
   }
 };
 
-module.exports = { userAuthentication };
+module.exports =  userAuthentication ;

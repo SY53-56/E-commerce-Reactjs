@@ -1,4 +1,4 @@
-async function idAdmin(req,res,next){
+async function isAdmin(req,res,next){
    try{
       if(!req.user){
         res.status(400).json({message:"anautherized"})
@@ -6,8 +6,10 @@ async function idAdmin(req,res,next){
       if(req.user.role !== "admin"){
           res.status(400).json({message:"only admin can add"})
       }
+      next()
    }catch(e){
-
+ res.status(400).json({message:e})
    }
 
 }
+module.exports = isAdmin

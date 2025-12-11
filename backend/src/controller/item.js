@@ -36,7 +36,7 @@ const addToCart = async (req, res) => {
 };
 
 // 2. Get user cart
-const getCartItems = async (req, res) => {
+const getCartItem = async (req, res) => {
   try {
     const userId = req.user._id;
 
@@ -99,4 +99,4 @@ const updateCartItem = async (req, res) => {
   }
 };
 
-module.exports = { addToCart, getCartItems, removeCartItem, updateCartItem };
+module.exports = { addToCart, getCartItem, removeCartItem, updateCartItem };

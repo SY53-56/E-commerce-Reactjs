@@ -5,8 +5,8 @@ const connectDb = require("./config/db");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const UserRoutes = require("./src/router/user");
-
-// Connect DB
+const ProductRouter = require("./src/router/product")// Connect DB
+const ItemRouter = require("./src/router/cart")
 connectDb();
 
 // CORS FIX (MOST IMPORTANT)
@@ -30,7 +30,8 @@ app.get("/test", (req, res) => {
 });
 
 app.use("/user", UserRoutes);
-
+app.use("/product",ProductRouter)
+app.use("/ItemRouter",ItemRouter)
 // Start server
 const port = process.env.PORT;
 app.listen(port, () => {
