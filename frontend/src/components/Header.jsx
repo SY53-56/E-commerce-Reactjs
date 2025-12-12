@@ -3,9 +3,12 @@ import React from 'react'
 export default function Header() {
   return (
     <>
-      <div className='flex justify-between px-3.5 '>
+      <div className='flex justify-between px-3.5 py-2'>
+        <div >
+            <h1 className=''><i>main mart</i></h1>
+        </div>
         <div>
-            <h1><i>main mart</i></h1>
+            <input type="text" name="" id="" />
         </div>
       </div>
     </>
