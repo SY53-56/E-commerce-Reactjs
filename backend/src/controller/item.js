@@ -17,7 +17,7 @@ const addToCart = async (req, res) => {
       return res.status(201).json({ message: "Cart created", cart });
     }
 
-    const indexCart = cart.items.findIndex(
+    const indexCart = cart.item.findIndex(
       (item) => item.product.toString() === productId
     );
 
@@ -45,7 +45,7 @@ const getCartItem = async (req, res) => {
 
     if (!cart) return res.status(404).json({ message: "Cart not found" });
 
-    res.status(200).json({ items: cart.items });
+    res.status(200).json({ items: cart.item });
 
   } catch (e) {
     res.status(500).json({ message: e.message });
