@@ -1,12 +1,36 @@
-import { Link } from "react-router-dom";
+import React from "react";
+import { NavLink } from "react-router-dom";
 
-export default function Button({ classname, to, name }) {
+export default function Button({
+  name,
+  to,
+  className,
+ 
+  onClick,
+  type = "button"
+}) {
+
+
+  // 🔹 If `to` exists → act as Link
+  if (to) {
+    return (
+      <NavLink
+        to={to}
+        className={`${className} cursor-pointer inline-flex items-center justify-center`}
+      >
+        { name}
+      </NavLink>
+    );
+  }
+
+  // 🔹 Otherwise → normal button
   return (
-    <Link
-      to={to}
-      className={`${classname} cursor-pointer duration-100 rounded py-1 inline-block`}
+    <button
+      type={type}
+      onClick={onClick}
+      className={`${className} cursor-pointer inline-flex items-center justify-center`}
     >
-      {name}
-    </Link>
+      { name}
+    </button>
   );
 }

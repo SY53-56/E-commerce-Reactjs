@@ -1,17 +1,17 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+
 import './App.css'
-import { BrowserRouter, Route } from 'react-router'
-import { Routes } from 'react-router'
+import { BrowserRouter, Route, } from 'react-router-dom'
+import { Routes } from 'react-router-dom'
 import Layout from './Layout'
 import Home from './pages/Home'
 import UserProfile from './pages/UserProfile'
 import ProductDetails from './pages/ProductDetails'
 import Cart from './pages/Cart'
-
+import SignupPage from './pages/signupPage'
+import Login from "./pages/LoginPage"
 function App() {
-  const [count, setCount] = useState(0)
+
 
   return (
     <>
@@ -21,10 +21,11 @@ function App() {
   <Route path='/' element={<Home/>}/> 
       <Route path='/user' element={<UserProfile/>}/>
        <Route path='/product' element={<ProductDetails/>}/>
-        <Route path='/ cart' element={<Cart/>}/>
-      
-        
+        <Route path='/cart' element={<Cart/>}/>
+    
       </Route>
+          <Route path="/signup" element={<SignupPage/>} />
+        <Route  path='/login' element={<Login/>}/>
     </Routes>
     </>
   )

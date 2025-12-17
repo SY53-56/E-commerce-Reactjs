@@ -41,7 +41,7 @@ const userRegister = async (req, res) => {
       username,
       password: hashedPassword,
     });
-
+  console.log(newUser)
     // Generate JWT
     const token = generateToken(newUser);
 console.log( "token by sahul",token)
@@ -59,7 +59,7 @@ console.log( "token by sahul",token)
         id: newUser._id,
         email: newUser.email,
         username: newUser.username,
-      },
+      },token
     });
   } catch (e) {
     res.status(500).json({ message: e.message });
@@ -107,7 +107,7 @@ console.log(token)
         id: userExist._id,
         email: userExist.email,
         username: userExist.username,
-      },
+      },token
     });
   } catch (e) {
     res.status(500).json({ message: e.message });

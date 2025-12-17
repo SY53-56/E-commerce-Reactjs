@@ -2,13 +2,25 @@ import React, { useState } from "react";
 import { Menu, Moon, Sun, Search, ShoppingCart } from "lucide-react";
 import Button from "./Button";
 import { useTheme } from "../context/themeContext.jsx";
+import { NavLink } from "react-router";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../features/auth/authSlice.js";
 
 export default function Header() {
   const { theme, toggleTheme } = useTheme();
   const [showMenu, setShowMenu] = useState(false);
-
+ const {user,token}  = useSelector(state=>state.auth)
   const toggleMenuHandler = () => setShowMenu(prev => !prev);
+  const dispitch = useDispatch()
+ async function logoutApi(){
+    try{
+      dispitch(logout())
+    }catch(e){
 
+    }
+  }
+console.log("sahul",user)
+console.log("token",token)
   return (
     <header
       className={`flex justify-between items-center px-5 py-3 border-b-2 transition-colors duration-500
@@ -23,7 +35,7 @@ export default function Header() {
           size={28}
         />
       </div>
-
+      
       {/* Search bar */}
       <div className="hidden lg:flex items-center gap-3 border px-2 rounded-lg w-[400px] shadow-md">
         <input
@@ -46,18 +58,30 @@ export default function Header() {
 
         {/* Cart */}
         <div className="relative cursor-pointer">
-          <ShoppingCart size={28} />
+         <NavLink to="/cart">
+           <ShoppingCart  className="cursor-pointer" size={28} />
+         </NavLink>
           <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs px-1 rounded-full">
             0
           </span>
         </div>
 
-        {/* Auth buttons */}
-        <Button classname="bg-green-800 px-4 py-2 rounded-lg text-white" name="Login" />
-        <Button classname="bg-red-500 px-4 py-2 rounded-lg text-white" name="Signup" />
+        {token?(
+<div className="flex gap-4 items-center">
+  <p>{user.username}</p>
+          <Button onClick={logoutApi} className={`bg-amber-600 px-2 py-1 rounded-lg corsor-pointer text-white`} name="logout"/>
+
+</div>
+          
+        ):(
+<>
+        
+        <Button type="submit" to="/login" className="bg-green-800 px-4 py-2 rounded-lg text-white" name="Login" />
+        <Button type="submit" to="/signup" className="bg-red-500 px-4 py-2 rounded-lg text-white" name="Signup" />
+</>
+        )}
       </div>
 
-      {/* Mobile menu */}
       <div
         className={`fixed top-0 left-0     ${theme === "light" ? "bg-gray-200 text-black" : "bg-gray-950 text-white"} z-40 h-full w-2/3  transform transition-transform duration-500 lg:hidden
           ${showMenu ? "translate-x-0" : "-translate-x-full"}`}
@@ -91,8 +115,17 @@ export default function Header() {
           </div>
 
           {/* Auth buttons */}
-          <Button classname="bg-green-800 px-4 py-2 rounded-lg text-white w-full" name="Login" />
-          <Button classname="bg-red-500 px-4 py-2 rounded-lg text-white w-full" name="Signup" />
+         {token?(
+          <div>
+            <p>{user.username}</p>
+                     <Button onClick={logoutApi} className={`bg-amber-600 px-2 py-1 rounded-lg corsor-pointer text-white`} name="logout"/>
+          </div>
+         ):(
+          <div>
+             <Button to="/login" className="bg-green-800 cursor-pointer px-4 py-2 rounded-lg text-white w-full" name="Login" />
+          <Button to="/signup" className="bg-red-500 cursor-pointer px-4 py-2 rounded-lg text-white w-full" name="Signup" />
+          </div>
+         )}
         </div>
       </div>
     </header>
