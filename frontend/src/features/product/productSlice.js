@@ -87,7 +87,7 @@ const productSlice = createSlice({
           state.currentProduct = updatedProduct;
         }
       })
-      .addCase(updatProduct.rejected, (state, action) => {
+      .addCase(updateProduct.rejected, (state, action) => {
      
         state.error = action.payload;
       })

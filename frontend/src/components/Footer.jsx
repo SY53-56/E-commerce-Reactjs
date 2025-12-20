@@ -5,9 +5,9 @@ import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin } from 'react-icons/fa';
 import { useTheme } from '../context/themeContext';
 
 const App = () => {
-  const {theme,toggleTheme} = useTheme()
+  const {theme} = useTheme()
   return (
-    <footer className={` fixed bottom-0 w-full py-4 border-t-2 ${theme === "light" ? "bg-gray-200 text-black" : "bg-gray-950 text-white"}`}>
+    <footer className={`  w-full py-4 border-t-2 ${theme === "light" ? "bg-gray-200 text-black" : "bg-gray-950 text-white"}`}>
       <div className="container mx-auto grid grid-cols-1 
             md:grid-cols-4 gap-8 w-11/12">
 

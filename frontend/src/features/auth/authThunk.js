@@ -1,4 +1,4 @@
-import { configureStore, createAsyncThunk, isRejected } from "@reduxjs/toolkit";
+import {  createAsyncThunk } from "@reduxjs/toolkit";
 
 
 import API from "../../service/api"

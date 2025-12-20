@@ -1,5 +1,6 @@
 import React from 'react'
 import Poster from '../components/Poster'
+import AddProduct from './addProduct'
 
 
 export default function Home() {
@@ -8,6 +9,7 @@ export default function Home() {
   <>
   <div>
     <Poster/>
+    <AddProduct/>
   </div>
   </>
   )

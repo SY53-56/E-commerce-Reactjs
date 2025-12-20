@@ -16,7 +16,7 @@ export default function Header() {
     try{
       dispitch(logout())
     }catch(e){
-
+console.log(e)
     }
   }
 console.log("sahul",user)
