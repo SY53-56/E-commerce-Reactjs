@@ -1,11 +1,14 @@
 import React from 'react'
+import Poster from '../components/Poster'
 
 
 export default function Home() {
 
   return (
   <>
-<h1>sahul</h1>
+  <div>
+    <Poster/>
+  </div>
   </>
   )
 }

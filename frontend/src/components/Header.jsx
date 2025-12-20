@@ -83,7 +83,7 @@ console.log("token",token)
       </div>
 
       <div
-        className={`fixed top-0 left-0     ${theme === "light" ? "bg-gray-200 text-black" : "bg-gray-950 text-white"} z-40 h-full w-2/3  transform transition-transform duration-500 lg:hidden
+        className={`fixed top-0 left-0 border-l-black     ${theme === "light" ? "bg-gray-200 text-black" : "bg-gray-950 text-white"} z-40 h-full w-2/3  transform transition-transform duration-500 lg:hidden
           ${showMenu ? "translate-x-0" : "-translate-x-full"}`}
       >
         <div className="flex flex-col gap-5 p-5">
@@ -97,7 +97,7 @@ console.log("token",token)
             <input
               type="text"
               placeholder="Search"
-              className="w-full outline-none text-black"
+              className="w-full outline-none"
             />
             <Search size={22} />
           </div>
@@ -121,7 +121,7 @@ console.log("token",token)
                      <Button onClick={logoutApi} className={`bg-amber-600 px-2 py-1 rounded-lg corsor-pointer text-white`} name="logout"/>
           </div>
          ):(
-          <div>
+          <div className="flex flex-col gap-2">
              <Button to="/login" className="bg-green-800 cursor-pointer px-4 py-2 rounded-lg text-white w-full" name="Login" />
           <Button to="/signup" className="bg-red-500 cursor-pointer px-4 py-2 rounded-lg text-white w-full" name="Signup" />
           </div>
