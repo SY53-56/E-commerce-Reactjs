@@ -10,6 +10,8 @@ import ProductDetails from './pages/ProductDetails'
 import Cart from './pages/Cart'
 import SignupPage from './pages/signupPage'
 import Login from "./pages/LoginPage"
+import AddProduct from './pages/addProduct'
+import UpdateProduct from './pages/UpdateProduct'
 function App() {
 
 
@@ -22,7 +24,8 @@ function App() {
       <Route path='/user' element={<UserProfile/>}/>
        <Route path='/product' element={<ProductDetails/>}/>
         <Route path='/cart' element={<Cart/>}/>
-    
+          <Route path='/add' element={<AddProduct/>}/>
+          <Route path="/update" element={<UpdateProduct/>}/>
       </Route>
           <Route path="/signup" element={<SignupPage/>} />
         <Route  path='/login' element={<Login/>}/>
