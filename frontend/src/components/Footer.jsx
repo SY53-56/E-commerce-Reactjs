@@ -4,7 +4,7 @@ import React from 'react';
 import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin } from 'react-icons/fa';
 import { useTheme } from '../context/themeContext';
 
-const App = () => {
+const Footer = () => {
   const {theme} = useTheme()
   return (
     <footer className={`  w-full py-4 border-t-2 ${theme === "light" ? "bg-gray-200 text-black" : "bg-gray-950 text-white"}`}>
@@ -65,4 +65,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default Footer;

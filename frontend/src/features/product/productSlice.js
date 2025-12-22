@@ -71,15 +71,12 @@ const productSlice = createSlice({
       })
       .addCase(updateProduct.fulfilled, (state, action) => {
         state.loading = false;
-
         const updatedProduct = action.payload;
 
-        // update product in list
         state.products = state.products.map((p) =>
           p._id === updatedProduct._id ? updatedProduct : p
         );
 
-        // update current product if same
         if (
           state.currentProduct &&
           state.currentProduct._id === updatedProduct._id
@@ -88,34 +85,34 @@ const productSlice = createSlice({
         }
       })
       .addCase(updateProduct.rejected, (state, action) => {
-     
+        state.loading = false;
         state.error = action.payload;
       })
-      .addCase(updateProduct.rejected,(state,action)=>{
-           state.loading = false;
-        state.error = action.payload;
-      })
-      .addCase(deleteProduct.pending,(state, action)=>{
-            state.loading = true;
-        state.error = action.payload;
-      })
-       .addCase(deleteProduct.fulfilled,(state, action)=>{
 
-      const deletedProduct= action.payload;
-      state.products= state.products.filter((p)=> p._id !==deletedProduct._id)
-if (
+      // 🔹 DELETE PRODUCT
+      .addCase(deleteProduct.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(deleteProduct.fulfilled, (state, action) => {
+        state.loading = false;
+        const deletedProduct = action.payload;
+
+        state.products = state.products.filter(
+          (p) => p._id !== deletedProduct._id
+        );
+
+        if (
           state.currentProduct &&
           state.currentProduct._id === deletedProduct._id
         ) {
           state.currentProduct = null;
         }
-            state.loading = true;
-        state.error = action.payload;
       })
-      .addCase(deleteProduct.rejected,(state,action)=>{
-          state.loading = false;
+      .addCase(deleteProduct.rejected, (state, action) => {
+        state.loading = false;
         state.error = action.payload;
-      })
+      });
   },
 });
 

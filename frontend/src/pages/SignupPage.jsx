@@ -4,7 +4,7 @@ import Button from "../components/Button.jsx"
 import { Link, useNavigate } from "react-router-dom";
 
   import { signupUSer } from "../features/auth/authThunk.js";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 export default function SignupPage() {
   const [form ,setForm]= useState({
     username:"",
@@ -13,7 +13,6 @@ export default function SignupPage() {
   })
   const dispatch= useDispatch()
   const { theme } = useTheme();
-
 const navigate= useNavigate()
 
    function formHandle(e){
@@ -28,9 +27,6 @@ const navigate= useNavigate()
  .catch((err) => {
       console.error("Signup failed", err);
     });
-
-  console.log("register")
-
   }
 
   const themeStyles =
@@ -97,6 +93,8 @@ const navigate= useNavigate()
             placeholder="Enter your password"
             className="rounded-lg border px-3 py-2 outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition"
           />
+        </div>
+       
         </div>
 
         {/* Button */}

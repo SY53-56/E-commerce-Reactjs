@@ -14,10 +14,10 @@ const authSlice = createSlice({
   reducers: {
     logout: (state) => {
       state.user = null;
-      state.loading =null;
+      state.loading =false;
       state.error = null;
       state.token= null
-      localStorage.remove("token")
+localStorage.removeItem("token")
     },
   },
   extraReducers: (builder) => {

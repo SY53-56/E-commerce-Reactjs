@@ -5,7 +5,6 @@ export default function Button({
   name,
   to,
   className,
- 
   onClick,
   type = "button"
 }) {

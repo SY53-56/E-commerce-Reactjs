@@ -1,11 +1,45 @@
-import React from "react";
+import React, { useState } from "react";
 import Button from "../components/Button";
+import { useDispatch, useSelector } from "react-redux";
+import { addProduct } from "../features/product/productThunk";
+import { useNavigate } from "react-router";
 
 export default function AddProduct() {
+
+const dispatch= useDispatch()
+const {loading , error} = useSelector(state=>state.product)
+const navigate= useNavigate()
+const [form, setForm] = useState({
+  productName: "",
+  productPrice: "",
+  productImg: "",
+  productDescription: "",
+  productCategory: ""
+});
+
+function formHandle(e){
+  const {name, value}= e.target
+  setForm(prev=> ({...prev, [name]:value}))
+}
+async function formSubmit(e){
+  e.preventdefault()
+try{
+     dispatch(addProduct(form)).unwrap()
+  navigate("/")
+}catch(e){
+  console.log(e)
+}
+}
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
-      <form className="w-full max-w-lg bg-white rounded-2xl shadow-xl p-6 space-y-5">
-        
+      <form onSubmit={formSubmit} className="w-full max-w-lg bg-white rounded-2xl shadow-xl p-6 space-y-5">
+     {loading && (
+  <p className="text-center text-blue-600 font-medium">
+    Adding product...
+  </p>
+)}
+
         {/* Title */}
         <h1 className="text-3xl font-extrabold text-center text-gray-800">
           Add Product
@@ -17,6 +51,9 @@ export default function AddProduct() {
             Product Name
           </label>
           <input
+          value={form.productName}
+          name="productName"
+           onChange={formHandle}
             type="text"
             placeholder="Enter product name"
             className="w-full px-3 py-2 border rounded-lg outline-none focus:ring-2 focus:ring-amber-400"
@@ -29,6 +66,9 @@ export default function AddProduct() {
             Product Price
           </label>
           <input
+          value={form.productPrice}
+          name="productPrice"
+          onChange={formHandle}
             type="number"
             placeholder="Enter product price"
             className="w-full px-3 py-2 border rounded-lg outline-none focus:ring-2 focus:ring-amber-400"
@@ -41,6 +81,9 @@ export default function AddProduct() {
             Product Image URL
           </label>
           <input
+               onChange={formHandle}
+               value={form.productPrice}
+               name="productPrice"
             type="text"
             placeholder="Enter image URL"
             className="w-full px-3 py-2 border rounded-lg outline-none focus:ring-2 focus:ring-amber-400"
@@ -53,6 +96,9 @@ export default function AddProduct() {
             Product Description
           </label>
           <textarea
+          value={form.productDescription}
+           onChange={formHandle}
+           name="productDescription"
             rows="3"
             placeholder="Enter product description"
             className="w-full px-3 py-2 border rounded-lg outline-none focus:ring-2 focus:ring-amber-400 resize-none"
@@ -63,9 +109,10 @@ export default function AddProduct() {
         <div>
           <label className="block text-sm font-semibold text-gray-700 mb-1">
             Product Category
+            
           </label>
-          <select className="w-full px-3 py-2 border rounded-lg cursor-pointer outline-none focus:ring-2 focus:ring-amber-400">
-            <option value="">Select category</option>
+          <select  onChange={formHandle} value={form.productCategory} name="productCategory" className="w-full px-3 py-2 border rounded-lg cursor-pointer outline-none focus:ring-2 focus:ring-amber-400">
+            <option value="food">food</option>
             <option value="clothes">Clothes</option>
             <option value="shoes">Shoes</option>
             <option value="electronics">Electronic Device</option>
@@ -79,6 +126,11 @@ export default function AddProduct() {
           className="w-full py-2 rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-semibold transition-all"
           name="Submit"
         />
+        {error && (
+  <p className="text-center text-red-600 font-medium">
+    {error.message || "Something went wrong!"}
+  </p>
+)}
       </form>
     </div>
   );

@@ -4,13 +4,13 @@
     import Button from "../components/Button.jsx"
 import { Link, useNavigate } from "react-router-dom";
 
-import { useDispatch } from "react-redux";
+import { useDispatch} from "react-redux";
 import { loginUSer } from "../features/auth/authThunk.js";
     
 
     export default function LoginPage() {
       const { theme } = useTheme();
-  
+    
   const [form,setForm]= useState({
     email:"",
     password:""
@@ -24,10 +24,10 @@ import { loginUSer } from "../features/auth/authThunk.js";
     const formSubmit=(e)=>{
        e.preventDefault()
        if(!form)return 
-       dispatch(loginUSer(form))
+       dispatch(loginUSer(form)).unwrap()
        .then(()=> navigate("/"))
    .catch((err) => {
-      console.error("Signup failed", err);
+      console.error("login failed", err);
     });
 
     }

@@ -11,7 +11,7 @@ export const loginUSer= createAsyncThunk("login/auth", async(data,{rejectWithVal
          return  res.data
 
   }catch(e){
-  return rejectWithValue(e.message)
+return rejectWithValue(e.response?.data?.message || e.message);
   }
 })
 
@@ -21,6 +21,6 @@ export const signupUSer= createAsyncThunk("signup/auth",async(data,{rejectWithVa
    console.log("API RESPONSE 👉", res.data);
    return res.data
   }catch(e){
-  return  rejectWithValue(e.message)
+return rejectWithValue(e.response?.data?.message || e.message);
   }
 })

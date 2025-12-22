@@ -1,6 +1,7 @@
 import React from 'react'
 import Poster from '../components/Poster'
 import AddProduct from './addProduct'
+import Button from '../components/Button'
 
 
 export default function Home() {
@@ -9,7 +10,7 @@ export default function Home() {
   <>
   <div>
     <Poster/>
-    <AddProduct/>
+    <Button to="/add" className="bg-lime-700 text-white"  name="add button"/>
   </div>
   </>
   )

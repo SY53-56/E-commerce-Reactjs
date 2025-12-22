@@ -11,7 +11,7 @@ export const allProductShow= createAsyncThunk("product/show",async(_, {rejectWit
     return res.data
 
   }catch(e){
- return rejectWithValue(e.message)
+return rejectWithValue(e.response?.data?.message || e.message);
   }
 })
 export const showOneProduct = createAsyncThunk(  "show/prduct",async(id ,{rejectWithValue})=>{
@@ -19,7 +19,7 @@ export const showOneProduct = createAsyncThunk(  "show/prduct",async(id ,{reject
     let res= await API.get(`/product/${id}`)
      return res.data
   }catch(e){
-     return rejectWithValue(e.message)
+  return rejectWithValue(e.response?.data?.message || e.message);
   }
 })
 export const addProduct =createAsyncThunk("add/product",async(data,{rejectWithValue})=>{
@@ -31,7 +31,7 @@ export const addProduct =createAsyncThunk("add/product",async(data,{rejectWithVa
    })
    return res.data
    }catch(e){
-     return rejectWithValue(e.message)
+   return rejectWithValue(e.response?.data?.message || e.message);
    }
 })
 export const updateProduct = createAsyncThunk('updata/prodcut',async(id,data,{rejectWithValue})=>{
@@ -43,7 +43,7 @@ export const updateProduct = createAsyncThunk('updata/prodcut',async(id,data,{re
    });
    return res.data
    }catch(e){
-     return rejectWithValue(e.message)
+     return rejectWithValue(e.response?.data?.message || e.message);
    }
 });
 export const deleteProduct= createAsyncThunk("product/delete",async(id,{rejectWithValue})=>{
@@ -55,6 +55,6 @@ try{
    });
    return res.data;
 }catch(e){
-    return rejectWithValue(e.message)
+ return rejectWithValue(e.response?.data?.message || e.message);
 }
 })
