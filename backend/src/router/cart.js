@@ -1,12 +1,11 @@
-const express = require("express")
-const router = express.Router()
-const {addToCart, getCartItem, removeCartItem, updateCartItem } = require("../controller/item")
-const  userAuthentication  = require("../middleware/userMiddleware")
-router.get("/",userAuthentication,getCartItem)
+const express = require("express");
+const router = express.Router();
 
-// Check if they are functions
-
-router.post("/add",userAuthentication,addToCart)
-router.put("/update/:id",userAuthentication,updateCartItem)
-router.delete("/delete/:id",userAuthentication,removeCartItem),
+const {addCart, getCart, increaseQuantity , decreaseQuantity, removeSingleOrderItem} =require("../controller/cart");
+const userAuthentication = require("../middleware/userMiddleware");
+router.post("/add",userAuthentication, addCart);
+router.get("/",userAuthentication,getCart);
+router.put("/increase/:productId",userAuthentication,increaseQuantity);
+router.put("/decrease/:productId",userAuthentication,decreaseQuantity);
+router.delete("/delete/:productId",userAuthentication , removeSingleOrderItem)
 module.exports  =router

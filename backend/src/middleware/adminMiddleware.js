@@ -4,7 +4,7 @@ async function isAdmin(req,res,next){
         res.status(400).json({message:"anautherized"})
       }
       if(req.user.role !== "admin"){
-          res.status(400).json({message:"only admin can add"})
+          res.status(403).json({message:"only admin can add"})
       }
       next()
    }catch(e){

@@ -9,7 +9,8 @@ export default function SignupPage() {
   const [form ,setForm]= useState({
     username:"",
     email:"",
-    password:""
+    password:"",
+    role:"user"
   })
   const dispatch= useDispatch()
   const { theme } = useTheme();
@@ -94,8 +95,23 @@ const navigate= useNavigate()
             className="rounded-lg border px-3 py-2 outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition"
           />
         </div>
-       
-        </div>
+       <div className="flex flex-col gap-1">
+  <label htmlFor="role" className="text-sm font-medium">
+    Select Role
+  </label>
+  <select
+    id="role"
+    name="role"
+    value={form.role}
+    onChange={formHandle}
+    className="rounded-lg border px-3 py-2 outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition"
+  >
+    <option value="user">User</option>
+    <option value="seller">Seller</option>
+  </select>
+</div>
+
+      
 
         {/* Button */}
         <Button type="submit" className="w-full py-2.5 rounded-lg bg-green-600 hover:bg-green-700 transition text-white font-semibold" name={"submit"}/>

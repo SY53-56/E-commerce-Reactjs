@@ -8,7 +8,7 @@ const generateToken = (user) => {
   }
 
   return jwt.sign(
-    { id: user._id, username: user.username, email: user.email },
+    { id: user._id, username: user.username, email: user.email, role:user.role },
     process.env.JWT,
     { expiresIn: "7d" } // Token valid for 7 days
   );
@@ -19,10 +19,10 @@ console.log("JWT Secretgzhzhkjzh:", process.env.JWT);
 
 const userRegister = async (req, res) => {
   try {
-    const { email, username, password } = req.body;
+    const { email, username, password ,  phone } = req.body;
 
     // Validate Inputs
-    if (!email || !username || !password) {
+    if (!email || !username || !password || role) {
       return res.status(400).json({ message: "All fields are required" });
     }
 
@@ -40,6 +40,8 @@ const userRegister = async (req, res) => {
       email,
       username,
       password: hashedPassword,
+      role:"user",
+      phone
     });
   console.log(newUser)
     // Generate JWT
@@ -59,6 +61,8 @@ console.log( "token by sahul",token)
         id: newUser._id,
         email: newUser.email,
         username: newUser.username,
+        role:newUser.role,
+        phone:newUser.phone
       },token
     });
   } catch (e) {
