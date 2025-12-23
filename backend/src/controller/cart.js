@@ -100,7 +100,7 @@ res.status(201).json({
   }
 };
 
-const desreaseQuantity = async(req,res)=>{
+const decreaseQuantity = async(req,res)=>{
   try{
     const  {productId} =- req.params;
     
@@ -200,5 +200,5 @@ const removeSingleOrderItem = async (req, res) => {
   }
 };
 
-module.exports = { removeSingleOrderItem ,getCart , addCart,increaseQuantity,desreaseQuantity};
+module.exports = { removeSingleOrderItem ,getCart , addCart,increaseQuantity,decreaseQuantity};
 

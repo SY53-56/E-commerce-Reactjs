@@ -8,4 +8,4 @@ router.get("/",userAuthentication,getCart);
 router.put("/increase/:productId",userAuthentication,increaseQuantity);
 router.put("/decrease/:productId",userAuthentication,decreaseQuantity);
 router.delete("/delete/:productId",userAuthentication , removeSingleOrderItem)
-module.exports  =router
+module.exports  = router
