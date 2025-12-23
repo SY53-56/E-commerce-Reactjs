@@ -19,10 +19,10 @@ console.log("JWT Secretgzhzhkjzh:", process.env.JWT);
 
 const userRegister = async (req, res) => {
   try {
-    const { email, username, password ,  phone } = req.body;
+    const { email, username, password ,role,  phone } = req.body;
 
     // Validate Inputs
-    if (!email || !username || !password || role) {
+    if (!email || !username || !password || !role) {
       return res.status(400).json({ message: "All fields are required" });
     }
 
@@ -40,7 +40,6 @@ const userRegister = async (req, res) => {
       email,
       username,
       password: hashedPassword,
-      role:"user",
       phone
     });
   console.log(newUser)
