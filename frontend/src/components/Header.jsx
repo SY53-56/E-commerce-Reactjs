@@ -6,12 +6,15 @@ import { NavLink } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../features/auth/authSlice.js";
 
+
+
 export default function Header() {
   const { theme, toggleTheme } = useTheme();
   const [showMenu, setShowMenu] = useState(false);
  const {user,token}  = useSelector(state=>state.auth)
   const toggleMenuHandler = () => setShowMenu(prev => !prev);
   const dispitch = useDispatch()
+
  async function logoutApi(){
     try{
       dispitch(logout())

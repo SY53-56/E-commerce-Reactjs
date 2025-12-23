@@ -3,9 +3,10 @@ import Button from "../components/Button";
 import { useDispatch, useSelector } from "react-redux";
 import { addProduct } from "../features/product/productThunk";
 import { useNavigate } from "react-router";
+import { useCallback } from "react";
 
-export default function AddProduct() {
 
+ const AddProduct= React.memo(()=>{
 const dispatch= useDispatch()
 const {loading , error} = useSelector(state=>state.product)
 const navigate= useNavigate()
@@ -17,19 +18,23 @@ const [form, setForm] = useState({
   productCategory: ""
 });
 
-function formHandle(e){
-  const {name, value}= e.target
+
+const formHandle= useCallback((e)=>{
+   const {name, value}= e.target
   setForm(prev=> ({...prev, [name]:value}))
-}
-async function formSubmit(e){
-  e.preventdefault()
+},[])
+
+
+const formSubmit =useCallback( async(e)=>{
+ e.preventDefault() 
 try{
-     dispatch(addProduct(form)).unwrap()
+  await  dispatch(addProduct(form)).unwrap()
   navigate("/")
 }catch(e){
   console.log(e)
 }
-}
+},[form,dispatch,navigate]) 
+
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
@@ -81,10 +86,10 @@ try{
             Product Image URL
           </label>
           <input
+               value={form.productImg}
                onChange={formHandle}
-               value={form.productPrice}
-               name="productPrice"
-            type="text"
+               name=" productImg"
+            type="url"
             placeholder="Enter image URL"
             className="w-full px-3 py-2 border rounded-lg outline-none focus:ring-2 focus:ring-amber-400"
           />
@@ -134,4 +139,5 @@ try{
       </form>
     </div>
   );
-}
+})
+export default AddProduct
