@@ -15,7 +15,7 @@ const initialState = {
 };
 
 const productSlice = createSlice({
-  name: "product",
+  name: "products",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
@@ -28,7 +28,7 @@ const productSlice = createSlice({
       })
       .addCase(allProductShow.fulfilled, (state, action) => {
         state.loading = false;
-        state.products = action.payload;
+        state.products = action.payload.products
       })
       .addCase(allProductShow.rejected, (state, action) => {
         state.loading = false;
@@ -56,7 +56,7 @@ const productSlice = createSlice({
       })
       .addCase(addProduct.fulfilled, (state, action) => {
         state.loading = false;
-        state.products.push(action.payload);
+        state.products.push(action.payload.products);
         state.currentProduct = action.payload;
       })
       .addCase(addProduct.rejected, (state, action) => {
@@ -71,7 +71,7 @@ const productSlice = createSlice({
       })
       .addCase(updateProduct.fulfilled, (state, action) => {
         state.loading = false;
-        const updatedProduct = action.payload;
+        const updatedProduct = action.payload.products
 
         state.products = state.products.map((p) =>
           p._id === updatedProduct._id ? updatedProduct : p
@@ -111,7 +111,7 @@ const productSlice = createSlice({
       })
       .addCase(deleteProduct.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload;
+        state.error = action.payload
       });
   },
 });

@@ -12,6 +12,7 @@ import SignupPage from './pages/signupPage'
 import Login from "./pages/LoginPage"
 import AddProduct from './pages/addProduct'
 import UpdateProduct from './pages/UpdateProduct'
+import ProductPage from './pages/ProductPage'
 function App() {
 
 
@@ -26,6 +27,7 @@ function App() {
         <Route path='/cart' element={<Cart/>}/>
           <Route path='/add' element={<AddProduct/>}/>
           <Route path="/update" element={<UpdateProduct/>}/>
+          <Route path="/product/:id" element={<ProductPage/>} />
       </Route>
           <Route path="/signup" element={<SignupPage/>} />
         <Route  path='/login' element={<Login/>}/>

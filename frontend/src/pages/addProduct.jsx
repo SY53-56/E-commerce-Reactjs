@@ -8,27 +8,37 @@ import { useCallback } from "react";
 
  const AddProduct= React.memo(()=>{
 const dispatch= useDispatch()
-const {loading , error} = useSelector(state=>state.product)
+const {loading , error} = useSelector(state=>state.products)
 const navigate= useNavigate()
 const [form, setForm] = useState({
   productName: "",
   productPrice: "",
   productImg: "",
   productDescription: "",
-  productCategory: ""
+  productCategory: "",
+  productUnit:""
 });
-
 
 const formHandle= useCallback((e)=>{
    const {name, value}= e.target
   setForm(prev=> ({...prev, [name]:value}))
 },[])
+console.log(form)
 
-
-const formSubmit =useCallback( async(e)=>{
+const formSubmit =useCallback(async(e)=>{
  e.preventDefault() 
+ 
+const payload = {
+  name: form.productName,
+  price: Number(form.productPrice),
+  image: form.productImg,
+  description: form.productDescription,
+  category: form.productCategory
+}
+
 try{
-  await  dispatch(addProduct(form)).unwrap()
+  await dispatch(addProduct(payload)).unwrap()
+  console.log("add product")
   navigate("/")
 }catch(e){
   console.log(e)
@@ -79,7 +89,19 @@ try{
             className="w-full px-3 py-2 border rounded-lg outline-none focus:ring-2 focus:ring-amber-400"
           />
         </div>
-
+             <div>
+          <label className="block text-sm font-semibold text-gray-700 mb-1">
+            Product unit
+          </label>
+          <input
+          value={form.productUnit}
+          name="productUnit"
+          onChange={formHandle}
+            type="number"
+            placeholder="Enter product unit"
+            className="w-full px-3 py-2 border rounded-lg outline-none focus:ring-2 focus:ring-amber-400"
+          />
+        </div>
         {/* Product Image */}
         <div>
           <label className="block text-sm font-semibold text-gray-700 mb-1">
@@ -88,7 +110,7 @@ try{
           <input
                value={form.productImg}
                onChange={formHandle}
-               name=" productImg"
+               name="productImg"
             type="url"
             placeholder="Enter image URL"
             className="w-full px-3 py-2 border rounded-lg outline-none focus:ring-2 focus:ring-amber-400"
@@ -117,7 +139,8 @@ try{
             
           </label>
           <select  onChange={formHandle} value={form.productCategory} name="productCategory" className="w-full px-3 py-2 border rounded-lg cursor-pointer outline-none focus:ring-2 focus:ring-amber-400">
-            <option value="food">food</option>
+            <option >choose Category</option>
+             <option value="food">food</option>
             <option value="clothes">Clothes</option>
             <option value="shoes">Shoes</option>
             <option value="electronics">Electronic Device</option>
@@ -127,9 +150,11 @@ try{
         </div>
 
         {/* Button */}
-        <Button
+        <Button type="submit"
           className="w-full py-2 rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-semibold transition-all"
-          name="Submit"
+         
+        name={loading ? "Adding..." : "Add Product"}
+        disabled={loading}
         />
         {error && (
   <p className="text-center text-red-600 font-medium">

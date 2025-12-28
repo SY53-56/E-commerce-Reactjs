@@ -4,6 +4,7 @@ const Product = require("../models/product");
 const showProduct = async (req, res) => {
   try {
     const products = await Product.find().populate("userAdmin", "username email");
+    console.log("prodducts",products)
     res.status(200).json({ products });
   } catch (e) {
     res.status(500).json({ message: e.message });
@@ -27,9 +28,9 @@ const showOneProduct = async (req, res) => {
 // 3️⃣ Add new product
 const addProduct = async (req, res) => {
   try {
-    const { name, price, image, description, category } = req.body;
+    const { name, price, image, description, category,unit } = req.body;
 
-    if (!name || !price || !image || !description || !category) {
+    if (!name || !price || !image || !description || !category || !unit ) {
       return res.status(400).json({ message: "Please fill all fields" });
     }
 
@@ -39,6 +40,7 @@ const addProduct = async (req, res) => {
       image,
       description,
       category,
+      unit,
       userAdmin: req.user._id // logged-in admin/user
     });
 

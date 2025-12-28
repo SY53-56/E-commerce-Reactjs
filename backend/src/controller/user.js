@@ -26,12 +26,18 @@ const userRegister = async (req, res) => {
       return res.status(400).json({ message: "All fields are required" });
     }
 
+   
+
     // Check Existing User
     const existingUser = await UserModel.findOne({ email })
     if (existingUser) {
       return res.status(400).json({ message: "Email already registered" });
     }
 
+    let setRole = "admin";
+    if(role === "admin"){
+      setRole= "admin"
+    }
     // Hash Password
     const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -40,7 +46,8 @@ const userRegister = async (req, res) => {
       email,
       username,
       password: hashedPassword,
-      phone
+      phone,
+      role:setRole
     });
   console.log(newUser)
     // Generate JWT
@@ -110,6 +117,7 @@ console.log(token)
         id: userExist._id,
         email: userExist.email,
         username: userExist.username,
+          role: userExist.role
       },token
     });
   } catch (e) {

@@ -29,7 +29,7 @@ const {loading, error}= useSelector(state=>state.auth)
 
    const formSubmit = useCallback((e)=>{
 e.preventDefault(); 
-     if (form.role === "seller" && !form.phone) {
+     if (form.role === "admin" && !form.phone) {
     alert("Phone number is required for seller");
     return;
   }
@@ -119,9 +119,9 @@ e.preventDefault();
     onChange={formHandle}
     className="rounded-lg border px-3 py-2 outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition" >
     <option value="user">User</option>
-    <option value="seller">Seller</option>
+    <option value="admin">Seller</option>
   </select>
-   {form.role ==="seller"&&(
+   {form.role ==="admin"&&(
       <div className="flex flex-col gap-1">
           <label htmlFor="Number" className="text-sm font-medium">
          [phone NO]
@@ -144,7 +144,7 @@ e.preventDefault();
         {/* Button */}
         <Button type="submit" className="w-full py-2.5 rounded-lg bg-green-600 hover:bg-green-700 transition text-white font-semibold" name={"submit"}/>
           
-         {error && <p>{error.message}</p>}
+         {error && <p>{error}</p>}
 
         {/* Footer */}
         <p className="text-center text-sm text-gray-500 dark:text-gray-400">

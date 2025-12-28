@@ -11,13 +11,13 @@ const {
 
 const isAdmin = require("../middleware/adminMiddleware");
 const userAuthentication = require("../middleware/userMiddleware");
-console.log(showProduct, addProduct);
+
 // Get all products (authenticated users)
-router.get("/", userAuthentication, showProduct);
-console.log('sjsjfhdkjjf', userAuthentication, isAdmin);
+router.get("/",  showProduct);
+
 
 // Get single product
-router.get("/:id", userAuthentication, showOneProduct);
+router.get("/:id",  showOneProduct);
 
 // Add new product (admin only)
 router.post("/add", userAuthentication, isAdmin, addProduct);

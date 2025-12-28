@@ -1,13 +1,14 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import API from "../../service/api";
 
- async function getToken(){
+  function getToken(){
      return localStorage.getItem("token")
 }
 
 export const allProductShow= createAsyncThunk("product/show",async(_, {rejectWithValue})=>{
   try{
    let res=    await API.get("/product")
+   console.log(  "data of product",res.data)
     return res.data
 
   }catch(e){
@@ -26,7 +27,9 @@ export const addProduct =createAsyncThunk("add/product",async(data,{rejectWithVa
    try{
    const res= await API.post("/product/add",data,{
     headers:{
-        Authorization:`Bearer ${getToken()}`
+        Authorization:`Bearer ${getToken()}`,
+        "Content-Type": "application/json"
+
     }
    })
    return res.data
@@ -38,7 +41,9 @@ export const updateProduct = createAsyncThunk('updata/prodcut',async(id,data,{re
    try{
    const res = await API.put(`/product/update/${id}`,data,{
     headers:{
-        Authorization:`Bearer ${getToken()}`
+        Authorization:`Bearer ${getToken()}`,
+        "Content-Type": "application/json"
+
     }
    });
    return res.data
@@ -50,7 +55,9 @@ export const deleteProduct= createAsyncThunk("product/delete",async(id,{rejectWi
 try{
   const res= await API.delete(`/delete/${id}`,{
     headers:{
-        Authorization:`Bearer ${getToken()}`
+        Authorization:`Bearer ${getToken()}`,
+        "Content-Type": "application/json"
+
     }
    });
    return res.data;

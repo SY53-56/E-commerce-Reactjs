@@ -11,7 +11,9 @@ const userSchema = new mongoose.Schema({
     enum: ["user", "admin"],
     default: "user",
   },
-  phone: { type: String }
+  phone: { type: String },
+
+  saveItem:[{type:mongoose.Types.ObjectId,ref:"product"}]
 }, { timestamps: true });
 
 // Create and export the model
