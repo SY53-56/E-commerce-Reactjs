@@ -3,7 +3,7 @@ import { useTheme } from "../context/themeContext.jsx";
 import Button from "../components/Button.jsx"
 import { Link, useNavigate } from "react-router-dom";
 
-  import { signupUSer } from "../features/auth/authThunk.js";
+  import { signupUser } from "../features/auth/authThunk.js";
 import { useDispatch, useSelector } from "react-redux";
 import { useCallback } from "react";
 
@@ -34,7 +34,7 @@ e.preventDefault();
     return;
   }
     console.log("form",form)
- dispatch(signupUSer(form)).unwrap()
+ dispatch(signupUser(form)).unwrap()
  .then(()=>  navigate("/"))
  .catch((err) => {
       console.error("Signup failed", err);

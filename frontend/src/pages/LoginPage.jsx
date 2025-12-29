@@ -5,7 +5,7 @@
 import { Link, useNavigate } from "react-router-dom";
 
 import { useDispatch} from "react-redux";
-import { loginUSer } from "../features/auth/authThunk.js";
+import { loginUser } from "../features/auth/authThunk.js";
     
 
     export default function LoginPage() {
@@ -24,7 +24,7 @@ import { loginUSer } from "../features/auth/authThunk.js";
     const formSubmit=(e)=>{
        e.preventDefault()
        if(!form)return 
-       dispatch(loginUSer(form)).unwrap()
+       dispatch(loginUser(form)).unwrap()
        .then(()=> navigate("/"))
    .catch((err) => {
       console.error("login failed", err);

@@ -16,49 +16,36 @@ const generateToken = (user) => {
 
 
 console.log("JWT Secretgzhzhkjzh:", process.env.JWT);
-
 const userRegister = async (req, res) => {
   try {
-    const { email, username, password ,role,  phone } = req.body;
+    const { email, username, password, phone } = req.body;
 
-    // Validate Inputs
-    if (!email || !username || !password || !role) {
+    if (!email || !username || !password) {
       return res.status(400).json({ message: "All fields are required" });
     }
 
-   
-
-    // Check Existing User
-    const existingUser = await UserModel.findOne({ email })
+    const existingUser = await UserModel.findOne({ email });
     if (existingUser) {
       return res.status(400).json({ message: "Email already registered" });
     }
 
-    let setRole = "admin";
-    if(role === "admin"){
-      setRole= "admin"
-    }
-    // Hash Password
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Create New User
     const newUser = await UserModel.create({
       email,
       username,
       password: hashedPassword,
       phone,
-      role:setRole
+      role: "user",
     });
-  console.log(newUser)
-    // Generate JWT
+
     const token = generateToken(newUser);
-console.log( "token by sahul",token)
-    // Send Cookie
+
     res.cookie("token", token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production", // Only HTTPS in production
+      secure: false,
       sameSite: "lax",
-      maxAge:7 * 24 * 60 * 60 * 1000,
+      maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
     res.status(201).json({
@@ -67,46 +54,38 @@ console.log( "token by sahul",token)
         id: newUser._id,
         email: newUser.email,
         username: newUser.username,
-        role:newUser.role,
-        phone:newUser.phone
-      },token
+        role: newUser.role,
+        phone: newUser.phone,
+      },
     });
   } catch (e) {
     res.status(500).json({ message: e.message });
   }
 };
 
-
 const userLogin = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    // Validation
     if (!email || !password) {
       return res.status(400).json({ message: "All fields are required" });
     }
 
-    // Check user exists
     const userExist = await UserModel.findOne({ email });
     if (!userExist) {
       return res.status(400).json({ message: "Email not found" });
     }
-  console.log(email)
-    // Compare password
-    const passwordCompare = await bcrypt.compare(password, userExist.password);
 
+    const passwordCompare = await bcrypt.compare(password, userExist.password);
     if (!passwordCompare) {
       return res.status(400).json({ message: "Incorrect password" });
     }
 
-    // Generate JWT
     const token = generateToken(userExist);
-console.log(token)
-    // Send token
+
     res.cookie("token", token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-
+      secure: false,
       sameSite: "lax",
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
@@ -117,22 +96,20 @@ console.log(token)
         id: userExist._id,
         email: userExist.email,
         username: userExist.username,
-          role: userExist.role
-      },token
+        role: userExist.role,
+      },
     });
   } catch (e) {
     res.status(500).json({ message: e.message });
   }
 };
 
-
 const userLogout = async (req, res) => {
   try {
-    req.clearCookie("token", {
+    res.clearCookie("token", {
       httpOnly: true,
       sameSite: "lax",
-        secure: process.env.NODE_ENV === "production",
-  maxAge: 7 * 24 * 60 * 60 * 1000,
+      secure: false,
     });
 
     res.status(200).json({ message: "Logged out successfully" });
@@ -140,5 +117,11 @@ const userLogout = async (req, res) => {
     res.status(500).json({ message: e.message });
   }
 };
+let user = async (req, res) => {
+  const { id, email, role } = req.user;
+  res.json({
+    user: { id, email, role }
+  });
+};
 
-module.exports = { userRegister, userLogin, userLogout };
+module.exports = { userRegister, userLogin, userLogout,user };

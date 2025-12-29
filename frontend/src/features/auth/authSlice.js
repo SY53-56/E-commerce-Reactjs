@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { loginUSer, signupUSer } from "./authThunk";
+import { loginUser, signupUser, } from "./authThunk";
 
 const initialState = {
   user: null,
@@ -16,40 +16,41 @@ const authSlice = createSlice({
       state.user = null;
       state.loading =false;
       state.error = null;
-      state.token= null
+
+
 localStorage.removeItem("token")
     },
   },
   extraReducers: (builder) => {
     builder
       // Login Thunk
-      .addCase(loginUSer.pending, (state) => {
+      .addCase(loginUser.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
-      .addCase(loginUSer.fulfilled, (state, action) => {
+      .addCase(loginUser.fulfilled, (state, action) => {
         state.loading = false;
         state.user = action.payload.user;
         state.token= action.payload.token
         localStorage.setItem('token',action.payload.token)
       })
-      .addCase(loginUSer.rejected, (state, action) => {
+      .addCase(loginUser.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })
 
       // Signup Thunk
-      .addCase(signupUSer.pending, (state) => {
+      .addCase(signupUser.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
-      .addCase(signupUSer.fulfilled, (state, action) => {
+      .addCase(signupUser.fulfilled, (state, action) => {
         state.loading = false;
         state.user = action.payload.user;
               state.token= action.payload.token
                localStorage.setItem('token',action.payload.token)
       })
-      .addCase(signupUSer.rejected, (state, action) => {
+      .addCase(signupUser.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       });
