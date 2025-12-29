@@ -3,22 +3,24 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
 const generateToken = (user) => {
-  if (!process.env.JWT) {
-    throw new Error("JWT_TOKEN is not set in environment variables");
-  }
-
   return jwt.sign(
-    { id: user._id, username: user.username, email: user.email, role:user.role },
-    process.env.JWT,
-    { expiresIn: "7d" } // Token valid for 7 days
+    {
+      id: user._id,   // ✅ FIX HERE
+      username: user.username,
+      email: user.email,
+      role: user.role
+    },
+    process.env.JWT_TOKEN,
+    { expiresIn: "7d" }
   );
 };
 
 
-console.log("JWT Secretgzhzhkjzh:", process.env.JWT);
+console.log("JWT Secretgzhzhkjzh:", process.env.JWT_TOKEN);
+
 const userRegister = async (req, res) => {
   try {
-    const { email, username, password, phone } = req.body;
+    const { email, username, password ,role,  phone } = req.body;
 
     if (!email || !username || !password) {
       return res.status(400).json({ message: "All fields are required" });

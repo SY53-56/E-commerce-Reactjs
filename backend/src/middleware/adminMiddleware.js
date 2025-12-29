@@ -1,5 +1,6 @@
 async function isAdmin(req,res,next){
    try{
+    console.log("user data",req.user)
       if(!req.user){
       return  res.status(400).json({message:"anautherized"})
       }
@@ -12,4 +13,4 @@ async function isAdmin(req,res,next){
    }
 
 }
-module.exports = isAdmin
+module.exports= isAdmin

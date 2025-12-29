@@ -8,10 +8,11 @@ import { logout } from "../features/auth/authSlice.js";
 
 
 
-export default function Header() {
+export default function Header({searchText, setSearchText}) {
   const { theme, toggleTheme } = useTheme();
   const [showMenu, setShowMenu] = useState(false);
- const {user,token}  = useSelector(state=>state.auth)
+
+ const {user}  = useSelector(state=>state.auth)
   const toggleMenuHandler = () => setShowMenu(prev => !prev);
   const dispitch = useDispatch()
 
@@ -23,7 +24,7 @@ console.log(e)
     }
   }
 console.log("sahul",user)
-console.log("token",token)
+
   return (
     <header
       className={`flex justify-between items-center px-5 py-3 border-b-2 transition-colors duration-500
@@ -43,7 +44,9 @@ console.log("token",token)
       <div className="hidden lg:flex items-center gap-3 border px-2 rounded-lg w-[400px] shadow-md">
         <input
           type="text"
-          placeholder="Search"
+          value={searchText}
+           onChange={(e)=>setSearchText(e.target.value)}
+          placeholder="Search product"
           className="w-full px-2 py-1 outline-none text-indigo-500"
         />
         <Search className="cursor-pointer" size={25} />
@@ -69,7 +72,7 @@ console.log("token",token)
           </span>
         </div>
 
-        {token?(
+        {user?(
 <div className="flex gap-4 items-center">
   <p>{user.username}</p>
           <Button onClick={logoutApi} className={`bg-amber-600 px-2 py-1 rounded-lg corsor-pointer text-white`} name="logout"/>
@@ -118,7 +121,7 @@ console.log("token",token)
           </div>
 
           {/* Auth buttons */}
-         {token?(
+         {user?(
           <div>
             <p>{user.username}</p>
                      <Button onClick={logoutApi} className={`bg-amber-600 px-2 py-1 rounded-lg corsor-pointer text-white`} name="logout"/>

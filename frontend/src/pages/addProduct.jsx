@@ -33,7 +33,8 @@ const payload = {
   price: Number(form.productPrice),
   image: form.productImg,
   description: form.productDescription,
-  category: form.productCategory
+  category: form.productCategory,
+  unit: form.productUnit
 }
 
 try{
@@ -97,7 +98,7 @@ try{
           value={form.productUnit}
           name="productUnit"
           onChange={formHandle}
-            type="number"
+            type="text"
             placeholder="Enter product unit"
             className="w-full px-3 py-2 border rounded-lg outline-none focus:ring-2 focus:ring-amber-400"
           />

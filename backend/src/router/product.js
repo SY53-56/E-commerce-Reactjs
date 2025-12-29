@@ -9,8 +9,9 @@ const {
   deleteProduct
 } = require("../controller/product");
 
-const isAdmin = require("../middleware/adminMiddleware");
-const userAuthentication = require("../middleware/userMiddleware");
+const isAdmin = require("../middleware/adminMiddleware")
+
+const userMiddleware = require("../middleware/userMiddleware");
 
 // Get all products (authenticated users)
 router.get("/",  showProduct);
@@ -20,12 +21,12 @@ router.get("/",  showProduct);
 router.get("/:id",  showOneProduct);
 
 // Add new product (admin only)
-router.post("/add", userAuthentication, isAdmin, addProduct);
+router.post("/add", userMiddleware,isAdmin,  addProduct);
 
 // Update product (admin only)
-router.put("/update/:id", userAuthentication, isAdmin, updateProduct);
+router.put("/update/:id", userMiddleware , isAdmin, updateProduct);
 
 // Delete product (admin only)
-router.delete("/delete/:id", userAuthentication, isAdmin, deleteProduct);
+router.delete("/delete/:id",userMiddleware , isAdmin, deleteProduct);
 
 module.exports = router;

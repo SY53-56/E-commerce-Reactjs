@@ -1,26 +1,11 @@
-import { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { allProductShow } from '../features/product/productThunk'
+
 import {Link} from "react-router-dom"
 import Button from './Button'
-export default function Card() {
-  const dispatch = useDispatch()
+export default function Card({products}) {
   
-  const { products, loading } = useSelector(
-    state => state.products
-  )
-
-  useEffect(() => {
-    dispatch(allProductShow())
-  }, [dispatch])
-
-  if (loading) {
-    return (
-      <p className="text-center text-lg font-semibold mt-10">
-        Loading products...
-      </p>
-    )
-  }
+  
+  
+   
 
 
   return (

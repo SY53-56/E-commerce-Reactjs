@@ -29,7 +29,7 @@ const showOneProduct = async (req, res) => {
 const addProduct = async (req, res) => {
   try {
     const { name, price, image, description, category,unit } = req.body;
-
+  console.log("data ",req.body)
     if (!name || !price || !image || !description || !category || !unit ) {
       return res.status(400).json({ message: "Please fill all fields" });
     }
@@ -41,7 +41,7 @@ const addProduct = async (req, res) => {
       description,
       category,
       unit,
-      userAdmin: req.user._id // logged-in admin/user
+      userAdmin: req.user.id // logged-in admin/user
     });
 
     await product.populate("userAdmin", "username email");
