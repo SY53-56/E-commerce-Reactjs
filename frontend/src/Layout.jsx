@@ -4,10 +4,10 @@ import Footer from './components/Footer'
 import { Outlet } from 'react-router'
 
 export default function Layout() {
-  let [searchText,SetsearchText] = useState("")
+  let [searchText,setSearchText] = useState("")
   return (
     <div>
-       <Header searchText={searchText} SetsearchText={SetsearchText}/>
+       <Header searchText={searchText} setSearchText={setSearchText}/>
        <Outlet searchText={searchText}/>
        <Footer/>          
         </div>

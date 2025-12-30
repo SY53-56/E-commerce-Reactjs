@@ -8,7 +8,7 @@ import { logout } from "../features/auth/authSlice.js";
 
 
 
-export default function Header({searchText, setSearchText}) {
+export default function Header({searchText,  setSearchText}) {
   const { theme, toggleTheme } = useTheme();
   const [showMenu, setShowMenu] = useState(false);
 
@@ -45,11 +45,11 @@ console.log("sahul",user)
         <input
           type="text"
           value={searchText}
-           onChange={(e)=>setSearchText(e.target.value)}
+           onChange={(e)=> setSearchText(e.target.value)}
           placeholder="Search product"
           className="w-full px-2 py-1 outline-none text-indigo-500"
         />
-        <Search className="cursor-pointer" size={25} />
+        <Search className="cursor-pointer"  size={25} />
       </div>
 
       {/* Actions (Desktop) */}
