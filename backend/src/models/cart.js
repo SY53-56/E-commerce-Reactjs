@@ -1,5 +1,4 @@
-const mongoose  = require("mongoose")
-
+const mongoose = require("mongoose");
 
 const CartSchema = new mongoose.Schema(
   {
@@ -18,17 +17,35 @@ const CartSchema = new mongoose.Schema(
         },
         name: String,
         price: Number,
-        quantity: {
-          type: Number,
-          required: true,
-        },
+        quantity: Number,
         image: String,
       },
     ],
 
-    amount: {
+    totalAmount: {
       type: Number,
       required: true,
+      default: 0,
+    },
+
+    discount: {
+      type: Number, // percentage
+      default: 0,
+    },
+
+    discountAmount: {
+      type: Number,
+      default: 0,
+    },
+
+    finalAmount: {
+      type: Number,
+      required: true,
+      default: 0,
+    },
+
+    couponCode: {
+      type: String,
     },
 
     status: {
@@ -40,8 +57,7 @@ const CartSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-
-module.exports = mongoose.model("cart", CartSchema);
+module.exports = mongoose.model("Cart", CartSchema);
 
 /*
 const mongoose = require("mongoose");

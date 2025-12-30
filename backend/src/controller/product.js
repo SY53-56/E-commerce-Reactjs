@@ -28,9 +28,9 @@ const showOneProduct = async (req, res) => {
 // 3️⃣ Add new product
 const addProduct = async (req, res) => {
   try {
-    const { name, price, image, description, category,unit } = req.body;
+    const { name, price, image, description, category,quantity } = req.body;
   console.log("data ",req.body)
-    if (!name || !price || !image || !description || !category || !unit ) {
+    if (!name || !price || !image || !description || !category || !quantity ) {
       return res.status(400).json({ message: "Please fill all fields" });
     }
 
@@ -40,7 +40,7 @@ const addProduct = async (req, res) => {
       image,
       description,
       category,
-      unit,
+     quantity,
       userAdmin: req.user.id // logged-in admin/user
     });
 
