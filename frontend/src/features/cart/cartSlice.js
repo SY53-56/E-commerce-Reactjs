@@ -2,10 +2,10 @@ import { createSlice } from "@reduxjs/toolkit";
 import {
   getCart,
   addCart,
-  removeSingleCart,
+ removeSingleCart,
   increaseQuantity,
   decreaseQuantity,
-  applyCoupon,
+discountCoupon,
 } from "./cartThunk";
 
 const initialState = {
@@ -68,7 +68,7 @@ const cartSlice = createSlice({
       })
 
       /* ================= APPLY COUPON ================= */
-      .addCase(applyCoupon.fulfilled, (state, action) => {
+      .addCase(discountCoupon.fulfilled, (state, action) => {
         state.cart = action.payload.data;
       });
   },

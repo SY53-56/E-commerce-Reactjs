@@ -1,9 +1,13 @@
 import { Link } from "react-router-dom";
 import Button from "./Button";
 import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { getCart } from "../features/cart/cartThunk";
 
 export default function Card({ products, searchText }) {
 
+
+   const dispatch = useDispatch()
   useEffect(()=>{
     let time = setTimeout(()=>{
  setDebouncedSearch(searchText)
@@ -16,6 +20,10 @@ export default function Card({ products, searchText }) {
       : products.filter((p) =>
           (p.title || "").toLowerCase().includes(searchText.toLowerCase())
         );
+
+   const handleAddCart= ()=>{
+    dispatch(getCart())
+   }
 
   return (
     <div className="px-6 py-8">
@@ -49,7 +57,7 @@ export default function Card({ products, searchText }) {
                 <p className="text-green-600 font-bold text-lg">
                   ₹{p.price}
                 </p>
-                <Button
+                <Button  onClick={handleAddCart}
                   className="px-2 py-1 rounded-lg text-white bg-green-600"
                   name="Add cart"
                 />

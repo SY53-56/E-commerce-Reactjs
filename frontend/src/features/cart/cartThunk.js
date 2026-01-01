@@ -9,15 +9,15 @@ export const getCart = createAsyncThunk("cart/user",async(_,{rejectWithValue})=>
      }
 })
 
-export const addCart =createAsyncThunk("cart/add",async(items,{rejectWithValue})=>{
+export const addCart =createAsyncThunk("cart/add",async({productId, quantity},{rejectWithValue})=>{
     try{
-           const res = await API.post("/cart/add",items)
+           const res = await API.post("/cart/add",{productId ,quantity})
            return res.data
     }catch(e){
         return rejectWithValue(e.response?.data?.message)
     }
 })
-export const removeSingalCart= createAsyncThunk("cart/remove",async(id,rejectWithValue)=>{
+export const removeSingleCart= createAsyncThunk("cart/remove",async(id,rejectWithValue)=>{
     try{
   const res = await API.put(`/cart/delete/${id}`)
   return res.data

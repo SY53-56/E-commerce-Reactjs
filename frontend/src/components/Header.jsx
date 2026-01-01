@@ -11,11 +11,12 @@ import { logout } from "../features/auth/authSlice.js";
 export default function Header({searchText,  setSearchText}) {
   const { theme, toggleTheme } = useTheme();
   const [showMenu, setShowMenu] = useState(false);
-
+  const {cart} = useSelector(state=>state.cart)
  const {user}  = useSelector(state=>state.auth)
   const toggleMenuHandler = () => setShowMenu(prev => !prev);
   const dispitch = useDispatch()
 
+   
  async function logoutApi(){
     try{
       dispitch(logout())
@@ -63,17 +64,19 @@ console.log("sahul",user)
         </div>
 
         {/* Cart */}
-        <div className="relative cursor-pointer">
+        
+
+        {user?(
+
+<div className="flex gap-4 items-center">
+  <div className="relative cursor-pointer">
          <NavLink to="/cart">
            <ShoppingCart  className="cursor-pointer" size={28} />
          </NavLink>
           <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs px-1 rounded-full">
-            0
+          {cart?.items?.length||0}
           </span>
         </div>
-
-        {user?(
-<div className="flex gap-4 items-center">
   <p>{user.username}</p>
           <Button onClick={logoutApi} className={`bg-amber-600 px-2 py-1 rounded-lg corsor-pointer text-white`} name="logout"/>
 
@@ -117,7 +120,7 @@ console.log("sahul",user)
           {/* Cart */}
           <div className="flex items-center gap-2">
             <ShoppingCart size={22} />
-            <span>Cart (0)</span>
+            <span>Cart  : {cart?.items?.length||0}</span>
           </div>
 
           {/* Auth buttons */}

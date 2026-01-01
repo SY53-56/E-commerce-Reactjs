@@ -1,57 +1,84 @@
 const Cart = require("../models/cart");
-const Product = require("../models/product")
+const Product = require("../models/product");
 
 const addCart = async (req, res) => {
   try {
-     let {items} = req.body;
-    
- 
-     if(req.user)return req.status(200).json(" please login")   
-      
-  let cart = await Cart.findOne({user:req.user._id})
-    if(!cart){
-      await Cart.create({
-        user:req.user._id,
-        items: [],
-          totalAmount: 0,
-        status: "pending",
-      })
-    }
-    for(let item of items){
-      let product= await Product.findById(item.productId)
-      if(!product)continue
+    // 1️⃣ Extract data from frontend
+    let { productId, quantity } = req.body;
 
-      
-      const index = cart.items.findIndex(
-        (i) => i.product.toString() === product._id.toString()
-      );
-      
-      if(index>-1){
-        cart.items[index].quantity+=item.quantity
-      }else{
-         cart.items.push({
-          product: product._id,
-          name: product.name,
-          price: product.price,
-          image: product.image,
-          quantity: item.quantity,
-        });
-      }
+    console.log("Request body:", req.body);
+    console.log("Request user:", req.user);
+
+    // 2️⃣ Check user is logged in
+    if (!req.user) {
+      return res.status(401).json({ message: "Please login" });
     }
-  cart.totalAmount = cart.items.reduce((sum,i)=>sum+i.price*i.quantity,0)
-   
-cart.finalAmount = cart.totalAmount
-   res.status(201).json({
+
+    // 3️⃣ Validate quantity
+    quantity = parseInt(quantity);
+    if (!productId || !quantity || quantity < 1) {
+      return res.status(400).json({ message: "Invalid productId or quantity" });
+    }
+
+    // 4️⃣ Find the product in DB
+    const product = await Product.findById(productId);
+    if (!product) {
+      return res.status(404).json({ message: "Product not found" });
+    }
+    //console.log("Product found:", product);
+
+    // 5️⃣ Find or create cart
+    let cart = await Cart.findOne({ user: req.user.id });
+    if (!cart) {
+      cart = await Cart.create({
+        user: req.user.id,
+        items: [],
+        totalAmount: 0,
+        status: "pending",
+      });
+    }
+    console.log("Cart before update:", cart);
+console.log("cart.items", cart.items)
+    // 6️⃣ Check if product already in cart
+    const index = cart.items.findIndex(
+      (i) => i.product.toString() === product._id.toString()
+    );
+
+    if (index > -1) {
+      cart.items[index].quantity += quantity; // increment if exists
+    } else {
+      cart.items.push({
+        product: product._id,
+        name: product.title || product.name,
+        price: product.price,
+        image: product.image,
+        quantity: quantity,
+      });
+    }
+
+    // 7️⃣ Recalculate totals
+    cart.totalAmount = cart.items.reduce(
+      (sum, i) => sum + i.price * i.quantity,
+      0
+    );
+    cart.finalAmount = cart.totalAmount;
+
+    // 8️⃣ Save cart
+    await cart.save();
+    console.log("Cart after update:", cart);
+
+    // 9️⃣ Return success
+    res.status(201).json({
       success: true,
       message: "Product added to cart",
       data: cart,
     });
   } catch (e) {
-    return res.status(400).json({
-      message: e.message,
-    });
+    console.error("Add to cart error:", e);
+    res.status(500).json({ message: e.message });
   }
 };
+
 
 
 
@@ -64,7 +91,7 @@ const getCart = async(req,res)=>{
       return res.status(401).json("please add items")
     }
 
-    const cartData= await  Cart.findOne({user:req.user._id}).populate("items.product")
+    const cartData= await  Cart.findOne({user:req.user.id}).populate("items.product")
       
     if(!cartData){
       return res.status(200).json({message:"cart is empty",
