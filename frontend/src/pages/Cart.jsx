@@ -6,6 +6,7 @@ import {
   increaseQuantity,
   decreaseQuantity,
 } from "../features/cart/cartThunk";
+import Button from "../components/Button";
 
 export default function Cart() {
   const dispatch = useDispatch();
@@ -63,7 +64,7 @@ console.log("cart",cart)
                       onClick={() =>
                         dispatch(decreaseQuantity(item.product))
                       }
-                      className="px-3 py-1 bg-gray-200 rounded-md font-bold"
+                      className="px-3 py-1 bg-gray-200 cursor-pointer rounded-md font-bold"
                     >
                       −
                     </button>
@@ -76,7 +77,7 @@ console.log("cart",cart)
                       onClick={() =>
                         dispatch(increaseQuantity(item.product))
                       }
-                      className="px-3 py-1 bg-gray-200 rounded-md font-bold"
+                      className="px-3 py-1 bg-gray-200 cursor-pointer rounded-md font-bold"
                     >
                       +
                     </button>
@@ -93,7 +94,7 @@ console.log("cart",cart)
                   onClick={() =>
                     dispatch(removeSingleCart(item.product))
                   }
-                  className="text-red-500 hover:underline text-sm"
+                  className="text-red-500 cursor-pointer hover:underline text-sm"
                 >
                   Remove
                 </button>
@@ -101,7 +102,17 @@ console.log("cart",cart)
             </div>
           ))}
         </div>
+         
 
+          <div className="flex flex-col gap-3">
+
+           <div className="w-full lg:w-96 bg-white rounded-2xl shadow-lg p-6 h-fit">
+            <h1 className="text-xl  font-bold">Apply discount</h1>
+            <div className="flex mt-3">
+              <input className="border px-2 py-1 rounded-md  border-none bg-gray-200 rounded-r-none outline-none border-black border-r-0" type="text" placeholder=" apply couppon"/>
+              <Button name="Apply" className="border px-2 py-1 rounded-md rounded-l-none bg-green-500  hover:bg-green-600 text-white border-l-0"/>
+            </div>
+           </div>
         {/* RIGHT */}
         <div className="w-full lg:w-96 bg-white rounded-2xl shadow-lg p-6 h-fit">
           <h2 className="text-xl font-semibold border-b pb-4 text-gray-700">
@@ -133,9 +144,10 @@ console.log("cart",cart)
             </p>
           )}
 
-          <button className="w-full mt-6 bg-indigo-600 hover:bg-indigo-700 text-white py-3 rounded-xl font-semibold">
+          <button className="w-full mt-6 cursor-pointer active:scale-95 bg-indigo-600 hover:bg-indigo-700 text-white py-3 rounded-xl font-semibold">
             Proceed to Checkout
           </button>
+        </div>
         </div>
       </div>
     </div>
