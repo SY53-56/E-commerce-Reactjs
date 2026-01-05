@@ -140,24 +140,35 @@ const decreaseQuantity = async(req,res)=>{
 const ApplyDiscount = async(req,res)=>{
   try{
       let {discountCode}= req.body 
-    
-      let userId = req.user._id
-
-   if(!req.user) return res.status(200).json("please login")
+      console.log("discodecode",discountCode)
+       if(!req.user) return res.status(200).json("please login")
+      let userId = req.user.id
+    console.log("req.user",req.user.id)
+     console.log("userid", userId)
     let cart = await  Cart.findOne({user:userId})
+     if (!cart) {
+      return res.status(400).json({ success: false, message: "Cart not found" });
+    }
     let discountNum = 0
- if(discountCode ==="SAVE123"){
-  discountNum = 24
- }else if(discountCode==="SAHUL25"){
-  discountNum = 30
- }else if(discountCode ==="PRODUCT65"){
+ 
+    switch(discountCode){
+case"SAVE123":
+ discountNum = 10;
+ break;
+ case"SAHUL25":
+  discountNum = 20
+  break;
+  case"PRODUCT25":
+    discountNum= 30;
+    break;
 
- }else{
- res.status(400).json("invail coupns")
- }
+    default:
+      return  res.status(400).json("invail coupns")
+    }
+
 cart.discount = discountNum
 cart.discountAmount = (cart.totalAmount*cart.discount)/100
-cart.finalAmount = (cart.totalAmount-cart. discountAmount)
+cart.finalAmount = (cart.totalAmount-cart.discountAmount)
 cart. couponCode= discountCode
 await cart.save()
 res.status(200).json({success:true,message:"successfully add coupon", cart})

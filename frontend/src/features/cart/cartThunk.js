@@ -43,9 +43,9 @@ return rejectWithValue(e.message?.data.message)
 })
 export const discountCoupon= createAsyncThunk("discount/coupon",async(couponCode,{rejectWithValue})=>{
     try{
-      const res = await API.post(`/cart/discount`,couponCode)
+      const res = await API.post(`/cart/discount`,{ discountCode: couponCode })
      return res.data
     }catch(e){
-        return rejectWithValue(e.message?.data.message)
+        return rejectWithValue(      e.response?.data?.message || e.message || "Something went wrong")
     }
 })

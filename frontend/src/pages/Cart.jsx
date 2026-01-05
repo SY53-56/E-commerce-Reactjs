@@ -1,17 +1,20 @@
-import { useEffect } from "react";
+import { useEffect,  useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getCart,
   removeSingleCart,
   increaseQuantity,
   decreaseQuantity,
+  discountCoupon,
 } from "../features/cart/cartThunk";
 import Button from "../components/Button";
+import { clearCart } from "../features/cart/cartSlice";
 
 export default function Cart() {
+  let [coupon ,setCoupon] = useState("")
   const dispatch = useDispatch();
   const { cart, loading } = useSelector((state) => state.cart);
-
+//const inputRef= useRef()
   useEffect(() => {
     dispatch(getCart());
   }, [dispatch]);
@@ -22,6 +25,25 @@ console.log("cart",cart)
         Loading cart...
       </p>
     );
+  }
+async function applyDiscount() {
+  if (!coupon.trim()) {
+    alert("Please enter coupon code");
+    return;
+  }
+
+  try {
+    const cleanCode = coupon.trim().toUpperCase();
+    const result = await dispatch(discountCoupon(cleanCode)).unwrap();
+    console.log("Coupon applied:", result);
+    setCoupon("");
+  } catch (err) {
+    console.log(err || "Invalid coupon");
+  }
+}
+  function processCheckOut(){
+   alert("process checkout successfull")
+     dispatch(clearCart())
   }
 
   if (!cart || !cart.items || cart.items.length === 0) {
@@ -109,8 +131,8 @@ console.log("cart",cart)
            <div className="w-full lg:w-96 bg-white rounded-2xl shadow-lg p-6 h-fit">
             <h1 className="text-xl  font-bold">Apply discount</h1>
             <div className="flex mt-3">
-              <input className="border px-2 py-1 rounded-md  border-none bg-gray-200 rounded-r-none outline-none border-black border-r-0" type="text" placeholder=" apply couppon"/>
-              <Button name="Apply" className="border px-2 py-1 rounded-md rounded-l-none bg-green-500  hover:bg-green-600 text-white border-l-0"/>
+              <input value={coupon}   disabled={cart.couponCode} onChange={(e)=>setCoupon(e.target.value)} className="border px-2 py-1 rounded-md  border-none bg-gray-200 rounded-r-none outline-none border-black border-r-0" type="text" placeholder=" apply couppon"/>
+              <Button onClick={applyDiscount}  disabled={cart.couponCode} name={cart.couponCode ? "applied":"apply"} className="border px-2 py-1 rounded-md rounded-l-none bg-green-500  hover:bg-green-600 text-white border-l-0"/>
             </div>
            </div>
         {/* RIGHT */}
@@ -144,7 +166,7 @@ console.log("cart",cart)
             </p>
           )}
 
-          <button className="w-full mt-6 cursor-pointer active:scale-95 bg-indigo-600 hover:bg-indigo-700 text-white py-3 rounded-xl font-semibold">
+          <button onClick={processCheckOut} className="w-full mt-6 cursor-pointer active:scale-95 bg-indigo-600 hover:bg-indigo-700 text-white py-3 rounded-xl font-semibold">
             Proceed to Checkout
           </button>
         </div>
