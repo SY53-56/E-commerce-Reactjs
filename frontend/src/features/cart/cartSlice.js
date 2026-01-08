@@ -2,14 +2,14 @@ import { createSlice } from "@reduxjs/toolkit";
 import {
   getCart,
   addCart,
- removeSingleCart,
+  removeSingleCart,
   increaseQuantity,
   decreaseQuantity,
-discountCoupon,
+  discountCoupon,
 } from "./cartThunk";
 
 const initialState = {
-  cart: null,        // full cart object
+  cart: null,
   loading: false,
   error: null,
 };
@@ -24,53 +24,35 @@ const cartSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      // GET CART
+      .addCase(getCart.pending, (state) => { state.loading = true; state.error = null; })
+      .addCase(getCart.fulfilled, (state, action) => { state.loading = false; state.cart = action.payload.data; })
+      .addCase(getCart.rejected, (state, action) => { state.loading = false; state.error = action.payload; })
 
-      /* ================= GET CART ================= */
-      .addCase(getCart.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(getCart.fulfilled, (state, action) => {
-        state.loading = false;
-        state.cart = action.payload.data;
-      })
-      .addCase(getCart.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload;
-      })
+      // ADD CART
+      .addCase(addCart.pending, (state) => { state.loading = true; state.error = null; })
+      .addCase(addCart.fulfilled, (state, action) => { state.loading = false; state.cart = action.payload.data; })
+      .addCase(addCart.rejected, (state, action) => { state.loading = false; state.error = action.payload; })
 
-      /* ================= ADD CART ================= */
-      .addCase(addCart.pending, (state) => {
-        state.loading = true;
-      })
-      .addCase(addCart.fulfilled, (state, action) => {
-        state.loading = false;
-        state.cart = action.payload.data;
-      })
-      .addCase(addCart.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload;
-      })
+      // REMOVE ITEM
+      .addCase(removeSingleCart.pending, (state) => { state.loading = true; state.error = null; })
+      .addCase(removeSingleCart.fulfilled, (state, action) => { state.loading = false; state.cart = action.payload.data; })
+      .addCase(removeSingleCart.rejected, (state, action) => { state.loading = false; state.error = action.payload; })
 
-      /* ================= REMOVE ITEM ================= */
-      .addCase(removeSingleCart.fulfilled, (state, action) => {
-        state.cart = action.payload.data;
-      })
+      // INCREASE
+      .addCase(increaseQuantity.pending, (state) => { state.loading = true; state.error = null; })
+      .addCase(increaseQuantity.fulfilled, (state, action) => { state.loading = false; state.cart = action.payload.data; })
+      .addCase(increaseQuantity.rejected, (state, action) => { state.loading = false; state.error = action.payload; })
 
-      /* ================= INCREASE ================= */
-      .addCase(increaseQuantity.fulfilled, (state, action) => {
-        state.cart = action.payload.data;
-      })
+      // DECREASE
+      .addCase(decreaseQuantity.pending, (state) => { state.loading = true; state.error = null; })
+      .addCase(decreaseQuantity.fulfilled, (state, action) => { state.loading = false; state.cart = action.payload.data; })
+      .addCase(decreaseQuantity.rejected, (state, action) => { state.loading = false; state.error = action.payload; })
 
-      /* ================= DECREASE ================= */
-      .addCase(decreaseQuantity.fulfilled, (state, action) => {
-        state.cart = action.payload.data;
-      })
-
-      /* ================= APPLY COUPON ================= */
-      .addCase(discountCoupon.fulfilled, (state, action) => {
-        state.cart = action.payload.data;
-      });
+      // DISCOUNT
+      .addCase(discountCoupon.pending, (state) => { state.loading = true; state.error = null; })
+      .addCase(discountCoupon.fulfilled, (state, action) => { state.loading = false; state.cart = action.payload.data; })
+      .addCase(discountCoupon.rejected, (state, action) => { state.loading = false; state.error = action.payload; });
   },
 });
 

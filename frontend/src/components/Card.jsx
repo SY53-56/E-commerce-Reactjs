@@ -1,29 +1,34 @@
 import { Link } from "react-router-dom";
 import Button from "./Button";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { getCart } from "../features/cart/cartThunk";
+import { addCart } from "../features/cart/cartThunk";
 
 export default function Card({ products, searchText }) {
+  const dispatch = useDispatch();
+  const [debouncedSearch, setDebouncedSearch] = useState("");
 
 
-   const dispatch = useDispatch()
-  useEffect(()=>{
-    let time = setTimeout(()=>{
- setDebouncedSearch(searchText)
-    },400)
-    return ()=>clearTimeout(time)
-  },[searchText])
+   console.log("hsjkdsjkd",products)
+  /* ===== SEARCH DEBOUNCE ===== */
+  useEffect(() => {
+    const time = setTimeout(() => {
+      setDebouncedSearch(searchText);
+    }, 400);
+
+    return () => clearTimeout(time);
+  }, [searchText]);
+
   const filteredProducts =
-   !searchText|| searchText.trim() === ""
+    !debouncedSearch || debouncedSearch.trim() === ""
       ? products
       : products.filter((p) =>
-          (p.title || "").toLowerCase().includes(searchText.toLowerCase())
+          (p.name || "").toLowerCase().includes(debouncedSearch.toLowerCase())
         );
-
-   const handleAddCart= ()=>{
-    dispatch(getCart())
-   }
+ console.log("filterProduct",filteredProducts)
+  const handleAddCart = (productId) => {
+    dispatch(addCart({productId:productId}));
+  };
 
   return (
     <div className="px-6 py-8">
@@ -43,7 +48,7 @@ export default function Card({ products, searchText }) {
                 <Link to={`/product/${p._id}`}>
                   <img
                     src={p.image}
-                    alt={p.title}
+                    alt={p.name}
                     className="w-full h-full object-cover cursor-pointer hover:scale-105 transition-transform duration-300"
                   />
                 </Link>
@@ -57,7 +62,8 @@ export default function Card({ products, searchText }) {
                 <p className="text-green-600 font-bold text-lg">
                   ₹{p.price}
                 </p>
-                <Button  onClick={handleAddCart}
+                <Button
+                  onClick={() => handleAddCart(p._id)}
                   className="px-2 py-1 rounded-lg text-white bg-green-600"
                   name="Add cart"
                 />

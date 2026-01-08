@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Menu, Moon, Sun, Search, ShoppingCart } from "lucide-react";
 import Button from "./Button";
 import { useTheme } from "../context/themeContext.jsx";
 import { NavLink } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../features/auth/authSlice.js";
+import { getCart } from "../features/cart/cartThunk.js";
 
 
 
@@ -24,7 +25,12 @@ export default function Header({searchText,  setSearchText}) {
 console.log(e)
     }
   }
-console.log("sahul",user)
+
+useEffect(() => {
+  if (user) {
+    dispitch(getCart())
+  }
+}, [dispitch, user])
 
   return (
     <header

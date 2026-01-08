@@ -6,13 +6,15 @@ import { Routes } from 'react-router-dom'
 import Layout from './Layout'
 import Home from './pages/Home'
 import UserProfile from './pages/UserProfile'
-import ProductDetails from './pages/ProductDetails'
+
 import Cart from './pages/Cart'
 import SignupPage from './pages/signupPage'
 import Login from "./pages/LoginPage"
 import AddProduct from './pages/addProduct'
 import UpdateProduct from './pages/UpdateProduct'
 import ProductPage from './pages/ProductPage'
+
+import Product from './pages/Product'
 function App() {
 
 
@@ -23,11 +25,11 @@ function App() {
       <Route element={<Layout/>}>
   <Route path='/' element={<Home/>}/> 
       <Route path='/user' element={<UserProfile/>}/>
-       <Route path='/product' element={<ProductDetails/>}/>
         <Route path='/cart' element={<Cart/>}/>
           <Route path='/add' element={<AddProduct/>}/>
           <Route path="/update" element={<UpdateProduct/>}/>
           <Route path="/product/:id" element={<ProductPage/>} />
+          <Route path="/product/page" element={<Product/>}/>
       </Route>
           <Route path="/signup" element={<SignupPage/>} />
         <Route  path='/login' element={<Login/>}/>
