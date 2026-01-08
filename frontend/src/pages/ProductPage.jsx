@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, Link } from "react-router-dom";
 import { showOneProduct } from "../features/product/productThunk";
@@ -9,10 +9,12 @@ import {
   increaseQuantity,
 } from "../features/cart/cartThunk";
 import Button from "../components/Button";
+import { productPageAnimation } from "../animations/ProductPageAnimation";
 
 export default function ProductPage() {
   const dispatch = useDispatch();
   const { id } = useParams();
+  const pageRef = useRef(null);
 
   const { currentProduct, products, status, error } = useSelector(
     (state) => state.products
@@ -25,6 +27,14 @@ export default function ProductPage() {
   useEffect(() => {
     if (id) dispatch(showOneProduct(id));
   }, [dispatch, id]);
+
+  /* ================= GSAP ANIMATION ================= */
+  useEffect(() => {
+    if (!pageRef.current || !currentProduct) return;
+
+    const cleanup = productPageAnimation(pageRef.current);
+    return cleanup;
+  }, [currentProduct]);
 
   /* ================= FETCH CART ================= */
   useEffect(() => {
@@ -51,11 +61,12 @@ export default function ProductPage() {
         .slice(0, 4);
       setRelatedProducts(data);
     }
-  }, [currentProduct, products,setRelatedProducts]);
+  }, [currentProduct, products]);
 
+  /* ================= HANDLERS ================= */
   const handleAddCart = () => {
-  dispatch(addCart({ productId: currentProduct.product._id }));
-};
+    dispatch(addCart({ productId: currentProduct.product._id }));
+  };
 
   const handleIncrease = () => {
     if (!cartItem) {
@@ -80,17 +91,17 @@ export default function ProductPage() {
     return <p className="text-center mt-20">Product not found</p>;
 
   return (
-    <div className="min-h-screen bg-gray-100 py-10">
+    <div ref={pageRef} className="min-h-screen bg-gray-100 py-10">
       <div className="max-w-6xl mx-auto px-4">
         {/* ================= PRODUCT ================= */}
-        <div className="bg-white rounded-xl shadow-lg p-6 flex flex-col lg:flex-row gap-10">
+        <div className="product bg-white rounded-xl shadow-lg p-6 flex flex-col  lg:flex-row gap-10">
           <img
             src={currentProduct.product.image}
             alt={currentProduct.product.name}
             className="w-full lg:w-1/2 h-96 object-contain"
           />
 
-          <div className="lg:w-1/2">
+          <div className="lg:w-1/2 mt-6">
             <h1 className="text-3xl font-bold mb-4">
               {currentProduct.product.name}
             </h1>
@@ -139,7 +150,7 @@ export default function ProductPage() {
         </div>
 
         {/* ================= RELATED ================= */}
-        <div className="mt-12">
+        <div className="related-product mt-12">
           <h2 className="text-2xl font-bold mb-4">Related Products</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
             {relatedProducts.map((p) => (
@@ -157,7 +168,9 @@ export default function ProductPage() {
                 <h3 className="font-semibold">{p.name}</h3>
                 <p className="font-bold">₹{p.price}</p>
                 <Button
-                  onClick={() => dispatch(addCart({productId:p._id}))}
+                  onClick={() =>
+                    dispatch(addCart({ productId: p._id }))
+                  }
                   name="Add Cart"
                   className="mt-2 bg-green-600 text-white px-3 py-1 rounded"
                 />

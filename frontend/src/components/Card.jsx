@@ -1,13 +1,13 @@
 import { Link } from "react-router-dom";
 import Button from "./Button";
-import { useEffect, useState } from "react";
+import { useEffect,  useState } from "react";
 import { useDispatch } from "react-redux";
 import { addCart } from "../features/cart/cartThunk";
 
 export default function Card({ products, searchText }) {
   const dispatch = useDispatch();
   const [debouncedSearch, setDebouncedSearch] = useState("");
-
+  
 
    console.log("hsjkdsjkd",products)
   /* ===== SEARCH DEBOUNCE ===== */
@@ -31,7 +31,7 @@ export default function Card({ products, searchText }) {
   };
 
   return (
-    <div className="px-6 py-8">
+    <div  className="card px-6 py-8">
       {filteredProducts.length === 0 ? (
         <p className="text-center text-2xl font-bold text-gray-500">
           No products found
