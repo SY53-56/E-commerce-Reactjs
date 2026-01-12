@@ -16,7 +16,7 @@ const generateToken = (user) => {
 };
 
 
-console.log("JWT Secretgzhzhkjzh:", process.env.JWT_TOKEN);
+
 
 const userRegister = async (req, res) => {
   try {

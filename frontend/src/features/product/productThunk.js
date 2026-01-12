@@ -4,7 +4,7 @@ import API from "../../service/api";
 
 export const allProductShow= createAsyncThunk("product/show",async(_, {rejectWithValue})=>{
   try{
-   let res=    await API.get("/product")
+   let res=    await API.get("/product", )
    console.log(  "data of product",res.data)
     return res.data
 

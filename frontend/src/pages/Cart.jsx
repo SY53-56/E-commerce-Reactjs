@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getCart,
@@ -8,28 +8,23 @@ import {
   discountCoupon,
 } from "../features/cart/cartThunk";
 import { clearCart } from "../features/cart/cartSlice";
-import Button from "../components/Button";
+
 
 export default function Cart() {
   const dispatch = useDispatch();
   const { cart, loading } = useSelector((state) => state.cart);
   const { user } = useSelector((state) => state.auth);
-  const [coupon, setCoupon] = useState("");
 
+console.log("cart",cart)
   useEffect(() => {
     if (user) dispatch(getCart());
   }, [dispatch, user]);
 
-  const handleDiscount = async () => {
-    if (!coupon.trim()) return alert("Enter coupon");
-    try {
-      await dispatch(discountCoupon(coupon.trim().toUpperCase())).unwrap();
-      setCoupon("");
-    } catch (err) {
-      alert(err || "Invalid coupon");
+    useEffect(()=>{
+    if(cart && cart.items.length > 0){
+         dispatch(discountCoupon())
     }
-  };
-
+    },[cart?.totalAmount, dispatch])
   const handleCheckout = () => {
     alert("Checkout successful!");
     dispatch(clearCart());
@@ -107,28 +102,7 @@ export default function Cart() {
         {/* Summary */}
         <div className="w-full lg:w-96 space-y-6">
           {/* Discount Section */}
-          <div className="bg-white p-6 rounded-2xl shadow-md">
-            <h2 className="text-xl font-bold mb-3">Apply Coupon</h2>
-            <div className="flex">
-              <input
-                type="text"
-                value={coupon}
-                onChange={(e) => setCoupon(e.target.value)}
-                disabled={cart.couponCode}
-                placeholder="Enter coupon code"
-                className="flex-1 px-3 py-2 border rounded-l-xl outline-none"
-              />
-              <Button
-                name={cart.couponCode ? "Applied" : "Apply"}
-                onClick={handleDiscount}
-                disabled={cart.couponCode}
-                className="px-4 py-2 rounded-r-xl bg-green-500 hover:bg-green-600 text-white font-semibold"
-              />
-            </div>
-            {cart.couponCode && (
-              <p className="text-green-600 mt-2">🎉 Coupon applied: {cart.couponCode}</p>
-            )}
-          </div>
+     
 
           {/* Price Summary */}
           <div className="bg-white p-6 rounded-2xl shadow-md space-y-2">
@@ -139,11 +113,11 @@ export default function Cart() {
             </div>
             <div className="flex justify-between mt-1 text-green-600">
               <span>Discount</span>
-              <span>− ₹{cart.discountAmount || 0}</span>
+              <span>− ₹{cart.discountAmount }</span>
             </div>
             <div className="flex justify-between font-bold text-lg mt-3 border-t pt-2">
               <span>Total</span>
-              <span>₹{cart.finalAmount || cart.totalAmount}</span>
+              <span>₹{cart.finalAmount }</span>
             </div>
             <button
               onClick={handleCheckout}

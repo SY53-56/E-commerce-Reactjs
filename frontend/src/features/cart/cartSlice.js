@@ -51,7 +51,7 @@ const cartSlice = createSlice({
 
       // DISCOUNT
       .addCase(discountCoupon.pending, (state) => { state.loading = true; state.error = null; })
-      .addCase(discountCoupon.fulfilled, (state, action) => { state.loading = false; state.cart = action.payload.data; })
+      .addCase(discountCoupon.fulfilled, (state, action) => { state.loading = false; state.cart = action.payload })
       .addCase(discountCoupon.rejected, (state, action) => { state.loading = false; state.error = action.payload; });
   },
 });

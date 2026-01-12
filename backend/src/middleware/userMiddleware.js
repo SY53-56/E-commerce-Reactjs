@@ -7,7 +7,7 @@ const userMiddleware = async (req, res, next) => {
     if (!token) {
       return res.status(401).json({ message: "Please login" });
     }
-    console.log("token",token)
+
 
     const decoded = jwt.verify(token, process.env.JWT_TOKEN);
     req.user = decoded;

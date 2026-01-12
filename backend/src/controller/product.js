@@ -4,7 +4,7 @@ const Product = require("../models/product");
 const showProduct = async (req, res) => {
   try {
     const products = await Product.find().populate("userAdmin", "username email");
-    console.log("prodducts",products)
+  
     res.status(200).json({ products });
   } catch (e) {
     res.status(500).json({ message: e.message });

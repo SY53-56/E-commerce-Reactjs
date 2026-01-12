@@ -149,38 +149,51 @@ const removeSingleOrderItem = async (req, res) => {
     res.status(400).json({ message: e.message });
   }
 };
-
-// 6️⃣ Apply Discount
 const ApplyDiscount = async (req, res) => {
   try {
-    const { discountCode } = req.body;
-    if (!req.user) return res.status(401).json({ message: "Please login" });
+    if (!req.user) {
+      return res.status(401).json({ message: "Please login" });
+    }
 
-    let cart = await Cart.findOne({ user: req.user.id });
-    if (!cart || cart.items.length === 0)
-      return res.status(400).json({ message: "Cart is empty, cannot apply discount" });
+    const cart = await Cart.findOne({ user: req.user.id });
+    if (!cart || cart.items.length === 0) {
+      return res
+        .status(400)
+        .json({ message: "Cart is empty, cannot apply discount" });
+    }
 
     let discountNum = 0;
-    switch (discountCode) {
-      case "SAVE123": discountNum = 10; break;
-      case "SAHUL25": discountNum = 20; break;
-      case "PRODUCT25": discountNum = 30; break;
-      default: return res.status(400).json({ message: "Invalid coupon" });
+
+    if (cart.totalAmount <= 1000) {
+      discountNum = 10;
+    } else if (cart.totalAmount <= 2500) {
+      discountNum = 15;
+    } else {
+      discountNum = 20;
     }
 
     cart.discount = discountNum;
     cart.discountAmount = (cart.totalAmount * discountNum) / 100;
+    console.log("discount",cart.discountAmount)
     cart.finalAmount = cart.totalAmount - cart.discountAmount;
-    cart.couponCode = discountCode;
+    cart.couponCode = `AUTO${discountNum}`;
+console.log("TOTAL:", cart.totalAmount);
+console.log("DISCOUNT:", cart.discountAmount);
+console.log("FINAL:", cart.finalAmount);
 
     await cart.save();
     await populateCart(cart);
 
-    res.status(200).json({ success: true, data: cart });
+    res.status(200).json({
+      success: true,
+      message: "Discount applied successfully",
+      data: cart,
+    });
   } catch (e) {
-    res.status(400).json({ message: e.message });
+    res.status(500).json({ message: e.message });
   }
 };
+
 
 module.exports = {
   addCart,
