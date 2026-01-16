@@ -15,7 +15,8 @@ export default function Cart() {
   const { cart, loading } = useSelector((state) => state.cart);
   const { user } = useSelector((state) => state.auth);
 
-console.log("cart",cart)
+//console.log("cartdata",cart.items.map(item=>item.product.name))
+
   useEffect(() => {
     if (user) dispatch(getCart());
   }, [dispatch, user]);
@@ -57,27 +58,27 @@ console.log("cart",cart)
               className="flex flex-col sm:flex-row items-center sm:items-start gap-4 bg-white p-6 rounded-2xl shadow-md hover:shadow-xl transition-shadow"
             >
               <img
-                src={item.image}
-                alt={item.name}
+                src={item.product.image[0]}
+                alt={item.product.name}
                 className="w-28 h-28 object-cover rounded-xl flex-shrink-0"
               />
               <div className="flex-1 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                 <div>
                   <h3 className="text-lg font-semibold text-gray-800">
-                    {item.name}
+                    {item.product.name}
                   </h3>
-                  <p className="text-indigo-600 font-bold mt-1">₹{item.price}</p>
+                  <p className="text-indigo-600 font-bold mt-1">₹{item.product.price}</p>
                   <div className="flex items-center gap-3 mt-3">
                     <button
-                      onClick={() => dispatch(decreaseQuantity(item.product._id))}
-                      className="px-3 py-1 rounded-lg bg-gray-200 hover:bg-gray-300 transition"
+                      onClick={() => dispatch(decreaseQuantity(item._id))}
+                      className="px-3 py-1 rounded-lg bg-gray-200 hover:bg-gray-300 cursor-pointer transition"
                     >
                       −
                     </button>
                     <span className="font-semibold text-lg">{item.quantity}</span>
                     <button
-                      onClick={() => dispatch(increaseQuantity(item.product._id))}
-                      className="px-3 py-1 rounded-lg bg-gray-200 hover:bg-gray-300 transition"
+                      onClick={() => dispatch(increaseQuantity(item._id))}
+                      className="px-3 py-1 rounded-lg bg-gray-200 hover:bg-gray-300 cursor-pointer transition"
                     >
                       +
                     </button>
@@ -85,7 +86,7 @@ console.log("cart",cart)
                 </div>
                 <div className="flex flex-col items-end gap-2 mt-4 sm:mt-0">
                   <p className="text-gray-900 font-bold text-lg">
-                    ₹{item.price * item.quantity}
+                    ₹{item.product.price * item.quantity}
                   </p>
                   <button
                     onClick={() => dispatch(removeSingleCart(item.product._id))}

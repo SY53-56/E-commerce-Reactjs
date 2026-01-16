@@ -12,6 +12,7 @@ const {
 const isAdmin = require("../middleware/adminMiddleware")
 
 const userMiddleware = require("../middleware/userMiddleware");
+const uploads = require("../middleware/UploadsImages");
 
 // Get all products (authenticated users)
 router.get("/",  showProduct);
@@ -21,7 +22,7 @@ router.get("/",  showProduct);
 router.get("/:id",  showOneProduct);
 
 // Add new product (admin only)
-router.post("/add", userMiddleware,isAdmin,  addProduct);
+router.post("/add",uploads("image",5), userMiddleware,isAdmin,  addProduct);
 
 // Update product (admin only)
 router.put("/update/:id", userMiddleware , isAdmin, updateProduct);

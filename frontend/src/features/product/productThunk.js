@@ -1,17 +1,21 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import API from "../../service/api";
 
-
-export const allProductShow= createAsyncThunk("product/show",async(_, {rejectWithValue})=>{
-  try{
-   let res=    await API.get("/product", )
-   console.log(  "data of product",res.data)
-    return res.data
-
-  }catch(e){
-return rejectWithValue(e.response?.data?.message || e.message);
+export const allProductShow = createAsyncThunk(
+  "product/show",
+  async ({ page = 1, limit = 20 }, { rejectWithValue }) => {
+    try {
+      const res = await API.get(
+        `/product?page=${page}&limit=${limit}`
+      );
+      return res.data;
+    } catch (e) {
+      return rejectWithValue(
+        e.response?.data?.message || e.message
+      );
+    }
   }
-})
+);
 export const showOneProduct = createAsyncThunk(  "show/prduct",async(id ,{rejectWithValue})=>{
   try{
     let res= await API.get(`/product/${id}`)

@@ -19,7 +19,7 @@ export default function DiscountCard() {
 
       {/* Wheel */}
       <div
-        className="relative w-80 h-80 rounded-full border-4 border-gray-700 bg-white shadow-xl transition-transform duration-[3000ms] ease-out"
+        className="relative w-80 h-80 rounded-full border-4 border-white  shadow-xl transition-transform duration-[3000ms] ease-out"
         style={{ transform: `rotate(${rotate}deg)` }}
       >
         {/* Center */}

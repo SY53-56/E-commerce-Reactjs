@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useTheme } from "../context/themeContext.jsx";
+
 import Button from "../components/Button.jsx"
 import { Link, useNavigate } from "react-router-dom";
 
@@ -16,7 +16,7 @@ export default function SignupPage() {
     phone:""
   })
   const dispatch= useDispatch()
-  const { theme } = useTheme();
+
 const navigate= useNavigate()
 const {loading, error}= useSelector(state=>state.auth)
 
@@ -43,15 +43,11 @@ e.preventDefault();
  
   
 
-  const themeStyles =
-    theme === "light"
-      ? "bg-white text-gray-800 border-gray-200"
-      : "bg-gray-900 text-white border-gray-700";
-
+  
   return (
     <div className="min-h-screen flex items-center justify-center px-4">
       <form onSubmit={formSubmit}
-        className={`w-full max-w-md rounded-2xl border shadow-lg p-6 sm:p-8 space-y-6 transition-colors duration-300 ${themeStyles}`}
+        className={`w-full max-w-md rounded-2xl border shadow-lg p-6 sm:p-8 space-y-6 transition-colors duration-300 `}
       >
         {/* Heading */}
         <div className="text-center space-y-2">
@@ -142,9 +138,9 @@ e.preventDefault();
       
 
         {/* Button */}
-        <Button type="submit" className="w-full py-2.5 rounded-lg bg-green-600 hover:bg-green-700 transition text-white font-semibold" name={"submit"}/>
+        <Button type="submit" className="w-full py-2.5 rounded-lg bg-green-600 hover:bg-green-700 transition text-white font-semibold" name={loading?"submit":"...loading"}/>
           
-         {error && <p>{error}</p>}
+         {error && <p>{error.message}</p>}
 
         {/* Footer */}
         <p className="text-center text-sm text-gray-500 dark:text-gray-400">

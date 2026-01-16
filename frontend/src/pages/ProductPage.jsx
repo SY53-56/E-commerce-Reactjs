@@ -10,6 +10,7 @@ import {
 } from "../features/cart/cartThunk";
 import Button from "../components/Button";
 import { productPageAnimation } from "../animations/ProductPageAnimation";
+import toast from "react-hot-toast";
 
 export default function ProductPage() {
   const dispatch = useDispatch();
@@ -27,59 +28,63 @@ export default function ProductPage() {
   useEffect(() => {
     if (id) dispatch(showOneProduct(id));
   }, [dispatch, id]);
-
-  /* ================= GSAP ANIMATION ================= */
-  useEffect(() => {
-    if (!pageRef.current || !currentProduct) return;
-
-    const cleanup = productPageAnimation(pageRef.current);
-    return cleanup;
-  }, [currentProduct]);
-
+console.log("products",currentProduct)
   /* ================= FETCH CART ================= */
   useEffect(() => {
     dispatch(getCart());
   }, [dispatch]);
 
-  /* ================= CURRENT CART ITEM ================= */
+  /* ================= ANIMATION ================= */
+  useEffect(() => {
+    if (!pageRef.current || !currentProduct) return;
+    return productPageAnimation(pageRef.current);
+  }, [currentProduct]);
+
+  /* ================= CART ITEM ================= */
   const cartItem = cart?.items?.find(
-    (i) => i.product._id === currentProduct?.product?._id
+    (i) =>
+      i.product?._id?.toString() ===
+      currentProduct?._id?.toString()
   );
 
-  const currentQuantity = cartItem ? cartItem.quantity : 1;
+  const currentQuantity = cartItem ? cartItem.quantity : 0;
 
   /* ================= RELATED PRODUCTS ================= */
   useEffect(() => {
-    if (currentProduct && products?.length) {
-      const data = products
-        .filter(
-          (p) =>
-            p._id !== currentProduct.product._id &&
-            p.category?.toLowerCase() ===
-              currentProduct.product.category?.toLowerCase()
-        )
-        .slice(0, 4);
-      setRelatedProducts(data);
-    }
+    if (!currentProduct || !products?.length) return;
+
+    const data = products
+      .filter(
+        (p) =>
+          p._id !== currentProduct._id &&
+          p.category?.toLowerCase() ===
+            currentProduct.category?.toLowerCase()
+      )
+      .slice(0, 4);
+
+    setRelatedProducts(data);
   }, [currentProduct, products]);
 
   /* ================= HANDLERS ================= */
   const handleAddCart = () => {
-    dispatch(addCart({ productId: currentProduct.product._id }));
+    const productId = currentProduct?._id;
+    if (!productId) return;
+
+    dispatch(addCart({ productId }));
+    toast.success("Added to cart");
   };
 
-  const handleIncrease = () => {
+  const handleIncrease = async () => {
     if (!cartItem) {
-      dispatch(addCart({ productId: currentProduct.product._id }));
-    } else {
-      dispatch(increaseQuantity(currentProduct.product._id));
+      handleAddCart();
+      return;
     }
+    await dispatch(increaseQuantity(currentProduct._id));
   };
 
-  const handleDecrease = () => {
-    if (cartItem && cartItem.quantity > 1) {
-      dispatch(decreaseQuantity(currentProduct.product._id));
-    }
+  const handleDecrease = async () => {
+    if (!cartItem || cartItem.quantity <= 1) return;
+    await dispatch(decreaseQuantity(currentProduct._id));
   };
 
   /* ================= UI STATES ================= */
@@ -91,93 +96,108 @@ export default function ProductPage() {
     return <p className="text-center mt-20">Product not found</p>;
 
   return (
-    <div ref={pageRef} className="min-h-screen bg-gray-100 py-10">
-      <div className="max-w-6xl mx-auto px-4">
-        {/* ================= PRODUCT ================= */}
-        <div className="product bg-white rounded-xl shadow-lg p-6 flex flex-col  lg:flex-row gap-10">
-          <img
-            src={currentProduct.product.image}
-            alt={currentProduct.product.name}
-            className="w-full lg:w-1/2 h-96 object-contain"
-          />
+    <div ref={pageRef} className="min-h-screen bg-gray-50 py-10">
+      <div className="max-w-7xl mx-auto px-4">
 
-          <div className="lg:w-1/2 mt-6">
-            <h1 className="text-3xl font-bold mb-4">
-              {currentProduct.product.name}
-            </h1>
-            <p className="text-gray-600 mb-4">
-              {currentProduct.product.description}
-            </p>
-            <p className="text-2xl font-bold mb-6">
-              ₹{currentProduct.product.price}
-            </p>
+        {/* PRODUCT CARD */}
+        <div className="bg-white rounded-2xl shadow-lg p-6 lg:p-10 grid grid-cols-1 lg:grid-cols-2 gap-10">
 
-            {/* ================= QUANTITY ================= */}
-            <div className="flex items-center gap-4 mb-6">
-              <button
-                onClick={handleDecrease}
-                disabled={currentQuantity <= 1}
-                className="px-3 py-1 bg-gray-200 rounded-md font-bold disabled:opacity-50"
-              >
-                −
-              </button>
+          {/* IMAGES */}
+          <div>
+            <img
+              src={currentProduct.image[0]}
+              alt={currentProduct.name}
+              className="w-full h-[420px] object-contain bg-gray-100 rounded-xl"
+            />
+            <div className="flex gap-3 mt-4">
+              {currentProduct.image.map((img, i) => (
+                <img
+                  key={i}
+                  src={img}
+                  className="w-24 h-20 border rounded-lg object-contain"
+                />
+              ))}
+            </div>
+          </div>
 
-              <span className="text-xl font-semibold">
-                {currentQuantity}
-              </span>
+          {/* DETAILS */}
+          <div className="flex flex-col justify-between">
+            <div>
+              <h1 className="text-4xl font-bold mb-4">
+                {currentProduct.name}
+              </h1>
 
-              <button
-                onClick={handleIncrease}
-                className="px-3 py-1 bg-gray-200 rounded-md font-bold"
-              >
-                +
-              </button>
+              <p className="text-gray-600 mb-6">
+                {currentProduct.description}
+              </p>
+
+              <p className="text-3xl font-bold text-indigo-600 mb-6">
+                ₹{currentProduct.price}
+              </p>
+
+              {/* QUANTITY */}
+              <div className="flex items-center gap-4 mb-8">
+                <button
+                  onClick={handleDecrease}
+                  disabled={!cartItem || currentQuantity <= 1}
+                  className="w-10 h-10 rounded-full bg-gray-200 text-xl font-bold disabled:opacity-40"
+                >
+                  −
+                </button>
+
+                <span className="text-xl font-semibold">
+                  {currentQuantity}
+                </span>
+
+                <button
+                  onClick={handleIncrease}
+                  className="w-10 h-10 rounded-full bg-gray-200 text-xl font-bold"
+                >
+                  +
+                </button>
+              </div>
             </div>
 
-            {/* ================= ACTIONS ================= */}
+            {/* ACTIONS */}
             <div className="flex gap-4">
               <Button
                 onClick={handleAddCart}
                 name="Add to Cart"
-                className="bg-yellow-500 text-white px-6 py-2 rounded-lg"
+                className="flex-1 bg-yellow-500 hover:bg-yellow-600 text-white py-3 rounded-xl text-lg"
               />
               <Button
                 name="Buy Now"
-                className="bg-indigo-600 text-white px-6 py-2 rounded-lg"
+                className="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white py-3 rounded-xl text-lg"
               />
             </div>
           </div>
         </div>
 
-        {/* ================= RELATED ================= */}
-        <div className="related-product mt-12">
-          <h2 className="text-2xl font-bold mb-4">Related Products</h2>
+        {/* RELATED PRODUCTS */}
+        <div className="mt-16">
+          <h2 className="text-3xl font-bold mb-6">Related Products</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
             {relatedProducts.map((p) => (
-              <div
-                key={p._id}
-                className="bg-white rounded-lg shadow p-4"
-              >
+              <div key={p._id} className="bg-white rounded-xl shadow-md">
                 <Link to={`/product/${p._id}`}>
-                  <img
-                    src={p.image}
-                    alt={p.name}
-                    className="h-40 w-full object-cover mb-3"
-                  />
+                  <img src={p.image[0]} className="h-44 w-full object-cover" />
                 </Link>
-                <h3 className="font-semibold">{p.name}</h3>
-                <p className="font-bold">₹{p.price}</p>
-                <Button
-                  onClick={() =>
-                    dispatch(addCart({ productId: p._id }))
-                  }
-                  name="Add Cart"
-                  className="mt-2 bg-green-600 text-white px-3 py-1 rounded"
-                />
+                <div className="p-4">
+                  <h3 className="font-semibold truncate">{p.name}</h3>
+                  <p className="font-bold text-indigo-600">₹{p.price}</p>
+                  <Button
+                    onClick={() =>
+                      dispatch(addCart({ productId: p._id }))
+                    }
+                    name="Add to Cart"
+                    className="mt-3 w-full bg-green-600 text-white py-2 rounded-lg"
+                  />
+                </div>
               </div>
             ))}
           </div>
         </div>
+
       </div>
     </div>
   );

@@ -13,9 +13,9 @@ export const loginUser= createAsyncThunk("login/auth", async(data,{rejectWithVal
 return rejectWithValue(e.response?.data?.message || e.message);
   }
 })
-export const signupUser = createAsyncThunk("signup/user",(data, {rejectWithValue})=>{
+export const signupUser = createAsyncThunk("register/user",async(data, {rejectWithValue})=>{
   try{
-     const res = API.post("/user/register",data)
+     const res = await API.post("/user/register",data)
      return res.data
   }catch(e){
     return rejectWithValue(e.response?.data?.message || e.message);

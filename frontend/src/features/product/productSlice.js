@@ -10,7 +10,9 @@ import {
 const initialState = {
   products: [],
   currentProduct: null,
-  loading: false,
+  status: "idle", // idle | loading | succeeded | failed
+  page: 1,
+  totalPages: 1,
   error: null,
 };
 
@@ -21,97 +23,62 @@ const productSlice = createSlice({
   extraReducers: (builder) => {
     builder
 
-      // 🔹 ALL PRODUCTS
+      /* ================= ALL PRODUCTS ================= */
       .addCase(allProductShow.pending, (state) => {
-        state.loading = true;
+        state.status = "loading";
         state.error = null;
       })
-      .addCase(allProductShow.fulfilled, (state, action) => {
-        state.loading = false;
-        state.products = action.payload.products
-      })
-      .addCase(allProductShow.rejected, (state, action) => {
-        state.loading = false;
+     .addCase(allProductShow.fulfilled, (state, action) => {
+  state.status = "succeeded";
+  if (action.payload.page === 1) {
+    state.products = action.payload.products;
+  } else {
+    state.products.push(...action.payload.products);
+  }
+  state.page = action.payload.page;
+  state.totalPages = action.payload.totalPages;
+}) .addCase(allProductShow.rejected, (state, action) => {
+        state.status = "failed";
         state.error = action.payload;
       })
 
-      // 🔹 SINGLE PRODUCT
+      /* ================= SINGLE PRODUCT ================= */
       .addCase(showOneProduct.pending, (state) => {
-        state.loading = true;
-        state.error = null;
+        state.status = "loading";
       })
       .addCase(showOneProduct.fulfilled, (state, action) => {
-        state.loading = false;
-        state.currentProduct = action.payload;
+        state.status = "succeeded";
+        state.currentProduct = action.payload.product;
       })
       .addCase(showOneProduct.rejected, (state, action) => {
-        state.loading = false;
+        state.status = "failed";
         state.error = action.payload;
       })
 
-      // 🔹 ADD PRODUCT
-      .addCase(addProduct.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
+      /* ================= ADD PRODUCT ================= */
       .addCase(addProduct.fulfilled, (state, action) => {
-        state.loading = false;
-        state.products.push(action.payload.products);
-        state.currentProduct = action.payload;
-      })
-      .addCase(addProduct.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload;
+        state.products.unshift(action.payload.product);
       })
 
-      // 🔹 UPDATE PRODUCT
-      .addCase(updateProduct.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
+      /* ================= UPDATE PRODUCT ================= */
       .addCase(updateProduct.fulfilled, (state, action) => {
-        state.loading = false;
-        const updatedProduct = action.payload.products
-
+        const updated = action.payload.product;
         state.products = state.products.map((p) =>
-          p._id === updatedProduct._id ? updatedProduct : p
+          p._id === updated._id ? updated : p
         );
-
-        if (
-          state.currentProduct &&
-          state.currentProduct._id === updatedProduct._id
-        ) {
-          state.currentProduct = updatedProduct;
+        if (state.currentProduct?._id === updated._id) {
+          state.currentProduct = updated;
         }
       })
-      .addCase(updateProduct.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload;
-      })
 
-      // 🔹 DELETE PRODUCT
-      .addCase(deleteProduct.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
+      /* ================= DELETE PRODUCT ================= */
       .addCase(deleteProduct.fulfilled, (state, action) => {
-        state.loading = false;
-        const deletedProduct = action.payload;
-
         state.products = state.products.filter(
-          (p) => p._id !== deletedProduct._id
+          (p) => p._id !== action.payload._id
         );
-
-        if (
-          state.currentProduct &&
-          state.currentProduct._id === deletedProduct._id
-        ) {
+        if (state.currentProduct?._id === action.payload._id) {
           state.currentProduct = null;
         }
-      })
-      .addCase(deleteProduct.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload
       });
   },
 });

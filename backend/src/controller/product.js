@@ -1,11 +1,18 @@
 const Product = require("../models/product");
+const uploadBufferToCloudinary = require("../utility/uploadBufferToCloudinary");
 
 // 1️⃣ Get all products
 const showProduct = async (req, res) => {
   try {
-    const products = await Product.find().populate("userAdmin", "username email");
-  
-    res.status(200).json({ products });
+   const page = Number(req.query.page)|| 1
+   const limit = Number(req.query.limit)||20
+ const skip= (page-1)*limit
+ const [product ,total] = await Promise.all([
+  Product.find().skip(skip).limit(limit).populate("userAdmin", "username email").select("-__v").lean() , 
+  Product.countDocuments()
+ ])
+
+    res.status(200).json({ products:product, page , totalProduct:total, totalPages: Math.ceil(total/limit) });
   } catch (e) {
     res.status(500).json({ message: e.message });
   }
@@ -28,19 +35,26 @@ const showOneProduct = async (req, res) => {
 // 3️⃣ Add new product
 const addProduct = async (req, res) => {
   try {
-    const { name, price, image, description, category,quantity } = req.body;
+    const { name, price, description, category,unit } = req.body;
   console.log("data ",req.body)
-    if (!name || !price || !image || !description || !category || !quantity ) {
+    if (!name || !price  || !description || !category || !unit ) {
       return res.status(400).json({ message: "Please fill all fields" });
     }
+    const files=req.files || []
+    const uploads = []
+    for(let f of files){
+  const result = await uploadBufferToCloudinary(f.buffer)
+  uploads.push(result.secure_url )
+    }
+  
 
     const product = await Product.create({
       name,
       price,
-      image,
+      image:uploads,
       description,
       category,
-     quantity,
+     unit,
       userAdmin: req.user.id // logged-in admin/user
     });
 

@@ -10,7 +10,11 @@ export default function FilterProduct({ products,heading ,category }) {
     <div className="flex flex-col">
       <h1 className="text-3xl text-black px-4 font-bold">{heading}</h1>
 
-      <div><Card products={filters} name="Food"/>
+      <div>
+    
+          <Card products={filters} name="Food"/>
+      
+        
       </div>
     </div>
   );

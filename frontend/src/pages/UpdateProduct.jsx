@@ -2,8 +2,8 @@ import React from 'react'
 
 export default function UpdateProduct() {
   return (
-  <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
-       <form className="w-full max-w-lg bg-white rounded-2xl shadow-xl p-6 space-y-5">
+  <div className="min-h-screen flex items-center justify-center  px-4">
+       <form className="w-full max-w-lg  rounded-2xl shadow-xl p-6 space-y-5">
          
          {/* Title */}
          <h1 className="text-3xl font-extrabold text-center text-gray-800">

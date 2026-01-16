@@ -2,10 +2,10 @@ import { createSlice } from "@reduxjs/toolkit";
 import { loginUser, signupUser, } from "./authThunk";
 
 const initialState = {
-  user: null,
+  user:JSON.parse(sessionStorage.getItem("user")) || null,
   loading: false,
   error: null,
-  token:null
+
 };
 
 const authSlice = createSlice({
@@ -16,9 +16,9 @@ const authSlice = createSlice({
       state.user = null;
       state.loading =false;
       state.error = null;
+ 
 
-
-localStorage.removeItem("token")
+sessionStorage.removeItem("token")
     },
   },
   extraReducers: (builder) => {
@@ -31,8 +31,7 @@ localStorage.removeItem("token")
       .addCase(loginUser.fulfilled, (state, action) => {
         state.loading = false;
         state.user = action.payload.user;
-        state.token= action.payload.token
-        localStorage.setItem('token',action.payload.token)
+       sessionStorage.setItem("user", JSON.stringify(action.payload.user))
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.loading = false;
@@ -47,8 +46,7 @@ localStorage.removeItem("token")
       .addCase(signupUser.fulfilled, (state, action) => {
         state.loading = false;
         state.user = action.payload.user;
-              state.token= action.payload.token
-               localStorage.setItem('token',action.payload.token)
+            state.user = action.payload.user;sessionStorage.setItem("user",JSON.stringify(action.payload.user));  
       })
       .addCase(signupUser.rejected, (state, action) => {
         state.loading = false;

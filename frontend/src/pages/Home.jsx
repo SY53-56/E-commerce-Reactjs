@@ -1,29 +1,53 @@
-import Poster from '../components/Poster'
-import Button from '../components/Button'
-import Card from '../components/Card'
-import FilterProduct from '../components/FilterProduct'
+import Poster from "../components/Poster";
+import Button from "../components/Button";
+import Card from "../components/Card";
+import FilterProduct from "../components/FilterProduct";
 
-import gsap from "gsap"
-import { ScrollTrigger } from "gsap/ScrollTrigger"
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-import { useOutletContext } from 'react-router'
-import { useDispatch, useSelector } from 'react-redux'
-import { useEffect, useLayoutEffect, useRef } from 'react'
-import { allProductShow } from '../features/product/productThunk'
+import { useOutletContext } from "react-router";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { allProductShow } from "../features/product/productThunk";
+import { useTheme } from "../context/themeContext";
 
 gsap.registerPlugin(ScrollTrigger);
 
 export default function Home() {
   const containerRef = useRef(null);
+  const dispatch = useDispatch();
+  const { theme } = useTheme();
+  const searchText = useOutletContext();
 
-  const { products } = useSelector((state) => state.products)
-  const dispatch = useDispatch()
-  const searchText = useOutletContext()
+  const { products, status, page, totalPages } = useSelector((state) => state.products);
+  const { user } = useSelector((state) => state.auth);
 
+  const [currentPage, setCurrentPage] = useState(1);
+ console.log("hcgzhcjzjklz",products)
+  /* ================= FETCH PRODUCTS ================= */
   useEffect(() => {
-    dispatch(allProductShow())
-  }, [dispatch])
+    dispatch(allProductShow({ page: currentPage , limit: 20 }));
+  }, [dispatch, currentPage]);
 
+   
+
+  useEffect(()=>{
+    const handleScroll= ()=>{
+      const bottom =  window.innerHeight+ window.scrollY>= document.documentElement.scrollHeight-200
+   if (
+        bottom &&
+        status !== "loading" &&
+        currentPage < totalPages
+      ) {
+        setCurrentPage((prev) => prev + 1);
+      }
+    }
+    window.addEventListener("scroll",handleScroll)
+    return ()=>window.removeEventListener("scroll",handleScroll)
+  },[status, currentPage, totalPages])
+
+  /* ================= GSAP ================= */
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
       gsap.from(".section1", {
@@ -34,33 +58,54 @@ export default function Home() {
         y: 100,
         opacity: 0,
         duration: 1.5,
-        ease: "power2.out",
       });
     }, containerRef);
 
-    return () => ctx.revert(); // cleanup
+    return () => ctx.revert();
   }, []);
-
+console.log(products)
+  /* ================= SEARCH ================= */
+  //const filteredProducts = products?.filter((p) =>p.name?.toLowerCase().includes(searchText?.toLowerCase() || ""));
+ // console.log(filteredProducts)
   return (
     <>
       <div ref={containerRef}>
-        <div className="section1">
+        {/* HERO */}
+        <section className="section1">
           <Poster />
-          <Card searchText={searchText} products={products} />
-        </div>
+        </section>
 
-        <div>
-         <FilterProduct products={products} heading="Food" category="food" />
+        {/* PRODUCTS */}
+        <section className="px-4 lg:px-20 py-10">
+          <h2 className="text-3xl font-bold mb-4">🛍️ All Products</h2>
+{Array.isArray(products) && products.length > 0 ? (
+  <Card products={products} />
+) : (
+  <p>No product</p>
+)}
+
+
+          
+        </section>
+
+        {/* CATEGORIES */}
+        <section className="px-4 lg:px-20 py-10">
+          <h2 className="text-3xl font-bold mb-6">📂 Shop by Category</h2>
+          <FilterProduct products={products} heading="Food" category="food" />
           <FilterProduct products={products} heading="Clothes" category="clothes" />
+          <FilterProduct products={products} heading="Electronics" category="electronics" />
           <FilterProduct products={products} heading="Other" category="other" />
-        </div>
+        </section>
       </div>
 
-      <Button
-        to="/add"
-        className="bg-lime-700 text-white"
-        name="add button"
-      />
+      {/* ADMIN BUTTON */}
+      {user?.role === "admin" && (
+        <Button
+          to="/add"
+          className="fixed bottom-8 right-8 bg-lime-500 text-white p-4 rounded-full"
+          name="Add Product"
+        />
+      )}
     </>
   );
 }

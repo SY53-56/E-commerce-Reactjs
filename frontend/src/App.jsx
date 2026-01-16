@@ -13,16 +13,17 @@ import Login from "./pages/LoginPage"
 import AddProduct from './pages/addProduct'
 import UpdateProduct from './pages/UpdateProduct'
 import ProductPage from './pages/ProductPage'
-
+import { Toaster } from "react-hot-toast";
 import Product from './pages/Product'
 function App() {
 
 
   return (
     <>
-   
+      <Toaster position="top-right" />
     <Routes>
       <Route element={<Layout/>}>
+       
   <Route path='/' element={<Home/>}/> 
       <Route path='/user' element={<UserProfile/>}/>
         <Route path='/cart' element={<Cart/>}/>
