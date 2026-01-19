@@ -57,7 +57,7 @@ const addProduct = async (req, res) => {
   try {
     const { name, price, description, category,unit,brand,stock ,discountPrice} = req.body;
   console.log("data ",req.body)
-    if (!name || !price  || !description || !category || !unit||brand ||    discountPrice || stock ) {
+    if (!name || !price  || !description || !category || !unit||brand ||    !discountPrice || !stock ) {
       return res.status(400).json({ message: "Please fill all fields" });
     }
     const files=req.files || []
@@ -96,7 +96,7 @@ const updateProduct = async (req, res) => {
 
    
 
-     const files= res.files ||[]
+     const files= req.files ||[]
     const uploads = []
       if (files.length > 0) {
       // Delete old images from Cloudinary
@@ -144,10 +144,62 @@ const deleteProduct = async (req, res) => {
   }
 };
 
+const reviewProduct = async(req,res)=>{
+  try{
+    const {comment, rating} = req.body
+    let userId = req.user.id
+    if(!userId) return res.status(300).json({message:"first login the website"})
+
+        const product = await Product.findById(req.params.id);
+    if (!product) {
+      return res.status(404).json({ message: "Product not found" });
+    }
+      product.reviews.push({
+        user:userId,
+        rating:rating,
+        comment:comment
+      })
+
+      res.status(200).json({product})
+
+  }catch(e){
+        res.status(500).json({ message: e.message });
+  }
+}
+const deleteReview = async(req,res)=>{
+  try{
+    const {productId , reviewId} = req.params
+            
+     const product = await Product.findById(productId)
+     
+    
+
+    const reviewIndex = product.reviews.findIndex(
+      (r) => r._id.toString() === reviewId
+    );
+  
+   const review = product.reviews[reviewIndex]     
+   if (
+      review.user.toString() !== req.user.id &&
+      req.user.role !== "admin"
+    ) {
+      return res.status(403).json({ message: "Not allowed" });
+    }
+   
+      product.reviews.splice(reviewIndex,1)
+      await product.save()
+    res.status(200).json({ message: "review deleted successfully" });
+  }catch(e){
+  res.status(500).json({ message: e.message });
+  }
+}
+
 module.exports = {
   showProduct,
   showOneProduct,
   addProduct,
   updateProduct,
   deleteProduct,
+  reviewProduct,
+  deleteReview
 };

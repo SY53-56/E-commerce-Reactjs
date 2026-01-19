@@ -18,9 +18,16 @@ const productSchema = new mongoose.Schema(
     unit: { type: String, required: true },
 
     stock: { type: Number, required: true, min: 0 },
+       
+ reviews: [
+  {
+    user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+    rating: { type: Number, required: true , max:5 ,min:1 },
+    comment: { type: String, required: true },
+    createdAt: { type: Date, default: Date.now }
+  }
+],
 
-    rating: { type: Number, default: 0 },
-    numReviews: { type: Number, default: 0 },
 
     userAdmin: {
       type: mongoose.Schema.Types.ObjectId,
