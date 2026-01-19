@@ -23,7 +23,7 @@ export default function Home() {
  const [apiDAta, setApiData]= useState([])
   const { products, status, page, totalPages } = useSelector((state) => state.products);
   const { user } = useSelector((state) => state.auth);
-
+ console.log("user",user)
   const [currentPage, setCurrentPage] = useState(1);
  console.log("hcgzhcjzjklz",products)
   /* ================= FETCH PRODUCTS ================= */

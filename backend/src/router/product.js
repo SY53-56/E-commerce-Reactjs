@@ -6,7 +6,9 @@ const {
   showOneProduct,
   addProduct,
   updateProduct,
-  deleteProduct
+  deleteProduct,
+  reviewProduct,
+  deleteReview
 } = require("../controller/product");
 
 const isAdmin = require("../middleware/adminMiddleware")
@@ -29,5 +31,6 @@ router.put("/update/:id", userMiddleware , isAdmin, updateProduct);
 
 // Delete product (admin only)
 router.delete("/delete/:id",userMiddleware , isAdmin, deleteProduct);
-
+router.post("/product/:id/review", userMiddleware,reviewProduct)
+router.delete("/product/:id/review/:id" ,userMiddleware, deleteReview)
 module.exports = router;

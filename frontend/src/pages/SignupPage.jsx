@@ -41,11 +41,11 @@ e.preventDefault();
     });
    },[form, dispatch, navigate])
  
-  
+
 
   
   return (
-    <div className="min-h-screen flex items-center justify-center px-4">
+    <div className={`min-h-screen flex items-center justify-center  px-4 bg-gray-900 text-white border-gray-700`}>
       <form onSubmit={formSubmit}
         className={`w-full max-w-md rounded-2xl border shadow-lg p-6 sm:p-8 space-y-6 transition-colors duration-300 `}
       >
@@ -56,7 +56,6 @@ e.preventDefault();
             Please signup to your account
           </p>
         </div>
-             {loading && <p>loading....</p>}
         {/* Username */}
         <div className="flex flex-col gap-1">
           <label htmlFor="username" className="text-sm font-medium">
@@ -138,7 +137,7 @@ e.preventDefault();
       
 
         {/* Button */}
-        <Button type="submit" className="w-full py-2.5 rounded-lg bg-green-600 hover:bg-green-700 transition text-white font-semibold" name={loading?"submit":"...loading"}/>
+        <Button type="submit" className="w-full py-2.5 rounded-lg bg-green-600 hover:bg-green-700 transition text-white font-semibold" name={loading ?"...loading":"submit"}/>
           
          {error && <p>{error.message}</p>}
 

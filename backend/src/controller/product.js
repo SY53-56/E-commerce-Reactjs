@@ -55,9 +55,9 @@ const showOneProduct = async (req, res) => {
 // 3️⃣ Add new product
 const addProduct = async (req, res) => {
   try {
-    const { name, price, description, category,unit,brand,stock ,discountPrice} = req.body;
+    const { name, price, description, category,unit,brand,stock } = req.body;
   console.log("data ",req.body)
-    if (!name || !price  || !description || !category || !unit||brand ||    !discountPrice || !stock ) {
+    if (!name || !price  || !description || !category || !unit|| !brand ||      stock === undefined ) {
       return res.status(400).json({ message: "Please fill all fields" });
     }
     const files=req.files || []
@@ -77,7 +77,7 @@ const addProduct = async (req, res) => {
      unit,
      brand,
      stock,
-     discountPrice,
+    
       userAdmin: req.user.id // logged-in admin/user
     });
 
