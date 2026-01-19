@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { allProductShow } from "../features/product/productThunk";
 import { useTheme } from "../context/themeContext";
+import axios from "axios";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -19,7 +20,7 @@ export default function Home() {
   const dispatch = useDispatch();
   const { theme } = useTheme();
   const searchText = useOutletContext();
-
+ const [apiDAta, setApiData]= useState([])
   const { products, status, page, totalPages } = useSelector((state) => state.products);
   const { user } = useSelector((state) => state.auth);
 
@@ -30,6 +31,12 @@ export default function Home() {
     dispatch(allProductShow({ page: currentPage , limit: 20 }));
   }, [dispatch, currentPage]);
 
+  useEffect( ()=>{
+  fetch('https://dummyjson.com/products/1')
+.then(res => res.json())
+.then(console.log("sahul"));
+
+  },[])
    
 
   useEffect(()=>{

@@ -1,3 +1,5 @@
+const { cloudinary_js_config } = require("../config/cloudinaryConfig");
+
 const Product = require("../models/product");
 const uploadBufferToCloudinary = require("../utility/uploadBufferToCloudinary");
 
@@ -7,8 +9,26 @@ const showProduct = async (req, res) => {
    const page = Number(req.query.page)|| 1
    const limit = Number(req.query.limit)||20
  const skip= (page-1)*limit
+
+ const {category, search ,maxPrice, minPrice}= req.query
+ 
+  let filter= {}
+ 
+  if(search){
+    filter.name = { $regex: search, $options: "i" };
+  }
+  if(category){
+    filter.category = category.toLowerCase()
+  }
+
+  if(minPrice || maxPrice){
+    filter.price= {}
+    if(maxPrice) filter.price.$gte = Number(maxPrice)
+      if(minPrice) filter.price.$lte = Number(minPrice)
+  }
+
  const [product ,total] = await Promise.all([
-  Product.find().skip(skip).limit(limit).populate("userAdmin", "username email").select("-__v").lean() , 
+  Product.find(filter).skip(skip).limit(limit).populate("userAdmin", "username email").select("-__v").lean() , 
   Product.countDocuments()
  ])
 
@@ -35,9 +55,9 @@ const showOneProduct = async (req, res) => {
 // 3️⃣ Add new product
 const addProduct = async (req, res) => {
   try {
-    const { name, price, description, category,unit } = req.body;
+    const { name, price, description, category,unit,brand,stock ,discountPrice} = req.body;
   console.log("data ",req.body)
-    if (!name || !price  || !description || !category || !unit ) {
+    if (!name || !price  || !description || !category || !unit||brand ||    discountPrice || stock ) {
       return res.status(400).json({ message: "Please fill all fields" });
     }
     const files=req.files || []
@@ -46,7 +66,7 @@ const addProduct = async (req, res) => {
   const result = await uploadBufferToCloudinary(f.buffer)
   uploads.push(result.secure_url )
     }
-  
+     
 
     const product = await Product.create({
       name,
@@ -55,6 +75,9 @@ const addProduct = async (req, res) => {
       description,
       category,
      unit,
+     brand,
+     stock,
+     discountPrice,
       userAdmin: req.user.id // logged-in admin/user
     });
 
@@ -71,10 +94,32 @@ const updateProduct = async (req, res) => {
   try {
     const { id } = req.params;
 
-    const updated = await Product.findByIdAndUpdate(id, req.body, {
+   
+
+     const files= res.files ||[]
+    const uploads = []
+      if (files.length > 0) {
+      // Delete old images from Cloudinary
+      for (let url of Product.image) {
+        // Extract public_id from URL
+        const publicId = url.split("/").pop().split(".")[0];
+        await cloudinary_js_config.uploader.destroy(publicId);
+      }
+
+      // Upload new images
+      for (let f of files) {
+        const result = await uploadBufferToCloudinary(f.buffer);
+        uploads.push(result.secure_url);
+      }
+    }
+
+      const updated = await Product.findByIdAndUpdate(id,{ ...req.body ,...(uploads.length > 0 && { image: uploads })}, {
       new: true,
       runValidators: true
     }).populate("userAdmin", "username email");
+   
+   
+      await  Product.bulkSave()
 
     if (!updated) return res.status(404).json({ message: "Product not found" });
 
