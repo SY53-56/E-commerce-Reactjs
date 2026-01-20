@@ -45,9 +45,7 @@ items: [
       default: 0,
     },
 
-    couponCode: {
-      type: String,
-    },
+   
 
     status: {
       type: String,

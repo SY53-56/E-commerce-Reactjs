@@ -50,12 +50,3 @@ export const decreaseQuantity = createAsyncThunk("cart/decrease", async (product
     return rejectWithValue(e.response?.data?.message || e.message);
   }
 });
-// APPLY DISCOUNT
-export const discountCoupon = createAsyncThunk("cart/discount", async ( _,{ rejectWithValue }) => {
-  try {
-    const res = await API.post("/cart/discount");
-    return res.data.data
-  } catch (e) {
-    return rejectWithValue(e.response?.data?.message || e.message);
-  }
-});

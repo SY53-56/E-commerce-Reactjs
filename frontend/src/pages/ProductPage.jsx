@@ -4,9 +4,9 @@ import { useParams, Link } from "react-router-dom";
 import { showOneProduct } from "../features/product/productThunk";
 import {
   addCart,
-  decreaseQuantity,
+
   getCart,
-  increaseQuantity,
+
 } from "../features/cart/cartThunk";
 import Button from "../components/Button";
 import { productPageAnimation } from "../animations/ProductPageAnimation";
@@ -20,7 +20,7 @@ export default function ProductPage() {
   const { currentProduct, products, status, error } = useSelector(
     (state) => state.products
   );
-
+ const {user}= useSelector(state=>state.auth)
 
   const [relatedProducts, setRelatedProducts] = useState([]);
 
@@ -63,7 +63,7 @@ console.log("products",currentProduct)
   const handleAddCart = () => {
     const productId = currentProduct?._id;
     if (!productId) return;
-
+     if(!user) return toast.error("please login first")
     dispatch(addCart({ productId }));
     toast.success("Added to cart");
   };

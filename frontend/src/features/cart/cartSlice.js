@@ -5,7 +5,7 @@ import {
   removeSingleCart,
   increaseQuantity,
   decreaseQuantity,
-  discountCoupon,
+
 } from "./cartThunk";
 
 const initialState = {
@@ -31,7 +31,12 @@ const cartSlice = createSlice({
 
       // ADD CART
       .addCase(addCart.pending, (state) => { state.loading = true; state.error = null; })
-      .addCase(addCart.fulfilled, (state, action) => { state.loading = false; state.cart = action.payload.data; })
+      .addCase(addCart.fulfilled, (state, action) => {
+         state.loading = false;
+         
+         state.cart = action.payload.data; 
+
+      })
       .addCase(addCart.rejected, (state, action) => { state.loading = false; state.error = action.payload; })
 
       // REMOVE ITEM
@@ -49,10 +54,7 @@ const cartSlice = createSlice({
       .addCase(decreaseQuantity.fulfilled, (state, action) => { state.loading = false; state.cart = action.payload.data; })
       .addCase(decreaseQuantity.rejected, (state, action) => { state.loading = false; state.error = action.payload; })
 
-      // DISCOUNT
-      .addCase(discountCoupon.pending, (state) => { state.loading = true; state.error = null; })
-      .addCase(discountCoupon.fulfilled, (state, action) => { state.loading = false; state.cart = action.payload })
-      .addCase(discountCoupon.rejected, (state, action) => { state.loading = false; state.error = action.payload; });
+    
   },
 });
 

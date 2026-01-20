@@ -4,7 +4,7 @@ import { useTheme } from "../context/themeContext";
 import { useDispatch, useSelector } from "react-redux";
 import { addCart } from "../features/cart/cartThunk";
 import toast from "react-hot-toast";
-export default function Card({ products }) {
+export default function Card({ products ,user}) {
  const {loading} = useSelector(state=>state.cart)
   const { theme } = useTheme();
 const dispatch = useDispatch()
@@ -20,6 +20,7 @@ const dispatch = useDispatch()
 
 const handleAddToCart = async (id) => {
   try {
+    if(!user) return toast.error("please login ")
     await dispatch(addCart({ productId: id })).unwrap();
     toast.success("Added to cart 🛒");
   } catch (err) {

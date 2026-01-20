@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { allProductShow } from "../features/product/productThunk";
 import { useTheme } from "../context/themeContext";
-import axios from "axios";
+
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -21,7 +21,7 @@ export default function Home() {
   const { theme } = useTheme();
   const searchText = useOutletContext();
  const [apiDAta, setApiData]= useState([])
-  const { products, status, page, totalPages } = useSelector((state) => state.products);
+  const { products, status,  totalPages } = useSelector((state) => state.products);
   const { user } = useSelector((state) => state.auth);
  console.log("user",user)
   const [currentPage, setCurrentPage] = useState(1);
@@ -86,7 +86,7 @@ console.log(products)
         <section className="px-4 lg:px-20 py-10">
           <h2 className="text-3xl font-bold mb-4">🛍️ All Products</h2>
 {Array.isArray(products) && products.length > 0 ? (
-  <Card products={products} />
+  <Card products={products} user={user}/>
 ) : (
   <p>No product</p>
 )}

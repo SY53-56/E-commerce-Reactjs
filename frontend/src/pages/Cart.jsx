@@ -1,11 +1,10 @@
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getCart,
   removeSingleCart,
   increaseQuantity,
   decreaseQuantity,
-  discountCoupon,
 } from "../features/cart/cartThunk";
 import { clearCart } from "../features/cart/cartSlice";
 
@@ -20,16 +19,27 @@ export default function Cart() {
   useEffect(() => {
     if (user) dispatch(getCart());
   }, [dispatch, user]);
+useEffect(() => {
+  console.log("cart changed", cart)
+}, [cart])
 
-    useEffect(()=>{
-    if(cart && cart.items.length > 0){
-         dispatch(discountCoupon())
-    }
-    },[cart?.totalAmount, dispatch])
+
   const handleCheckout = () => {
     alert("Checkout successful!");
     dispatch(clearCart());
   };
+
+  const handleIncreaseQuantity= useCallback((id)=>{
+      dispatch(increaseQuantity(id))
+  },[dispatch])
+ 
+  const handleDecreaseQuantity = useCallback((id)=>{
+dispatch(decreaseQuantity(id))
+  },[dispatch])
+  
+  const handleRemoveCart= useCallback((id)=>{
+dispatch(removeSingleCart(id))
+  },[dispatch])
 
   if (loading)
     return (
@@ -46,7 +56,7 @@ export default function Cart() {
     );
 
   return (
-    <div className="min-h-screen bg-gray-50 py-10 px-4 lg:px-20">
+    <div className="min-h-screen bg-gray-100 py-10 px-4 lg:px-20">
       <h1 className="text-4xl font-bold mb-10 text-gray-900">Shopping Cart</h1>
 
       <div className="flex flex-col lg:flex-row gap-8">
@@ -55,42 +65,45 @@ export default function Cart() {
           {cart.items.map((item) => (
             <div
               key={item._id}
-              className="flex flex-col sm:flex-row items-center sm:items-start gap-4 bg-white p-6 rounded-2xl shadow-md hover:shadow-xl transition-shadow"
+              className="flex  sm:flex-row bg-white items-center sm:items-start gap-4  p-6 rounded-2xl shadow-md hover:shadow-xl transition-shadow"
             >
               <img
                 src={item.product.image[0]}
                 alt={item.product.name}
-                className="w-28 h-28 object-cover rounded-xl flex-shrink-0"
+                className="w-48 lg:w-28 h-28 object-cover rounded-xl flex-shrink-0"
               />
               <div className="flex-1 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                 <div>
-                  <h3 className="text-lg font-semibold text-gray-800">
+                 <div className="flex lg:flex-col gap-2.5 lg:gap-1">
+                   <h3 className="text-lg font-semibold text-gray-800">
                     {item.product.name}
                   </h3>
                   <p className="text-indigo-600 font-bold mt-1">₹{item.product.price}</p>
-                  <div className="flex items-center gap-3 mt-3">
+
+                 </div>
+                  <div className="flex items-center gap-3 mt-3 text-black">
                     <button
-                      onClick={() => dispatch(decreaseQuantity(item._id))}
+                      onClick={() => handleDecreaseQuantity(item.product._id)}
                       className="px-3 py-1 rounded-lg bg-gray-200 hover:bg-gray-300 cursor-pointer transition"
                     >
                       −
                     </button>
                     <span className="font-semibold text-lg">{item.quantity}</span>
                     <button
-                      onClick={() => dispatch(increaseQuantity(item._id))}
+                      onClick={() => handleIncreaseQuantity(item.product._id)}
                       className="px-3 py-1 rounded-lg bg-gray-200 hover:bg-gray-300 cursor-pointer transition"
                     >
                       +
                     </button>
                   </div>
                 </div>
-                <div className="flex flex-col items-end gap-2 mt-4 sm:mt-0">
+                <div className="flex ls:flex-col items-end gap-8  lg:gap-6 mt-4 sm:mt-0">
                   <p className="text-gray-900 font-bold text-lg">
                     ₹{item.product.price * item.quantity}
                   </p>
                   <button
-                    onClick={() => dispatch(removeSingleCart(item.product._id))}
-                    className="text-red-500 hover:underline"
+                    onClick={() => handleRemoveCart(item.product._id)}
+                    className="text-red-500 cursor-pointer hover:underline"
                   >
                     Remove
                   </button>
@@ -106,7 +119,7 @@ export default function Cart() {
      
 
           {/* Price Summary */}
-          <div className="bg-white p-6 rounded-2xl shadow-md space-y-2">
+          <div className="bg-white p-6 rounded-2xl text-black shadow-md space-y-2">
             <h2 className="text-xl font-bold border-b pb-2">Price Details</h2>
             <div className="flex justify-between mt-3">
               <span>Subtotal</span>
