@@ -14,6 +14,7 @@ export default function Header({ searchText, setSearchText }) {
   const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 console.log("cart",cart)
+console.log("userdata",user)
   const toggleMenuHandler = () => setShowMenu(prev => !prev);
 
   async function logoutApi() {
@@ -46,14 +47,17 @@ console.log("cart",cart)
         />
         <Search className="cursor-pointer" size={25} />
       </div>
-
+    
       {/* Actions (Desktop) */}
       <div className="hidden lg:flex items-center gap-4">
         {/* Theme toggle */}
+      
         <div onClick={toggleTheme} className="cursor-pointer">
+
+          
           {theme === "light" ? <Moon size={24} /> : <Sun size={24} />}
         </div>
-
+     
         {/* Cart + Auth */}
         {user ? (
           <div className="flex items-center gap-4">

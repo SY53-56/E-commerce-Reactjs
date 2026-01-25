@@ -4,17 +4,18 @@
     import Button from "../components/Button.jsx"
 import { Link, useNavigate } from "react-router-dom";
 
-import { useDispatch} from "react-redux";
+import { useDispatch, useSelector} from "react-redux";
 import { loginUser } from "../features/auth/authThunk.js";
     
 
     export default function LoginPage() {
-     
+    const {loading} = useSelector(state=>state.auth)
     
   const [form,setForm]= useState({
     email:"",
     password:""
   })
+  console.log("from",form)
   const navigate= useNavigate()
   const dispatch=useDispatch()
     const formHandle=(e)=>{
@@ -79,7 +80,7 @@ import { loginUser } from "../features/auth/authThunk.js";
             </div>
     
             {/* Button */}
-            <Button type="submit" className="w-full py-2.5 rounded-lg bg-green-600 hover:bg-green-700 transition text-white font-semibold" name={"submit"} />
+            <Button type="submit" className="w-full py-2.5 rounded-lg bg-green-600 hover:bg-green-700 transition text-white font-semibold" name={loading?"login...":"submit"} />
               
             
     

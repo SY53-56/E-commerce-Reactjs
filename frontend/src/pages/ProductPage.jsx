@@ -109,16 +109,16 @@ console.log("products",currentProduct)
           <div className="flex flex-col ">
 
             {/* TOP INFO */}
-            <div>
+            <div className="flex flex-col">
               <h1 className="text-3xl font-semibold text-gray-900 mb-2">
-                {currentProduct.name}
+            {currentProduct.name}
               </h1>
 
               <p className="text-sm text-gray-500 mb-4">
-                Brand: <span className="font-medium">{currentProduct.brand}</span>
+                 <span className="font-medium">{currentProduct.brand}</span>
               </p>
 
-              <p className="text-gray-700 leading-relaxed mb-6">
+              <p className="text-gray-700 leading-relaxed mb-6 w-32">
                 {currentProduct.description}
               </p>
 

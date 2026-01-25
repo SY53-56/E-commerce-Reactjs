@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { allProductShow } from "../features/product/productThunk";
 import { useTheme } from "../context/themeContext";
+import CategoriesProduct from "../components/CategoriesProduct";
 
 
 gsap.registerPlugin(ScrollTrigger);
@@ -31,13 +32,7 @@ export default function Home() {
     dispatch(allProductShow({ page: currentPage , limit: 20 }));
   }, [dispatch, currentPage]);
 
-  useEffect( ()=>{
-  fetch('https://dummyjson.com/products/1')
-.then(res => res.json())
-.then(console.log("sahul"));
-
-  },[])
-   
+ 
 
   useEffect(()=>{
     const handleScroll= ()=>{
@@ -83,6 +78,9 @@ console.log(products)
         </section>
 
         {/* PRODUCTS */}
+
+<CategoriesProduct/>
+
         <section className="px-4 lg:px-20 py-10">
           <h2 className="text-3xl font-bold mb-4">🛍️ All Products</h2>
 {Array.isArray(products) && products.length > 0 ? (
@@ -105,14 +103,7 @@ console.log(products)
         </section>
       </div>
 
-      {/* ADMIN BUTTON */}
-      {user?.role === "admin" && (
-        <Button
-          to="/add"
-          className="fixed bottom-8 right-8 bg-lime-500 text-white p-4 rounded-full"
-          name="Add Product"
-        />
-      )}
+    
     </>
   );
 }

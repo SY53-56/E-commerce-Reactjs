@@ -9,7 +9,7 @@ import Select from "../components/Select"
 const AddProduct = React.memo(() => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { loading, error } = useSelector((state) => state.products);
+  const { status, error } = useSelector((state) => state.products);
 
   const [form, setForm] = useState({
     productName: "",
@@ -150,9 +150,9 @@ bg-gradient-to-br from-gray-900 via-gray-800 to-black px-4 py-10">
         {/* Submit Button */}
         <Button
           type="submit"
-          name={loading ? "Adding..." : "Add Product"}
+          name={status ? "Adding..." : "Add Product"}
           className="w-full py-3 rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-semibold transition"
-          disabled={loading}
+          disabled={status}
         />
 
         {error && <p className="text-center text-red-600 font-medium">{error.message || "Something went wrong!"}</p>}

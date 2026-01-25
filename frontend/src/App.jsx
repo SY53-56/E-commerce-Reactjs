@@ -31,6 +31,7 @@ function App() {
           <Route path="/update" element={<UpdateProduct/>}/>
           <Route path="/product/:id" element={<ProductPage/>} />
           <Route path="/product/page" element={<Product/>}/>
+          
       </Route>
           <Route path="/signup" element={<SignupPage/>} />
         <Route  path='/login' element={<Login/>}/>
