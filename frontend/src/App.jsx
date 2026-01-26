@@ -15,6 +15,7 @@ import UpdateProduct from './pages/UpdateProduct'
 import ProductPage from './pages/ProductPage'
 import { Toaster } from "react-hot-toast";
 import Product from './pages/Product'
+import Products from './pages/Products'
 function App() {
 
 
@@ -31,8 +32,9 @@ function App() {
           <Route path="/update" element={<UpdateProduct/>}/>
           <Route path="/product/:id" element={<ProductPage/>} />
           <Route path="/product/page" element={<Product/>}/>
-          
-      </Route>
+          <Route path='/userProfile' element={<UserProfile/>} />
+          <Route path='/products/:category' element={<Products/>} />
+      </Route>  
           <Route path="/signup" element={<SignupPage/>} />
         <Route  path='/login' element={<Login/>}/>
     </Routes>

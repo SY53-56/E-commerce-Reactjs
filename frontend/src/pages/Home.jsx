@@ -6,7 +6,7 @@ import FilterProduct from "../components/FilterProduct";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-import { useOutletContext } from "react-router";
+import { Link, useOutletContext } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { allProductShow } from "../features/product/productThunk";
@@ -32,7 +32,7 @@ export default function Home() {
     dispatch(allProductShow({ page: currentPage , limit: 20 }));
   }, [dispatch, currentPage]);
 
- 
+ console.log("productsjdhjkdfjkd  12222", products)
 
   useEffect(()=>{
     const handleScroll= ()=>{
@@ -69,6 +69,10 @@ console.log(products)
   /* ================= SEARCH ================= */
   //const filteredProducts = products?.filter((p) =>p.name?.toLowerCase().includes(searchText?.toLowerCase() || ""));
  // console.log(filteredProducts)
+
+
+  const category = ["clothes", "food", "electronics","game","others"]
+
   return (
     <>
       <div ref={containerRef}>
@@ -76,10 +80,13 @@ console.log(products)
         <section className="section1">
           <Poster />
         </section>
-
+        <Link to="/userProfile">
+        user
+        </Link>
         {/* PRODUCTS */}
 
-<CategoriesProduct/>
+<CategoriesProduct category={category}/>
+
 
         <section className="px-4 lg:px-20 py-10">
           <h2 className="text-3xl font-bold mb-4">🛍️ All Products</h2>

@@ -1,21 +1,27 @@
-import React from "react";
-import Card from "./Card";
-export default function FilterProduct({ products,heading ,category }) {
+import React from 'react'
 
-  const filters = products.filter(p =>
-    p.category.includes(category)
-  ).slice(0, 4);
+export default function FilterProduct({ category = [], onSelect }) {
+  if (!Array.isArray(category)) return null
+const categoryColors = {
+  clothes: 'bg-blue-400',
+  food: 'bg-green-400',
+  electronics: 'bg-purple-400',
+  game: 'bg-red-400',
+  others: 'bg-gray-400',
+}
 
+  
   return (
-    <div className="flex flex-col">
-      <h1 className="text-3xl text-black px-4 font-bold">{heading}</h1>
+    <div className="flex  justify-center mt-10 gap-4 mb-6 flex-wrap">
+      <button onClick={() => onSelect('all')}>
+        All
+      </button>
 
-      <div>
-    
-          <Card products={filters} name="Food"/>
-      
-        
-      </div>
+      {category.map(cat => (
+        <button className={` px-4 ${categoryColors[cat]} py-1 rounded-md`} key={cat} onClick={() => onSelect(cat)}>
+          {cat}
+        </button>
+      ))}
     </div>
-  );
+  )
 }

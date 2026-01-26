@@ -24,6 +24,8 @@ console.log("userdata",user)
   useEffect(() => {
     if (user) dispatch(getCart());
   }, [dispatch, user]);
+  
+   console.log(user.role)
 
   return (
     <header
@@ -58,9 +60,12 @@ console.log("userdata",user)
           {theme === "light" ? <Moon size={24} /> : <Sun size={24} />}
         </div>
      
+   {user.role ==="admin"?      <Button to="/add"  name="add products"/> :""}
+      
         {/* Cart + Auth */}
         {user ? (
           <div className="flex items-center gap-4">
+            
             <NavLink to="/cart" className="relative">
               <ShoppingCart size={28} />
               <span className="absolute -top-2 -right-2 bg-amber-500 text-white text-xs px-1 rounded-full">
