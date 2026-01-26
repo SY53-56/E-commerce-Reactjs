@@ -22,7 +22,7 @@ export default function Home() {
   const { theme } = useTheme();
   const searchText = useOutletContext();
  const [apiDAta, setApiData]= useState([])
-  const { products, status,  totalPages } = useSelector((state) => state.products);
+  const { products, status,  totalPages , } = useSelector((state) => state.products);
   const { user } = useSelector((state) => state.auth);
  console.log("user",user)
   const [currentPage, setCurrentPage] = useState(1);
@@ -71,7 +71,15 @@ console.log(products)
  // console.log(filteredProducts)
 
 
-  const category = ["clothes", "food", "electronics","game","others"]
+  const category = [
+    {img:"https://www.bing.com/th/id/OIP.ORH_mwC_R1rP2xGViNy_lwHaE8?w=265&h=211&c=8&rs=1&qlt=90&o=6&dpr=1.3&pid=3.1&rm=2", cate:"clothes"},
+    {  img:"https://www.bing.com/th/id/OIP.iZmRJpSySKsI7x8gUlTSyAHaEz?w=262&h=211&c=8&rs=1&qlt=90&o=6&dpr=1.3&pid=3.1&rm=2" , cate:"food"},
+    {img:"https://www.bing.com/th/id/OIP.3cIGk8wliMY7sK3HLnsZJgHaH6?w=181&h=211&c=8&rs=1&qlt=90&o=6&dpr=1.3&pid=3.1&rm=2",cate:"electronics"},
+    {img:"https://www.bing.com/th/id/OIP.agaM_r4qvG1OTLipo_yAOwHaHa?w=168&h=211&c=8&rs=1&qlt=90&o=6&dpr=1.3&pid=3.1&rm=2", cate:"toyes"}
+  ]
+
+
+ 
 
   return (
     <>

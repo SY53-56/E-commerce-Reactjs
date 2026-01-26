@@ -8,12 +8,13 @@ import {
 } from "../features/cart/cartThunk";
 import  {clearCart} from "../features/cart/cartSlice";
 import CartCard  from "../components/CartCard";
+import { useNavigate } from "react-router";
 
 export default function Cart() {
   const dispatch = useDispatch();
   const { cart, loading } = useSelector((state) => state.cart);
   const { user } = useSelector((state) => state.auth);
-
+  const navigate = useNavigate()
 //console.log("cartdata",cart.items.map(item=>item.product.name))
 
   useEffect(() => {
@@ -27,6 +28,7 @@ useEffect(() => {
   const handleCheckout = () => {
     alert("Checkout successful!");
     dispatch(clearCart());
+  navigate("/")
   };
 
   const handleIncreaseQuantity= useCallback((id)=>{
