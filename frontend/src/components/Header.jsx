@@ -25,7 +25,7 @@ console.log("userdata",user)
     if (user) dispatch(getCart());
   }, [dispatch, user]);
   
-   console.log(user.role)
+ 
 
   return (
     <header
@@ -60,7 +60,7 @@ console.log("userdata",user)
           {theme === "light" ? <Moon size={24} /> : <Sun size={24} />}
         </div>
      
-   {user.role ==="admin"?      <Button to="/add"  name="add products"/> :""}
+
       
         {/* Cart + Auth */}
         {user ? (
