@@ -128,7 +128,7 @@ const updateProduct = async (req, res) => {
         image: images
       },
       { new: true, runValidators: true }
-    ).populate("userAdmin", "username email");
+    ).populate("userAdmin", "_id username email");
 
     res.status(200).json({ product: updatedProduct });
   } catch (error) {

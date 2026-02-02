@@ -50,7 +50,7 @@ console.log("products",currentProduct)
     const data = products
       .filter(
         (p) =>
-          p._id !== currentProduct._id &&
+          p?._id !== currentProduct?._id &&
           p.category?.toLowerCase() ===
             currentProduct.category?.toLowerCase()
       )
@@ -68,6 +68,15 @@ console.log("products",currentProduct)
     toast.success("Added to cart");
   };
 
+ const isOnwer =   
+  user?.id &&
+  (user.id === currentProduct?.userAdmin?._id ||
+   user.id === currentProduct?.userAdmin);
+
+console.log(user.id)
+console.log("ghkdjhdcc",currentProduct?.userAdmin._id)
+   console.log( 'onwer',isOnwer)
+   console.log("user product", user)
   /* ================= UI STATES ================= */
 if (status === "loading") {
   return <ProductPageSkeleton />
@@ -121,7 +130,7 @@ if (status === "loading") {
               Brand: <span className="font-medium">{currentProduct.brand}</span>
             </p>
 
-            <p className="text-gray-700 leading-relaxed mb-6 max-w-md">
+            <p className="text-gray-700 leading-relaxed mb-6 w-80  lg:max-w-md">
               {currentProduct.description}
             </p>
 
@@ -136,12 +145,14 @@ if (status === "loading") {
             </div>
 
             {/* ADD TO CART */}
-            <Button
+          <div className=" flex    gap-4">
+             <Button
               onClick={handleAddCart}
               name="Add to Cart"
-              className="w-full lg:w-auto px-8 py-3 bg-green-600 hover:bg-green-700 text-white rounded-xl text-lg transition"
+              className=" px-8 py-3 bg-green-600 hover:bg-green-700 text-white rounded-xl  transition"
             />
-            <Button to="/update"  name="update"/>
+        {isOnwer && (     <Button to={ `/update/${currentProduct._id}`} className="bg-blue-500  px-8 py-3  rounded-xl text-white hover:bg-blue-600 transition-all duration-500"  name="update"/>)}
+            </div> 
           </div>
 
           {/* FEATURES */}
