@@ -27,7 +27,7 @@ router.get("/:id",  showOneProduct);
 router.post("/add",uploads("image",5), userMiddleware,isAdmin,  addProduct);
 
 // Update product (admin only)
-router.put("/update/:id", userMiddleware , isAdmin, updateProduct);
+router.put("/update/:id", uploads("images", 5), userMiddleware, isAdmin, updateProduct);
 
 // Delete product (admin only)
 router.delete("/delete/:id",userMiddleware , isAdmin, deleteProduct);

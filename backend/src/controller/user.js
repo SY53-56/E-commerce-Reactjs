@@ -38,7 +38,7 @@ const userRegister = async (req, res) => {
       username,
       password: hashedPassword,
       phone,
-     role
+      role
     });
 
     const token = generateToken(newUser);

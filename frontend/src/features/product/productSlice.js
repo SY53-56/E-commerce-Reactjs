@@ -56,13 +56,26 @@ const productSlice = createSlice({
       })
 
       /* ================= ADD PRODUCT ================= */
+      .addCase(addProduct.pending,(state)=>{
+     state.status = "loading"
+      })
       .addCase(addProduct.fulfilled, (state, action) => {
+         state.status = "succeeded";
         state.products.unshift(action.payload.product);
       })
-
+ .addCase(addProduct.rejected,(state, action)=>{
+  state.status = "failed"
+      state.error = action.payload;
+ })
       /* ================= UPDATE PRODUCT ================= */
+
+      .addCase(updateProduct.pending , (state)=>{
+        state.status = 'loading'
+      })
       .addCase(updateProduct.fulfilled, (state, action) => {
+         state.status = "succeeded";
         const updated = action.payload.product;
+        
         state.products = state.products.map((p) =>
           p._id === updated._id ? updated : p
         );
@@ -70,9 +83,13 @@ const productSlice = createSlice({
           state.currentProduct = updated;
         }
       })
-
+  .addCase(updateProduct.rejected , (state , action)=>{
+    state.status = "failed"
+    state.error = action.payload
+  })
       /* ================= DELETE PRODUCT ================= */
       .addCase(deleteProduct.fulfilled, (state, action) => {
+         state.status = "succeeded";
         state.products = state.products.filter(
           (p) => p._id !== action.payload._id
         );

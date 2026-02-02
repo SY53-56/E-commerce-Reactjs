@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Menu, Moon, Sun, Search, ShoppingCart } from "lucide-react";
 import Button from "./Button";
 import { useTheme } from "../context/themeContext.jsx";
-import { NavLink } from "react-router-dom";
+import { NavLink,Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../features/auth/authSlice.js";
 import { getCart } from "../features/cart/cartThunk.js";
@@ -65,7 +65,7 @@ console.log("userdata",user)
         {/* Cart + Auth */}
         {user ? (
           <div className="flex items-center gap-4">
-            
+            {user.role ==="admin" &&(<Link to="/add">add project</Link>)}
             <NavLink to="/cart" className="relative">
               <ShoppingCart size={28} />
               <span className="absolute -top-2 -right-2 bg-amber-500 text-white text-xs px-1 rounded-full">

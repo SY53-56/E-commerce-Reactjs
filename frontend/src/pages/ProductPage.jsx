@@ -141,6 +141,7 @@ if (status === "loading") {
               name="Add to Cart"
               className="w-full lg:w-auto px-8 py-3 bg-green-600 hover:bg-green-700 text-white rounded-xl text-lg transition"
             />
+            <Button to="/update"  name="update"/>
           </div>
 
           {/* FEATURES */}

@@ -94,40 +94,48 @@ const updateProduct = async (req, res) => {
   try {
     const { id } = req.params;
 
-   
+    const product = await Product.findById(id);
+    if (!product) {
+      return res.status(404).json({ message: "Product not found" });
+    }
 
-     const files= req.files ||[]
-    const uploads = []
-      if (files.length > 0) {
-      // Delete old images from Cloudinary
-      for (let url of Product.image) {
-        // Extract public_id from URL
-        const publicId = url.split("/").pop().split(".")[0];
-        await cloudinary_js_config.uploader.destroy(publicId);
-      }
+    const files = req.files || [];
+    let images = req.body.existingImages || product.image;
 
-      // Upload new images
-      for (let f of files) {
-        const result = await uploadBufferToCloudinary(f.buffer);
-        uploads.push(result.secure_url);
+    // Ensure array
+    if (typeof images === "string") {
+      images = [images];
+    }
+
+    // Upload new images
+    if (files.length > 0) {
+      for (const file of files) {
+        const result = await uploadBufferToCloudinary(file.buffer);
+        images.push(result.secure_url);
       }
     }
 
-      const updated = await Product.findByIdAndUpdate(id,{ ...req.body ,...(uploads.length > 0 && { image: uploads })}, {
-      new: true,
-      runValidators: true
-    }).populate("userAdmin", "username email");
-   
-   
-      await  Product.bulkSave()
+    const updatedProduct = await Product.findByIdAndUpdate(
+      id,
+      {
+        name: req.body.name,
+        price: req.body.price,
+        stock: req.body.stock,
+        category: req.body.category,
+        unit: req.body.unit,
+        description: req.body.description,
+        brand: req.body.brand,
+        image: images
+      },
+      { new: true, runValidators: true }
+    ).populate("userAdmin", "username email");
 
-    if (!updated) return res.status(404).json({ message: "Product not found" });
-
-    res.status(200).json({ updated });
-  } catch (e) {
-    res.status(500).json({ message: e.message });
+    res.status(200).json({ product: updatedProduct });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
 };
+
 
 // 5️⃣ Delete product
 const deleteProduct = async (req, res) => {

@@ -32,7 +32,7 @@ export const addProduct =createAsyncThunk("add/product",async(data,{rejectWithVa
    return rejectWithValue(e.response?.data?.message || e.message);
    }
 })
-export const updateProduct = createAsyncThunk('updata/prodcut',async(id,data,{rejectWithValue})=>{
+export const updateProduct = createAsyncThunk('updata/prodcut',async({id ,data},{rejectWithValue})=>{
    try{
    const res = await API.put(`/product/update/${id}`,data,);
    return res.data
