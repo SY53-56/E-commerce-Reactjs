@@ -16,6 +16,7 @@ import ProductPage from './pages/ProductPage'
 import { Toaster } from "react-hot-toast";
 import Product from './pages/Product'
 import Products from './pages/Products'
+import DashBoard from './pages/DashBoard'
 function App() {
 
 
@@ -34,6 +35,7 @@ function App() {
           <Route path="/product/page" element={<Product/>}/>
           <Route path='/userProfile' element={<UserProfile/>} />
           <Route path='/products/:category' element={<Products/>} />
+          <Route path="/user/:id"  element={<DashBoard/>}/>
       </Route>  
           <Route path="/signup" element={<SignupPage/>} />
         <Route  path='/login' element={<Login/>}/>

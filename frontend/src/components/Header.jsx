@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Menu, Moon, Sun, Search, ShoppingCart } from "lucide-react";
+import { Menu, Moon, Sun, Search, ShoppingCart, LayoutDashboardIcon, LayoutDashboard, FormIcon } from "lucide-react";
 import Button from "./Button";
 import { useTheme } from "../context/themeContext.jsx";
 import { NavLink,Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../features/auth/authSlice.js";
 import { getCart } from "../features/cart/cartThunk.js";
+import Input from "./Input.jsx";
 
 export default function Header({ searchText, setSearchText }) {
   const { theme, toggleTheme } = useTheme();
@@ -65,7 +66,9 @@ console.log("userdata",user)
         {/* Cart + Auth */}
         {user ? (
           <div className="flex items-center gap-4">
-            {user.role ==="admin" &&(<Link to="/add">add project</Link>)}
+            {user.role ==="admin" &&(<div className="flex gap-1.5"><Link to="/add">add project</Link>  
+             <Link to={`/user/${user.id}`}><LayoutDashboardIcon/></Link></div>)}
+         
             <NavLink to="/cart" className="relative">
               <ShoppingCart size={28} />
               <span className="absolute -top-2 -right-2 bg-amber-500 text-white text-xs px-1 rounded-full">
@@ -96,9 +99,9 @@ console.log("userdata",user)
       >
         <div className="flex flex-col gap-6 p-5">
           <button onClick={toggleMenuHandler} className="self-end text-2xl font-bold">X</button>
-
+     <p>{user.username}</p>
           <div className="flex items-center gap-2 border rounded-lg px-2 py-1">
-            <input type="text" placeholder="Search..." className="w-full outline-none px-1" />
+        <Input type="text" placeholder="search..." className="w-full outline-none px-1"/>
             <Search size={22} />
           </div>
 
@@ -107,14 +110,26 @@ console.log("userdata",user)
             <span>Toggle Theme</span>
           </div>
 
-          <div className="flex items-center gap-2">
+       
+            <Link to={`/cart`} className="flex items-center gap-2">
             <ShoppingCart size={22} />
             <span>Cart: {cart?.items?.length || 0}</span>
-          </div>
-
+            </Link>
+       
+          
           {user ? (
-            <div className="flex flex-col gap-2">
-              <p>{user.username}</p>
+            <div className="flex flex-col gap-4">
+              <Link to={`/user/${user.id}`}  className="flex items-center gap-2">
+                 <LayoutDashboard size={22}/>
+                <p>DashBord</p>
+              </Link>
+           
+           <Link to={"/add"} className="flex items-center gap-2">
+           <FormIcon/>
+           <p>Add product</p>
+          
+           </Link>
+              
               <Button onClick={logoutApi} className="bg-red-500 px-4 py-2 rounded-lg text-white" name="Logout" />
             </div>
           ) : (
