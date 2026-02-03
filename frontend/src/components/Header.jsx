@@ -99,12 +99,12 @@ console.log("userdata",user)
       >
         <div className="flex flex-col gap-6 p-5">
           <button onClick={toggleMenuHandler} className="self-end text-2xl font-bold">X</button>
-     <p>{user.username}</p>
+     
           <div className="flex items-center gap-2 border rounded-lg px-2 py-1">
         <Input type="text" placeholder="search..." className="w-full outline-none px-1"/>
             <Search size={22} />
           </div>
-
+        {user &&  <p>{user.username}</p>}
           <div className="flex items-center gap-2 cursor-pointer" onClick={toggleTheme}>
             {theme === "light" ? <Moon size={22} /> : <Sun size={22} />}
             <span>Toggle Theme</span>
@@ -118,7 +118,9 @@ console.log("userdata",user)
        
           
           {user ? (
+            
             <div className="flex flex-col gap-4">
+             
               <Link to={`/user/${user.id}`}  className="flex items-center gap-2">
                  <LayoutDashboard size={22}/>
                 <p>DashBord</p>
