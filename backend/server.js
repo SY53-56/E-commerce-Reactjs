@@ -12,7 +12,7 @@ const CartRouter = require("./src/router/cart");
 // CORS
 app.use(
   cors({
-    origin: "http://localhost:5175",
+    origin: "http://localhost:5173",
     credentials: true,
   })
 );
