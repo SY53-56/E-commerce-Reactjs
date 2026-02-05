@@ -19,28 +19,28 @@ export default function DiscountCard() {
 
       {/* Wheel */}
       <div
-        className="relative w-80 h-80 rounded-full border-4 border-white  shadow-xl transition-transform duration-[3000ms] ease-out"
+        className="relative w-80 h-80 rounded-full  border-4 border-white  shadow-xl transition-transform duration-[3000ms] ease-out"
         style={{ transform: `rotate(${rotate}deg)` }}
       >
         {/* Center */}
         <div className="absolute inset-0 flex items-center justify-center">
-          <div className="w-16 h-16 bg-gray-800 rounded-full z-10"></div>
+          <div className="w-16 h-16 bg-gray-800  rounded-full z-10 "></div>
         </div>
 
         {/* Labels */}
-        <div className="absolute  top-6 left-1/2 -translate-x-1/2 font-bold text-green-600">
+        <div className="absolute  top-6 left-1/2 -translate-x-1/2 font-bold bg-green-400 text-green-600">
           10%
         </div>
 
-        <div className="absolute right-6 top-1/2 -translate-y-1/2 font-bold text-blue-600">
+        <div className="absolute right-6 top-1/2 -translate-y-1/2 font-bold bg-amber-400 text-blue-600">
           20%
         </div>
         <br className="border-2 border-black"/>
-          <div className="absolute bottom-6 left-1/2 -translate-x-1/2 font-bold text-purple-600">
+          <div className="absolute bottom-6 left-1/2 -translate-x-1/2 font-bold bg-cyan-600 text-purple-600">
           30%
         </div>
 
-        <div className="absolute left-6 top-1/2 -translate-y-1/2 font-bold text-red-500 text-sm">
+        <div className="absolute left-6 top-1/2 -translate-y-1/2 font-bold bg-orange-600 text-red-500 text-sm">
           NO DISCOUNT
         </div>
       </div>

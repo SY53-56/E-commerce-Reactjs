@@ -4,13 +4,33 @@ import MenuItem from "../components/dashboard/MenuItem";
 import StateCard from "../components/dashboard/StateCard";
 import {  useDispatch, useSelector } from "react-redux";
 import { userData } from "../features/auth/authThunk";
+import Products from "../components/dashboard/Products";
+import { allProductShow } from "../features/product/productThunk";
 export default function Dashboard() {
   const {products} = useSelector(state=>state.products)
   const {users} = useSelector(state=> state.auth)
-const dispatch= useDispatch()
-  useEffect(()=>{
-   dispatch(userData())
-  },[dispatch])
+  const dispatch= useDispatch()
+  console.log(products)
+  console.log("ydtufayfdaoudysauydusadysuydusydusa",products)
+ function sortProduct(products = []) {
+  return [...products].sort(
+    (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+  );
+}
+
+
+const recentProducts = sortProduct(products).slice(0, 4);
+ 
+
+useEffect(() => {
+  if (!products?.length) {
+    dispatch(allProductShow({ page: 1, limit: 5 }));
+  }
+  if (!users?.length) {
+    dispatch(userData());
+  }
+}, [dispatch, products?.length , users?.length]);
+
   return (
     <div className="min-h-screen w-full flex gap-8">
       <aside className="w-72 border-black border px-10 py-7 bg-gray-950 text-white h-screen">
@@ -28,34 +48,15 @@ const dispatch= useDispatch()
           <h1>Company Data</h1>
         </div>
         <div className="flex w-full gap-6 justify-between">
-          <StateCard title="products" value={products.length}/>
-          <StateCard  title="users" value={users.length}/>
+          <StateCard title="products" value={products?.length ||0}/>
+          <StateCard  title="users" value={users?.length || 0}/>
           <StateCard  title="orders" value="34"/>
            <StateCard  title="category" value="6"/>
         </div>
 
         <div className="mt-10 bg-white text-black rounded-2xl shadow p-6">
 <h2 className="text-xl font-semibold mb-4">Recent Products</h2>
-<table className="w-full text-left">
-<thead>
-<tr className="border-b">
-<th className="py-2">Name</th>
-<th>Price</th>
-<th>Stock</th>
-<th>Category</th>
-</tr>
-</thead>
-<tbody>
-{[1,2,3].map((i) => (
-<tr key={i} className="border-b text-sm">
-<td className="py-2">Sample Product</td>
-<td>₹499</td>
-<td>12</td>
-<td>Electronics</td>
-</tr>
-))}
-</tbody>
-</table>
+<Products products={recentProducts}/>
 </div>
       </div>
       

@@ -12,7 +12,7 @@ import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { allProductShow } from "../features/product/productThunk";
 import { useTheme } from "../context/themeContext";
 import CategoriesProduct from "../components/CategoriesProduct";
-import { userData } from "../features/auth/authThunk";
+
 
 
 gsap.registerPlugin(ScrollTrigger);
@@ -33,9 +33,7 @@ export default function Home() {
     dispatch(allProductShow({ page: currentPage , limit: 20 }));
   }, [dispatch, currentPage]);
 
-  useEffect(() => {
-  dispatch(userData());
-}, []);
+
  console.log("productsjdhjkdfjkd  12222", products)
 console.log("usersdatabsndjds",users)
   useEffect(()=>{
