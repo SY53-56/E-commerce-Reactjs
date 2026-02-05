@@ -12,6 +12,7 @@ import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { allProductShow } from "../features/product/productThunk";
 import { useTheme } from "../context/themeContext";
 import CategoriesProduct from "../components/CategoriesProduct";
+import { userData } from "../features/auth/authThunk";
 
 
 gsap.registerPlugin(ScrollTrigger);
@@ -23,7 +24,7 @@ export default function Home() {
   const searchText = useOutletContext();
  const [apiDAta, setApiData]= useState([])
   const { products, status,  totalPages , } = useSelector((state) => state.products);
-  const { user } = useSelector((state) => state.auth);
+  const { user,users } = useSelector((state) => state.auth);
  console.log("user",user)
   const [currentPage, setCurrentPage] = useState(1);
  console.log("hcgzhcjzjklz",products)
@@ -32,8 +33,11 @@ export default function Home() {
     dispatch(allProductShow({ page: currentPage , limit: 20 }));
   }, [dispatch, currentPage]);
 
+  useEffect(() => {
+  dispatch(userData());
+}, []);
  console.log("productsjdhjkdfjkd  12222", products)
-
+console.log("usersdatabsndjds",users)
   useEffect(()=>{
     const handleScroll= ()=>{
       const bottom =  window.innerHeight+ window.scrollY>= document.documentElement.scrollHeight-200

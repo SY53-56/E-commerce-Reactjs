@@ -13,7 +13,7 @@ const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    logout: (state) => {
+    logout:(state) => {
       state.user = null;
       state.loading =false;
       state.error = null;
@@ -59,10 +59,9 @@ sessionStorage.removeItem("token")
       })
       .addCase(userData.fulfilled,(state, action)=>{
         state.loading= false
-          state.users= action.payload
-           state.users = action.payload;sessionStorage.setItem("user",JSON.stringify(action.payload)); 
+          state.users= action.payload.users   
       })
-      .addCase(userData.rejected, (state, action) => {
+      .addCase(userData.rejected, (state,action) => {
         state.loading = false;
         state.error = action.payload;
       })

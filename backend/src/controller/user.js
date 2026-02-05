@@ -15,10 +15,11 @@ const generateToken = (user) => {
   );
 };
 
-const usersData = async(req,res)=>{
+const usersData = async(_,res)=>{
   try{
-    const users = await UserModel.find()
-   res.status(200).json(users)
+    const users = await UserModel.find().select("-password");
+   
+   res.status(200).json({users})
   }catch(e){
     res.status(500).json({message:e})
   }
@@ -127,11 +128,5 @@ const userLogout = async (req, res) => {
     res.status(500).json({ message: e.message });
   }
 };
-let user = async (req, res) => {
-  const { id, email, role } = req.user;
-  res.json({
-    user: { id, email, role }
-  });
-};
 
-module.exports = { userRegister, userLogin, userLogout,user,usersData };
+module.exports = { userRegister, userLogin, userLogout,usersData };

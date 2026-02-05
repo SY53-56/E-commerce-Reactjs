@@ -1,11 +1,16 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { LayoutDashboard, Package, Users, PlusCircle } from "lucide-react";
 import MenuItem from "../components/dashboard/MenuItem";
 import StateCard from "../components/dashboard/StateCard";
-import {  useSelector } from "react-redux";
+import {  useDispatch, useSelector } from "react-redux";
+import { userData } from "../features/auth/authThunk";
 export default function Dashboard() {
   const {products} = useSelector(state=>state.products)
-  
+  const {users} = useSelector(state=> state.auth)
+const dispatch= useDispatch()
+  useEffect(()=>{
+   dispatch(userData())
+  },[dispatch])
   return (
     <div className="min-h-screen w-full flex gap-8">
       <aside className="w-72 border-black border px-10 py-7 bg-gray-950 text-white h-screen">
@@ -24,9 +29,9 @@ export default function Dashboard() {
         </div>
         <div className="flex w-full gap-6 justify-between">
           <StateCard title="products" value={products.length}/>
-          <StateCard  title="users" value="78"/>
+          <StateCard  title="users" value={users.length}/>
           <StateCard  title="orders" value="34"/>
-           <StateCard  title="category" value="34"/>
+           <StateCard  title="category" value="6"/>
         </div>
 
         <div className="mt-10 bg-white text-black rounded-2xl shadow p-6">
