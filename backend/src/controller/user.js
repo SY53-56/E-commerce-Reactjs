@@ -15,6 +15,14 @@ const generateToken = (user) => {
   );
 };
 
+const usersData = async(req,res)=>{
+  try{
+    const users = await UserModel.find()
+   res.status(200).json(users)
+  }catch(e){
+    res.status(500).json({message:e})
+  }
+}
 
 
 
@@ -126,4 +134,4 @@ let user = async (req, res) => {
   });
 };
 
-module.exports = { userRegister, userLogin, userLogout,user };
+module.exports = { userRegister, userLogin, userLogout,user,usersData };

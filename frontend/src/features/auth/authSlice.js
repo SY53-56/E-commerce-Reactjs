@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { loginUser, signupUser, } from "./authThunk";
 
 const initialState = {
+  users :[],
   user:JSON.parse(sessionStorage.getItem("user")) || null,
   loading: false,
   error: null,
