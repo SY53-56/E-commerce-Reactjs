@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { loginUser, signupUser, } from "./authThunk";
+import { loginUser, signupUser, userData, } from "./authThunk";
 
 const initialState = {
   users :[],
@@ -52,7 +52,20 @@ sessionStorage.removeItem("token")
       .addCase(signupUser.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
-      });
+      })
+      .addCase(userData.pending, (state)=>{
+        state.loading= true
+         state.error = null;
+      })
+      .addCase(userData.fulfilled,(state, action)=>{
+        state.loading= false
+          state.users= action.payload
+           state.users = action.payload;sessionStorage.setItem("user",JSON.stringify(action.payload)); 
+      })
+      .addCase(userData.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
   },
 });
 

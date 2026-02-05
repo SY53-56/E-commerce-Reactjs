@@ -29,3 +29,11 @@ export const logout = createAsyncThunk("logout/user", async( _, {rejectWithValue
   return rejectWithValue(e.response?.data?.message || e.message);
     }
 })
+export const userData = createAsyncThunk("user/data" ,async(_, {rejectWithValue})=>{
+  try{
+     const res= await API.get("/user/data")
+     return res.data
+  }catch(e){
+      return rejectWithValue(e.response?.data?.message || e.message);
+  }
+})
