@@ -13,7 +13,9 @@ export default function Header({ searchText, setSearchText }) {
   const [showMenu, setShowMenu] = useState(false);
   const { cart } = useSelector((state) => state.cart);
   const { user } = useSelector((state) => state.auth);
+  const {products} = useSelector((state)=> state.products)
   const dispatch = useDispatch();
+  const navigate = useDispatch()
 console.log("cart",cart)
 console.log("userdata",user)
   const toggleMenuHandler = () => setShowMenu(prev => !prev);
@@ -30,7 +32,7 @@ console.log("userdata",user)
 
   return (
     <header
-      className={`flex justify-between items-center px-5 py-3 border-b transition-colors duration-500
+      className={`flex justify-between items-center   py-5 px-3 lg:px-20 sticky  border-b transition-colors duration-500
         ${theme === "light" ? "bg-indigo-600 text-white" : "bg-gray-900 text-gray-100"}`}
     >
       {/* Logo + Hamburger */}
@@ -44,9 +46,20 @@ console.log("userdata",user)
         <input
           type="text"
           value={searchText}
+          name="search"
           onChange={(e) => setSearchText(e.target.value)}
+          onKeyDown={(e)=>{
+           if(e.key ==="Enter"){
+  const match = products.find((item)=> item.name.toLowerCase().toString().includes(searchText.toLowerCase().toString()) || item.category.toLowerCase().toString().includes(searchText.toLowerCase().toString()))
+  if(match){
+    navigate("/user")
+  }else{
+       alert("No product found");
+  }
+           }
+          }}
           placeholder="Search product..."
-          className="w-full outline-none px-2 py-1 text-gray-900"
+          className="w-full outline-none px-2 py-1 text-amber-50"
         />
         <Search className="cursor-pointer" size={25} />
       </div>
@@ -98,10 +111,14 @@ console.log("userdata",user)
         `}
       >
         <div className="flex flex-col gap-6 p-5">
+          <div className="flex justify-between">
+            <h1 className="text-2xl font-bold">main mart</h1>
           <button onClick={toggleMenuHandler} className="self-end text-2xl font-bold">X</button>
+          </div>
      
           <div className="flex items-center gap-2 border rounded-lg px-2 py-1">
-        <Input type="text" placeholder="search..." className="w-full outline-none px-1"/>
+        <Input type="text" name="search" placeholder="search..."    value={searchText}
+  onChange={(e) => setSearchText(e.target.value)}className="w-full outline-none px-1"/>
             <Search size={22} />
           </div>
         {user &&  <p>{user.username}</p>}

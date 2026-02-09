@@ -1,7 +1,9 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { useTheme } from '../context/themeContext'
 
 export default function CategoriesProduct({ category = [] }) {
+  const {theme} = useTheme()
   return (
     <section className="px-6 md:px-20 my-12">
       <h1 className="text-3xl font-bold mb-8 text-center">
@@ -27,7 +29,7 @@ export default function CategoriesProduct({ category = [] }) {
               </div>
 
               {/* Label */}
-              <div className="py-3 text-center font-semibold capitalize bg-amber-400 text-white">
+              <div className={`py-3 text-center font-semibold capitalize ${theme ==="light"?"bg-indigo-600":"bg-amber-400"}  text-white`}>
                 {item.cate}
               </div>
 

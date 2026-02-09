@@ -12,7 +12,7 @@ export default function Layout() {
           theme === "dark" ? "bg-gray-900 text-white" : "bg-gray-50 text-gray-900"
         } transition-colors duration-500`}>
        <Header searchText={searchText} setSearchText={setSearchText}/>
-       <Outlet searchText={searchText}/>
+       <Outlet context={searchText}/>
        <Footer/>          
         </div>
   )

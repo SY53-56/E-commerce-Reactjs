@@ -9,6 +9,7 @@ import {
 import  {clearCart} from "../features/cart/cartSlice";
 import CartCard  from "../components/CartCard";
 import { useNavigate } from "react-router";
+import { useTheme } from "../context/themeContext";
 
 export default function Cart() {
   const dispatch = useDispatch();
@@ -16,7 +17,7 @@ export default function Cart() {
   const { user } = useSelector((state) => state.auth);
   const navigate = useNavigate()
 //console.log("cartdata",cart.items.map(item=>item.product.name))
-
+ const {theme} = useTheme()
   useEffect(() => {
     if (user) dispatch(getCart());
   }, [dispatch, user]);
@@ -94,7 +95,7 @@ dispatch(removeSingleCart(id))
             </div>
             <button
               onClick={handleCheckout}
-              className="w-full mt-4 bg-indigo-600 hover:bg-indigo-700 text-white py-3 rounded-xl font-semibold shadow-lg transition"
+              className={`w-full cursor-pointer mt-4 ${theme ==="light"?"bg-indigo-600 hover:bg-indigo-700":"bg-gray-900 hover:bg-gray-950"}  text-white py-3 rounded-xl font-semibold shadow-lg transition`}
             >
               Checkout
             </button>

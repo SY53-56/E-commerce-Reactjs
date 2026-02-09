@@ -6,14 +6,13 @@ import FilterProduct from "../components/FilterProduct";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-import { Link, useOutletContext } from "react-router";
+import { Link, useNavigate, useOutletContext } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { allProductShow } from "../features/product/productThunk";
 import { useTheme } from "../context/themeContext";
 import CategoriesProduct from "../components/CategoriesProduct";
-
-
+import debounce from "../uitiltes/uitiltes"
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -21,8 +20,9 @@ export default function Home() {
   const containerRef = useRef(null);
   const dispatch = useDispatch();
   const { theme } = useTheme();
+  const navigate = useNavigate()
   const searchText = useOutletContext();
- const [apiDAta, setApiData]= useState([])
+ const [apiData, setApiData]= useState([])
   const { products, status,  totalPages , } = useSelector((state) => state.products);
   const { user,users } = useSelector((state) => state.auth);
  console.log("user",user)
@@ -68,6 +68,24 @@ console.log("usersdatabsndjds",users)
     return () => ctx.revert();
   }, []);
 console.log(products)
+ const debounceData = useRef(
+  debounce((value)=>{
+    console.log("sahul",value)
+   let filterData = products.filter(item=>item.name.toLowerCase().includes(value.toLowerCase()) || item.category.toLowerCase().includes(value.toLowerCase()))
+   console.log("filterSearch",filterData)
+   setApiData(filterData)
+  },500)
+ ).current
+ console.log( "search input",searchText)
+ useEffect(() => {
+  if (searchText) {
+    debounceData(searchText);
+  } else{
+    setApiData(products)
+  }
+}, [searchText, products]);
+
+ console.log("debounce data",apiData)
   /* ================= SEARCH ================= */
   //const filteredProducts = products?.filter((p) =>p.name?.toLowerCase().includes(searchText?.toLowerCase() || ""));
  // console.log(filteredProducts)
