@@ -128,12 +128,12 @@ console.log("userdata",user)
           <button onClick={toggleMenuHandler} className="self-end text-2xl font-bold">X</button>
           </div>
      
-          <div className="flex items-center gap-2 border rounded-lg px-2 py-1">
+          <div className="flex items-center gap-2 border rounded-lg bg-white px-2 py-1">
         <Input type="text" name="search" placeholder="search..."    value={searchText}
-  onChange={(e) => setSearchText(e.target.value)}className="w-full outline-none px-1"/>
-            <Search size={22} />
+  onChange={(e) => setSearchText(e.target.value)} className="w-full text-black text-gray-900 focus:ring-gray-900   bg-white fou border-none outline-0 outline-none px-3"/>
+            <Search className="text-black" size={22} />
           </div>
-        {user &&  <p>{user.username}</p>}
+        {user &&  <p className="text-2xl font-bold">{user.username}</p>}
           <div className="flex items-center gap-2 cursor-pointer" onClick={toggleTheme}>
             {theme === "light" ? <Moon size={22} /> : <Sun size={22} />}
             <span>Toggle Theme</span>

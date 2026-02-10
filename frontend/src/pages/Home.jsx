@@ -105,11 +105,11 @@ console.log(products)
     <>
       <div ref={containerRef}>
         {/* HERO */}
-        <section className="section1 relative ">
-          <Poster />
-        </section>
+       
       
-        {/* PRODUCTS */}
+        {/*  <section className="section1 relative ">
+          <Poster />
+        </section>*/}
 
 <CategoriesProduct category={category}/>
 
