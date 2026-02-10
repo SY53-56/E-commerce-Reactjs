@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Menu, Moon, Sun, Search, ShoppingCart, LayoutDashboardIcon, LayoutDashboard, FormIcon } from "lucide-react";
+import { Menu, Moon, Sun, Search, ShoppingCart, LayoutDashboardIcon, LayoutDashboard, FormIcon , EllipsisVerticalIcon } from "lucide-react";
 import Button from "./Button";
 import { useTheme } from "../context/themeContext.jsx";
 import { NavLink,Link } from "react-router-dom";
@@ -16,6 +16,7 @@ export default function Header({ searchText, setSearchText }) {
   const {products} = useSelector((state)=> state.products)
   const dispatch = useDispatch();
   const navigate = useDispatch()
+  const [showItem , setShowItem] = useState(false)
 console.log("cart",cart)
 console.log("userdata",user)
   const toggleMenuHandler = () => setShowMenu(prev => !prev);
@@ -28,11 +29,13 @@ console.log("userdata",user)
     if (user) dispatch(getCart());
   }, [dispatch, user]);
   
- 
+ const handleItem = ()=>{
+  setShowItem(prev => !prev)
+ }
 
   return (
     <header
-      className={`flex justify-between items-center   py-5 px-3 lg:px-20 sticky  border-b transition-colors duration-500
+      className={`flex z-50 justify-between items-center   py-5 px-3 lg:px-20 sticky  border-b transition-colors duration-500
         ${theme === "light" ? "bg-indigo-600 text-white" : "bg-gray-900 text-gray-100"}`}
     >
       {/* Logo + Hamburger */}
@@ -79,8 +82,7 @@ console.log("userdata",user)
         {/* Cart + Auth */}
         {user ? (
           <div className="flex items-center gap-4">
-            {user.role ==="admin" &&(<div className="flex gap-1.5"><Link to="/add">add project</Link>  
-             <Link to={`/user/${user.id}`}><LayoutDashboardIcon/></Link></div>)}
+  
          
             <NavLink to="/cart" className="relative">
               <ShoppingCart size={28} />
@@ -101,6 +103,16 @@ console.log("userdata",user)
             <Button to="/signup" className="bg-pink-500 px-4 py-2 rounded-lg text-white" name="Signup" />
           </>
         )}
+        <  EllipsisVerticalIcon onClick={handleItem}  className="cursor-pointer relative"/>
+        {showItem &&
+         <div className="border absolute top-20  right-18 w-52 bg-white shadow-2xl  z-[999] rounded-md  h-32">
+    {user && (
+      <div className="flex flex-col px-6 py-5"> 
+        {user.role ==="admin" &&(<div className="flex flex-col gap-4 text-black"><Link className="flex gap-2" to="/add"><FormIcon/> add project</Link>  
+             <Link to={`/user/${user.id}`} className="flex gap-2"> <LayoutDashboardIcon/> Dashboard</Link></div>)}</div>
+    )}
+         </div>
+        }
       </div>
 
       {/* Mobile Menu */}
