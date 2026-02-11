@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Menu, Moon, Sun, Search, ShoppingCart, LayoutDashboardIcon, LayoutDashboard, FormIcon , EllipsisVerticalIcon } from "lucide-react";
+import { Menu, Moon, Sun, Search, ShoppingCart, LayoutDashboardIcon, LayoutDashboard, FormIcon , EllipsisVerticalIcon, SaveAllIcon } from "lucide-react";
 import Button from "./Button";
 import { useTheme } from "../context/themeContext.jsx";
 import { NavLink,Link } from "react-router-dom";
@@ -105,11 +105,20 @@ console.log("userdata",user)
         )}
         <  EllipsisVerticalIcon onClick={handleItem}  className="cursor-pointer relative"/>
         {showItem &&
-         <div className="border absolute top-20  right-18 w-52 bg-white shadow-2xl  z-[999] rounded-md  h-32">
+         <div className="border absolute top-20  right-18 w-52 bg-white shadow-2xl  z-[999] rounded-md  h-auto">
     {user && (
       <div className="flex flex-col px-6 py-5"> 
-        {user.role ==="admin" &&(<div className="flex flex-col gap-4 text-black"><Link className="flex gap-2" to="/add"><FormIcon/> add project</Link>  
-             <Link to={`/user/${user.id}`} className="flex gap-2"> <LayoutDashboardIcon/> Dashboard</Link></div>)}</div>
+        {user.role ==="admin" &&(<div className="flex flex-col gap-4 text-black"><Link className="flex gap-2 hover:bg-gray-300 px-4 py-1 transition-all duration-500 rounded-lg" to="/add"><FormIcon/> add project</Link>  
+             <Link to={`/user/${user.id}`} className="flex gap-2 hover:bg-gray-300 px-4 py-1 rounded-lg transition-all duration-500"> <LayoutDashboardIcon/> Dashboard</Link>
+             <Link to={`/saveItem/${user.id}`} className="flex gap-2 hover:bg-gray-300 px-4 py-1 rounded-lg transition-all duration-500" ><SaveAllIcon/> SaveProduct  </Link>
+             </div>
+             
+            )
+               
+             }
+             
+             </div>
+             
     )}
          </div>
         }
@@ -134,13 +143,13 @@ console.log("userdata",user)
             <Search className="text-black" size={22} />
           </div>
         {user &&  <p className="text-2xl font-bold">{user.username}</p>}
-          <div className="flex items-center gap-2 cursor-pointer" onClick={toggleTheme}>
+          <div className="flex items-center gap-2 cursor-pointer  hover:bg-gray-300  rounded-lg transition-all duration-500" onClick={toggleTheme}>
             {theme === "light" ? <Moon size={22} /> : <Sun size={22} />}
             <span>Toggle Theme</span>
           </div>
 
        
-            <Link to={`/cart`} className="flex items-center gap-2">
+            <Link to={`/cart`} className="flex items-center gap-2 cursor-pointer  hover:bg-gray-300  rounded-lg transition-all duration-500">
             <ShoppingCart size={22} />
             <span>Cart: {cart?.items?.length || 0}</span>
             </Link>
@@ -150,16 +159,17 @@ console.log("userdata",user)
             
             <div className="flex flex-col gap-4">
              
-              <Link to={`/user/${user.id}`}  className="flex items-center gap-2">
+              <Link to={`/user/${user.id}`}  className="flex items-center gap-2  hover:bg-gray-300  rounded-lg transition-all duration-500">
                  <LayoutDashboard size={22}/>
                 <p>DashBord</p>
               </Link>
            
-           <Link to={"/add"} className="flex items-center gap-2">
+           <Link to={"/add"} className="flex items-center gap-2  hover:bg-gray-300  rounded-lg transition-all duration-500">
            <FormIcon/>
            <p>Add product</p>
           
            </Link>
+                        <Link to={`/saveItem/${user.id}`} className="flex items-center gap-2 hover:bg-gray-300  rounded-lg transition-all duration-500" ><SaveAllIcon/> SaveProduct  </Link>
               
               <Button onClick={logoutApi} className="bg-red-500 px-4 py-2 rounded-lg text-white" name="Logout" />
             </div>

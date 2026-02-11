@@ -17,6 +17,7 @@ import { Toaster } from "react-hot-toast";
 import Product from './pages/Product'
 import Products from './pages/Products'
 import DashBoard from './pages/DashBoard'
+import SaveProductPage from './pages/SaveProductPage'
 
 function App() {
 
@@ -38,6 +39,7 @@ function App() {
           <Route path='/userProfile' element={<UserProfile/>} />
           <Route path='/products/:category' element={<Products/>} />
           <Route path="/user/:id"  element={<DashBoard/>}/>
+          <Route path="/saveItem/:id" element={<SaveProductPage/>}/>
       </Route>  
           <Route path="/signup" element={<SignupPage/>} />
         <Route  path='/login' element={<Login/>}/>
