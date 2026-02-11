@@ -73,7 +73,7 @@ console.log("products",currentProduct)
   (user.id === currentProduct?.userAdmin?._id ||
    user.id === currentProduct?.userAdmin);
 
-console.log(user.id)
+
 console.log("ghkdjhdcc",currentProduct?.userAdmin._id)
    console.log( 'onwer',isOnwer)
    console.log("user product", user)

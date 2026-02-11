@@ -69,10 +69,16 @@ sessionStorage.removeItem("token")
       .addCase(saveProduct.pending,(state)=>{
         state.loading = true
       })
-      .addCase(saveProduct.fulfilled,(state , action)=>{
-        state.loading = false
-        state.save = action.payload
-        state.error = action.payload
+     .addCase(saveProduct.fulfilled, (state, action) => {
+        state.loading = false;
+
+        // Backend returns updated user with populated saveItem
+        state.user = action.payload;
+
+        sessionStorage.setItem(
+          "user",
+          JSON.stringify(action.payload)
+        );
       })
       .addCase(saveProduct.rejected,(state,action)=>{
           state.loading = false;

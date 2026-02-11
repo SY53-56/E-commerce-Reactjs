@@ -129,6 +129,7 @@ const userLogout = async (req, res) => {
   }
 };
 
+
 const saveItems = async(req,res)=>{
 try{
 
@@ -137,12 +138,16 @@ try{
     const user = await UserModel.findById(userId)
     if(!user) return res.status(500).json({message:"please login first"})
       
-      const isaved = UserModel.saveItem.map(id=> id.toString().includes(ProductId))
+   const isSaved = user.saveItem.some(
+      (id) => id.toString() === ProductId.toString()
+    );
        
-      
-      const updateItem = await UserModel.findByIdAndUpdate(userId , isaved?{$pull:{saveItem:ProductId}}:
+      console.log(isSaved)
+        console.log( "productsId",ProductId)
+          console.log(user)
+      const updateItem = await UserModel.findByIdAndUpdate(userId , isSaved?{$pull:{saveItem:ProductId}}:
         {$addToSet:{saveItem:ProductId}},
-        {new:true}).select("-password").populate({path:"saveItem" , populate:{path:"user"},})
+        {new:true}).select("-password").populate({path:"saveItem" , populate:{path:"userAdmin"},})
 
         res.status(200).json(updateItem)
 }catch(e){

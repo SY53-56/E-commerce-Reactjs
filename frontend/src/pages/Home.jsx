@@ -5,7 +5,7 @@ import FilterProduct from "../components/FilterProduct";
 
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-
+import toast from "react-hot-toast";
 import { Link, useNavigate, useOutletContext } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
@@ -13,7 +13,9 @@ import { allProductShow } from "../features/product/productThunk";
 import { useTheme } from "../context/themeContext";
 import CategoriesProduct from "../components/CategoriesProduct";
 import debounce from "../uitiltes/uitiltes"
-
+import { addCart } from "../features/cart/cartThunk";
+import  { useCallback } from "react";
+import { saveProduct } from "../features/auth/authThunk";
 gsap.registerPlugin(ScrollTrigger);
 
 export default function Home() {
@@ -23,8 +25,8 @@ export default function Home() {
   const navigate = useNavigate()
   const searchText = useOutletContext();
  const [apiData, setApiData]= useState([])
-  const { products, status,  totalPages , } = useSelector((state) => state.products);
-  const { user,users } = useSelector((state) => state.auth);
+  const { products, status,  totalPages , loading } = useSelector((state) => state.products);
+  const { user,users , save} = useSelector((state) => state.auth);
  console.log("user",user)
   const [currentPage, setCurrentPage] = useState(1);
  console.log("hcgzhcjzjklz",products)
@@ -33,7 +35,7 @@ export default function Home() {
     dispatch(allProductShow({ page: currentPage , limit: 20 }));
   }, [dispatch, currentPage]);
 
-
+console.log("sahul sacved" ,save)
  console.log("productsjdhjkdfjkd  12222", products)
 console.log("usersdatabsndjds",users)
   useEffect(()=>{
@@ -77,15 +79,39 @@ console.log(products)
   },500)
  ).current
  console.log( "search input",searchText)
- useEffect(() => {
+ 
+ { /*useEffect(() => {
   if (searchText) {
     debounceData(searchText);
   } else{
     setApiData(products)
   }
-}, [searchText, products]);
+}, [searchText, products])*/}
 
- console.log("debounce data",apiData)
+
+  const handleAddToCart = useCallback(
+    async (id) => {
+      if (!user) return toast.error("Please login first");
+
+      try {
+        await dispatch(addCart({ productId: id })).unwrap();
+        toast.success("Added to cart 🛒");
+      } catch (err) {
+        toast.error("Something went wrong" , err);
+      }
+    },
+    [dispatch, user]
+  );
+const handleSaveProduct = useCallback(
+  (id) => {
+    if (!user) return toast.error("Please login first");
+
+    dispatch(saveProduct(id));
+    toast.success("Saved successfully ❤️");
+  },
+  [dispatch, user]
+);
+
   /* ================= SEARCH ================= */
   //const filteredProducts = products?.filter((p) =>p.name?.toLowerCase().includes(searchText?.toLowerCase() || ""));
  // console.log(filteredProducts)
@@ -117,7 +143,7 @@ console.log(products)
         <section className="px-4 lg:px-20 py-10">
           <h2 className="text-3xl font-bold mb-4">🛍️ All Products</h2>
 {Array.isArray(products) && products.length > 0 ? (
-  <Card products={products} user={user}/>
+  <Card products={products} user={user} addCart={handleAddToCart} loading={loading} onSave={handleSaveProduct}/>
 ) : (
   <p>No product</p>
 )}
