@@ -129,4 +129,26 @@ const userLogout = async (req, res) => {
   }
 };
 
-module.exports = { userRegister, userLogin, userLogout,usersData };
+const saveItems = async(req,res)=>{
+try{
+
+      const userId = req.user.id
+    const  {ProductId} = req.body
+    const user = await UserModel.findById(userId)
+    if(!user) return res.status(500).json({message:"please login first"})
+      
+      const isaved = UserModel.saveItem.map(id=> id.toString().includes(ProductId))
+       
+      
+      const updateItem = await UserModel.findByIdAndUpdate(userId , isaved?{$pull:{saveItem:ProductId}}:
+        {$addToSet:{saveItem:ProductId}},
+        {new:true}).select("-password").populate({path:"saveItem" , populate:{path:"user"},})
+
+        res.status(200).json(updateItem)
+}catch(e){
+  res.status(500).json({message:e.message})
+}
+
+}
+
+module.exports = { userRegister, userLogin, userLogout,usersData , saveItems };

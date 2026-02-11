@@ -37,3 +37,11 @@ export const userData = createAsyncThunk("user/data" ,async(_, {rejectWithValue}
       return rejectWithValue(e.response?.data?.message || e.message);
   }
 })
+export const saveProduct = createAsyncThunk("save/product",async(id, {rejectWithValue})=>{
+    try{
+     const res = await API.put(`/user/saveProduct/${id}`)
+     return res.data
+    }catch(e){
+       return rejectWithValue(e.response?.data?.message || e.message);
+    }
+})
