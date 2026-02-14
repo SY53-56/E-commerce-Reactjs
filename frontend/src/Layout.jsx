@@ -10,7 +10,8 @@ export default function Layout() {
   return (
     <div  className={`min-h-screen ${
           theme === "dark" ? "bg-gray-900 text-white" : "bg-gray-50 text-gray-900"
-        } transition-colors duration-500`}>
+        } transition-colors transi 
+        duration-100`}>
        <Header searchText={searchText} setSearchText={setSearchText}/>
        <Outlet context={searchText}/>
        <Footer/>          

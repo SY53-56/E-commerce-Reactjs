@@ -36,7 +36,7 @@ function Card({ products = [], user, onAddToCart, onSave, loading }) {
                   <img
                     src={imageUrl}
                     alt={p?.name}
-                    className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                    className="w-full h-full object-cover hover:scale-105  rounded-md transition-transform duration-300"
                   />
                 </div>
               </Link>

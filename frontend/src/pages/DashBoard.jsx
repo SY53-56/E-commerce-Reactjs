@@ -6,10 +6,12 @@ import {  useDispatch, useSelector } from "react-redux";
 import { userData } from "../features/auth/authThunk";
 import Products from "../components/dashboard/Products";
 import { allProductShow } from "../features/product/productThunk";
+import { useTheme } from "../context/themeContext";
 export default function Dashboard() {
   const {products} = useSelector(state=>state.products)
   const {users} = useSelector(state=> state.auth)
   const dispatch= useDispatch()
+  const {theme}= useTheme()
   console.log(products)
   console.log("ydtufayfdaoudysauydusadysuydusydusa",products)
  function sortProduct(products = []) {
@@ -33,7 +35,7 @@ useEffect(() => {
 
   return (
     <div className="min-h-screen w-full flex gap-8">
-      <aside className="w-72 border-black border px-10 py-7 bg-gray-950 text-white h-screen">
+      <aside className={`w-72 border-black border px-10 py-7 ${theme === "dark"?"bg-gray-950":"bg-blue-700"}  text-white h-screen`}>
          <h1 className="text-3xl font-bold text-yellow-500">Admin Panal</h1>
          <div className="mt-10 flex flex-col items-startm gap-5 justify-center">
         <MenuItem icon={<LayoutDashboard/>}  label="DashBord"/>

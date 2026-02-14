@@ -29,7 +29,7 @@ export default function CategoriesProduct({ category = [] }) {
               </div>
 
               {/* Label */}
-              <div className={`py-3 text-center font-semibold capitalize ${theme ==="light"?"bg-indigo-600":"bg-amber-400"}  text-white`}>
+              <div className={`py-3 text-center delay-150 font-semibold capitalize ${theme ==="light"?"bg-indigo-600":"bg-amber-400"}  text-white`}>
                 {item.cate}
               </div>
 

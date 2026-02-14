@@ -12,11 +12,12 @@ import Button from "../components/Button";
 import { productPageAnimation } from "../animations/ProductPageAnimation";
 import toast from "react-hot-toast";
 import ProductPageSkeleton from "../components/ProductPageSkeleton";
+import { useTheme } from "../context/themeContext";
 export default function ProductPage() {
   const dispatch = useDispatch();
   const { id } = useParams();
   const pageRef = useRef(null);
-
+ const {theme} = useTheme()
   const { currentProduct, products, status, error } = useSelector(
     (state) => state.products
   );
@@ -97,11 +98,11 @@ if (status === "loading") {
 
         {/* LEFT: IMAGE */}
         <div>
-          <div className="bg-gray-100 rounded-2xl flex items-center justify-center h-[420px]">
+          <div className=" flex items-center justify-center h-[420px]">
             <img
               src={currentProduct.image[0]}
               alt={currentProduct.name}
-              className="h-full object-contain transition-transform hover:scale-105"
+              className="h-full object-contain rounded-lg transition-transform hover:scale-105"
             />
           </div>
 
@@ -149,7 +150,7 @@ if (status === "loading") {
              <Button
               onClick={handleAddCart}
               name="Add to Cart"
-              className=" px-8 py-3 bg-green-600 hover:bg-green-700 text-white rounded-xl  transition"
+              className={`px-8 py-3 ${theme ==="dark"?"bg-gray-900 hover:bg-gray-950 ":"bg-blue-500 hover:bg-blue-600"}  text-white rounded-xl  transition`}
             />
         {isOnwer && (     <Button to={ `/update/${currentProduct._id}`} className="bg-blue-500  px-8 py-3  rounded-xl text-white hover:bg-blue-600 transition-all duration-500"  name="update"/>)}
             </div> 

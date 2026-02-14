@@ -134,7 +134,7 @@ const saveItems = async(req,res)=>{
 try{
 
       const userId = req.user.id
-    const  {ProductId} = req.body
+    const  {ProductId} = req.params.id;
     const user = await UserModel.findById(userId)
     if(!user) return res.status(500).json({message:"please login first"})
       
@@ -142,9 +142,6 @@ try{
       (id) => id.toString() === ProductId.toString()
     );
        
-      console.log(isSaved)
-        console.log( "productsId",ProductId)
-          console.log(user)
       const updateItem = await UserModel.findByIdAndUpdate(userId , isSaved?{$pull:{saveItem:ProductId}}:
         {$addToSet:{saveItem:ProductId}},
         {new:true}).select("-password").populate({path:"saveItem" , populate:{path:"userAdmin"},})
