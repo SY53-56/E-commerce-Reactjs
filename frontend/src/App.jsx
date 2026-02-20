@@ -14,10 +14,11 @@ import AddProduct from './pages/addProduct'
 import UpdateProduct from './pages/UpdateProduct'
 import ProductPage from './pages/ProductPage'
 import { Toaster } from "react-hot-toast";
-import Product from './pages/Product'
+
 import Products from './pages/Products'
 import DashBoard from './pages/DashBoard'
 import SaveProductPage from './pages/SaveProductPage'
+import ProdcutDiscountPage from './pages/ProductDiscountedPage'
 
 function App() {
 
@@ -35,7 +36,7 @@ function App() {
           <Route path='/add' element={<AddProduct/>}/>
           <Route path="/update/:id" element={<UpdateProduct/>}/>
           <Route path="/product/:id" element={<ProductPage/>} />
-          <Route path="/product/page" element={<Product/>}/>
+          <Route path="/product/page" element={<ProdcutDiscountPage/>}/>
           <Route path='/userProfile' element={<UserProfile/>} />
           <Route path='/products/:category' element={<Products/>} />
           <Route path="/user/:id"  element={<DashBoard/>}/>

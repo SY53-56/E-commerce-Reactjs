@@ -1,27 +1,16 @@
 import React from 'react'
+import Button from './Button'
 
 export default function FilterProduct({ category = [], onSelect }) {
   if (!Array.isArray(category)) return null
-const categoryColors = {
-  clothes: 'bg-blue-400',
-  food: 'bg-green-400',
-  electronics: 'bg-purple-400',
-  game: 'bg-red-400',
-  others: 'bg-gray-400',
-}
 
   
   return (
-    <div className="flex  justify-center mt-10 gap-4 mb-6 flex-wrap">
-      <button onClick={() => onSelect('all')}>
-        All
-      </button>
-
-      {category.map(cat => (
-        <button className={` px-4 ${categoryColors[cat]} py-1 rounded-md`} key={cat} onClick={() => onSelect(cat)}>
-          {cat}
-        </button>
-      ))}
-    </div>
+    <aside className='w-80 h-auto bg-gray-900 px-9 py-4 rounded-3xl'>
+           <h1 className='text-2xl text-center font-bold text-white'>category of product</h1>
+           <div className='flex flex-col gap-5 mt-10'>
+            {category.map(item => (<Button onClick={()=>onSelect(item)} className=" py-2 rounded-lg bg-gray-300 hover:bg-gray-400" name={item}/>))}
+           </div>
+    </aside>
   )
 }

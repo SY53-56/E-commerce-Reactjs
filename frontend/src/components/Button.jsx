@@ -27,7 +27,7 @@ export default function Button({
     <button
       type={type}
       onClick={onClick}
-      className={`${className} cursor-pointer inline-flex items-center justify-center`}
+      className={`${className} cursor-pointer inline-flex items-center transition-all duration-500 justify-center`}
     >
       { name}
     </button>

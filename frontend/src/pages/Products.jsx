@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useSelector } from 'react-redux'
 import { useParams, useNavigate } from 'react-router-dom'
 import Card from '../components/Card'
@@ -27,13 +27,13 @@ export default function Products() {
   }
 console.log("sggshghdagfdfka",filteredProducts)
   return (
-    <div className="px-10">
-      <FilterProduct
+    <div className="px-10 flex gap-11">
+      <div className='mt-7'>
+        <FilterProduct
         category={categories}
         onSelect={handleCategoryChange}
       />
-
-      
+      </div>
       <Card products={filteredProducts}/>
       
     </div>
