@@ -9,7 +9,7 @@ function Card({ products = [], user, onAddToCart, onSave, loading }) {
 
   if (!products.length) {
     return (
-      <p className="text-center text-xl font-semibold text-gray-500">
+      <p className="w-full mt-5 text-3xl text-center font-semibold text-gray-500 ">
         No products found
       </p>
     );

@@ -143,7 +143,7 @@ const handleSaveProduct = useCallback(
         <section className="px-4 lg:px-20 py-10">
           <h2 className="text-3xl font-bold mb-4">🛍️ All Products</h2>
 {Array.isArray(products) && products.length > 0 ? (
-  <Card products={products} user={user} addCart={handleAddToCart} loading={loading} onSave={handleSaveProduct}/>
+  loading ? <CardSkeleton/> : <Card products={products} user={user} addCart={handleAddToCart} loading={loading} onSave={handleSaveProduct}/>
 ) : (
   <p>No product</p>
 )}
