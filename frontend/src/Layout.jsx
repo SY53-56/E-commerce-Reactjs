@@ -1,20 +1,29 @@
-import React,{useState} from 'react'
-import Header from './components/Header'
-import Footer from './components/Footer'
-import { Outlet } from 'react-router'
-import { useTheme } from './context/themeContext'
+import { useState } from "react";
+import { useTheme } from "./context/themeContext";
+import Header from "./components/Header"
+import { Outlet } from "react-router";
+import Footer from "./components/Footer"  
 
 export default function Layout() {
-  const {theme} = useTheme()
-  let [searchText,setSearchText] = useState("")
+  const { theme } = useTheme();
+  let [searchText, setSearchText] = useState("");
+
   return (
-    <div  className={`min-h-screen ${
-          theme === "dark" ? "bg-gray-900 text-white" : "bg-gray-50 text-gray-900"
-        } transition-colors transi 
-        duration-100`}>
-       <Header searchText={searchText} setSearchText={setSearchText}/>
-       <Outlet context={searchText}/>
-       <Footer/>          
-        </div>
-  )
+    <div
+      className={`min-h-screen flex flex-col ${
+        theme === "dark"
+          ? "bg-gray-900 text-white"
+          : "bg-gray-50 text-gray-900"
+      } transition-colors duration-100`}
+    >
+      <Header searchText={searchText} setSearchText={setSearchText} />
+
+      {/* Main Content */}
+      <main className="flex-grow">
+        <Outlet context={searchText} />
+      </main>
+
+      <Footer />
+    </div>
+  );
 }
