@@ -21,15 +21,16 @@ const showProduct = async (req, res) => {
     filter.category = category.toLowerCase()
   }
 
-  if(minPrice || maxPrice){
-    filter.price= {}
-    if(maxPrice) filter.price.$gte = Number(maxPrice)
-      if(minPrice) filter.price.$lte = Number(minPrice)
-  }
+ if (minPrice || maxPrice) {
+  filter.price = {};
+
+  if (minPrice) filter.price.$gte = Number(minPrice);
+  if (maxPrice) filter.price.$lte = Number(maxPrice);
+}
 
  const [product ,total] = await Promise.all([
   Product.find(filter).skip(skip).limit(limit).populate("userAdmin", "username email").select("-__v").lean() , 
-  Product.countDocuments()
+  Product.countDocuments(filter)
  ])
 
     res.status(200).json({ products:product, page , totalProduct:total, totalPages: Math.ceil(total/limit) });

@@ -3,10 +3,10 @@ import API from "../../service/api";
 
 export const allProductShow = createAsyncThunk(
   "product/show",
-  async ({ page = 1, limit = 20 }, { rejectWithValue }) => {
+  async ({ page = 1, limit = 20 , minPrice ,maxPrice,price }, { rejectWithValue }) => {
     try {
       const res = await API.get(
-        `/product?page=${page}&limit=${limit}`
+        `/product?page=${page}&limit=${limit}&minprice${minPrice}&maxPrice${maxPrice}&price=${price}`
       );
       return res.data;
     } catch (e) {

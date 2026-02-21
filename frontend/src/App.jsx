@@ -15,7 +15,7 @@ import UpdateProduct from './pages/UpdateProduct'
 import ProductPage from './pages/ProductPage'
 import { Toaster } from "react-hot-toast";
 
-import Products from './pages/Products'
+import Products from './pages/ProductsCategoryPage'
 import DashBoard from './pages/DashBoard'
 import SaveProductPage from './pages/SaveProductPage'
 import ProdcutDiscountPage from './pages/ProductDiscountedPage'
