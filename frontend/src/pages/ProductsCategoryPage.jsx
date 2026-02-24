@@ -4,13 +4,13 @@ import { useParams, useNavigate } from "react-router-dom";
 import Card from "../components/Card";
 import FilterProduct from "../components/FilterProduct";
 import { allProductShow } from "../features/product/productThunk";
-
+import UseProductActions from "../hooks/UseProductActions";
 export default function ProductsCategoryPage() {
   const { products = [] } = useSelector((state) => state.products);
   const { category } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
+const { handleSave, handleAddToCart } = UseProductActions();
   const [filters, setFilters] = useState({
     category: category || "",
     minPrice: 0,
@@ -74,15 +74,17 @@ console.log(products)
         onSelect={handleCategoryChange}
         onChange={handlePrice}
         value={filters.maxPrice}
+       
       />
     </aside>
 
     {/* Products Section */}
     <main className="flex-1">
-      <Card products={filteredProducts} />
+      <Card products={filteredProducts}  addCart={handleAddToCart} />
     </main>
 
   </div>
 </div>
   );
+  
 }

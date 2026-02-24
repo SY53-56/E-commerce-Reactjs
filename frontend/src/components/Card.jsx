@@ -2,10 +2,14 @@ import React, { memo } from "react";
 import { Link } from "react-router-dom";
 import Button from "./Button";
 import { useTheme } from "../context/themeContext";
-import { Save } from "lucide-react";
 
-function Card({ products = [], user, onAddToCart, onSave, loading }) {
+
+function Card({ products = [], user, addCart, onSave, loading ,isSaveId}) {
   const { theme } = useTheme();
+
+
+ //let isSaved = save.some(p => p.id ===)
+
 
   if (!products.length) {
     return (
@@ -20,7 +24,9 @@ function Card({ products = [], user, onAddToCart, onSave, loading }) {
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {products.map((p) => {
           const imageUrl = p?.image?.[0] ?? "/placeholder.png";
-
+ const isSave = isSaveId?.has(p?._id?.toString())
+   console.log(isSave)
+   console.log( "productid",p._id)
           return (
             <div
               key={p?._id}
@@ -42,7 +48,7 @@ function Card({ products = [], user, onAddToCart, onSave, loading }) {
               </Link>
 
               {user && (
-              <Button name={<Save size={18} />}    className="absolute top-6 cursor-pointer right-6 bg-gray-500 p-2 rounded-md text-white"  onClick={() => onSave(p._id)} />
+              <Button name={ isSave?"saved":"save" }    className="absolute top-6 cursor-pointer right-6 bg-gray-500 p-2 rounded-md text-white"  onClick={(e) => onSave(p?._id,e)} />
                
               )}
 
@@ -56,7 +62,7 @@ function Card({ products = [], user, onAddToCart, onSave, loading }) {
                 </p>
 
                 <Button
-                  onClick={() => onAddToCart(p._id)}
+                  onClick={() => addCart(p._id)}
                   disabled={loading}
                   className="px-3 py-1 rounded-lg bg-green-600 text-white"
                   name={loading ? "Adding..." : "Add Cart"}

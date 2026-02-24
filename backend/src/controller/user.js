@@ -82,7 +82,7 @@ const userLogin = async (req, res) => {
       return res.status(400).json({ message: "All fields are required" });
     }
 
-    const userExist = await UserModel.findOne({ email });
+    const userExist = await UserModel.findOne({ email }).populate("saveItem");
     if (!userExist) {
       return res.status(400).json({ message: "Email not found" });
     }
@@ -108,6 +108,7 @@ const userLogin = async (req, res) => {
         email: userExist.email,
         username: userExist.username,
         role: userExist.role,
+        saveItem: userExist.saveItem
       },
     });
   } catch (e) {
@@ -134,10 +135,10 @@ const saveItems = async(req,res)=>{
 try{
 
       const userId = req.user.id
-    const  {ProductId} = req.params.id;
+    const  ProductId = req.params.id;
     const user = await UserModel.findById(userId)
     if(!user) return res.status(500).json({message:"please login first"})
-      
+      console.log(ProductId)
    const isSaved = user.saveItem.some(
       (id) => id.toString() === ProductId.toString()
     );

@@ -8,7 +8,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import toast from "react-hot-toast";
 import { Link, useNavigate, useOutletContext } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { allProductShow } from "../features/product/productThunk";
 import { useTheme } from "../context/themeContext";
 import CategoriesProduct from "../components/CategoriesProduct";
@@ -16,17 +16,20 @@ import debounce from "../uitiltes/uitiltes"
 import { addCart } from "../features/cart/cartThunk";
 import  { useCallback } from "react";
 import { saveProduct } from "../features/auth/authThunk";
+import UseProductActions from "../hooks/UseProductActions";
 gsap.registerPlugin(ScrollTrigger);
 
 export default function Home() {
   const containerRef = useRef(null);
   const dispatch = useDispatch();
   const { theme } = useTheme();
+  const {handleAddToCart ,handleSave} = UseProductActions()
   const navigate = useNavigate()
   const searchText = useOutletContext();
  const [apiData, setApiData]= useState([])
   const { products, status,  totalPages , loading } = useSelector((state) => state.products);
-  const { user,users , save} = useSelector((state) => state.auth);
+  const { user,users , } = useSelector((state) => state.auth);
+  const {save}= useSelector(state=> state.auth)
  console.log("user",user)
   const [currentPage, setCurrentPage] = useState(1);
  console.log("hcgzhcjzjklz",products)
@@ -88,30 +91,15 @@ console.log(products)
   }
 }, [searchText, products])*/}
 
-
-  const handleAddToCart = useCallback(
-    async (id) => {
-      if (!user) return toast.error("Please login first");
-
-      try {
-        await dispatch(addCart({ productId: id })).unwrap();
-        toast.success("Added to cart 🛒");
-      } catch (err) {
-        toast.error("Something went wrong" , err);
-      }
-    },
-    [dispatch, user]
+const isSavedId = useMemo(() => {
+  return new Set(
+    save?.map((item) =>
+      typeof item === "string" ? item : item._id
+    )
   );
-const handleSaveProduct = useCallback(
-  (id) => {
-    if (!user) return toast.error("Please login first");
+}, [save]);
 
-    dispatch(saveProduct(id));
-    toast.success("Saved successfully ❤️");
-  },
-  [dispatch, user]
-);
-
+ 
   /* ================= SEARCH ================= */
   //const filteredProducts = products?.filter((p) =>p.name?.toLowerCase().includes(searchText?.toLowerCase() || ""));
  // console.log(filteredProducts)
@@ -143,7 +131,8 @@ const handleSaveProduct = useCallback(
         <section className="px-4 lg:px-20 py-10">
           <h2 className="text-3xl font-bold mb-4">🛍️ All Products</h2>
 {Array.isArray(products) && products.length > 0 ? (
-  loading ? <CardSkeleton/> : <Card products={products} user={user} addCart={handleAddToCart} loading={loading} onSave={handleSaveProduct}/>
+  loading ? <CardSkeleton/> : <Card products={products} user={user} addCart={handleAddToCart} loading={loading}
+   onSave={handleSave} isSaveId={isSavedId} />
 ) : (
   <p>No product</p>
 )}

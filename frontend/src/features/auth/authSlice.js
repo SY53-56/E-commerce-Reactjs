@@ -1,10 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { loginUser, saveProduct, signupUser, userData, } from "./authThunk";
 
+ const  savedUser = JSON.parse(sessionStorage.getItem("user"))
 const initialState = {
   users :[],
-  save:[],
-  user:JSON.parse(sessionStorage.getItem("user")) || null,
+  user: savedUser || null,
+  save: savedUser?.saveItem || [],
   loading: false,
   error: null,
 
@@ -71,14 +72,14 @@ sessionStorage.removeItem("token")
       })
      .addCase(saveProduct.fulfilled, (state, action) => {
         state.loading = false;
-
+  state.user= action.payload
         // Backend returns updated user with populated saveItem
-        state.user = action.payload;
-
-        sessionStorage.setItem(
-          "user",
-          JSON.stringify(action.payload)
-        );
+        state.save = action.payload.saveItem
+console.log("PAYLOAD FROM BACKEND:", action.payload);
+    sessionStorage.setItem(
+    "user",
+    JSON.stringify(action.payload)
+  );
       })
       .addCase(saveProduct.rejected,(state,action)=>{
           state.loading = false;

@@ -13,7 +13,7 @@ const userSchema = new mongoose.Schema({
   },
   phone: { type: String },
 
-  saveItem:[{type:mongoose.Types.ObjectId,ref:"product"}]
+  saveItem:[{type:mongoose.Types.ObjectId,ref:"Product"}]
 }, { timestamps: true });
 
 // Create and export the model
