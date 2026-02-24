@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Menu, Moon, Sun, Search, ShoppingCart, LayoutDashboardIcon, LayoutDashboard, FormIcon , EllipsisVerticalIcon, SaveAllIcon } from "lucide-react";
 import Button from "./Button";
 import { useTheme } from "../context/themeContext.jsx";
-import { NavLink,Link } from "react-router-dom";
+import { NavLink,Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../features/auth/authSlice.js";
 import { getCart } from "../features/cart/cartThunk.js";
@@ -15,7 +15,7 @@ export default function Header({ searchText, setSearchText }) {
   const { user } = useSelector((state) => state.auth);
   const {products} = useSelector((state)=> state.products)
   const dispatch = useDispatch();
-  const navigate = useDispatch()
+  const navigate = useNavigate()
   const [showItem , setShowItem] = useState(false)
 console.log("cart",cart)
 console.log("userdata",user)
@@ -33,6 +33,9 @@ console.log("userdata",user)
   setShowItem(prev => !prev)
  }
 
+  const handleNavigate = ()=>{
+    navigate("/search")
+  }
   return (
     <header
       className={`flex z-50 justify-between items-center   py-5 px-3 lg:px-20 sticky  border-b transition-colors duration-500
@@ -51,16 +54,7 @@ console.log("userdata",user)
           value={searchText}
           name="search"
           onChange={(e) => setSearchText(e.target.value)}
-          onKeyDown={(e)=>{
-           if(e.key ==="Enter"){
-  const match = products.find((item)=> item.name.toLowerCase().toString().includes(searchText.toLowerCase().toString()) || item.category.toLowerCase().toString().includes(searchText.toLowerCase().toString()))
-  if(match){
-    navigate("/user")
-  }else{
-       alert("No product found");
-  }
-           }
-          }}
+          onClick={handleNavigate}
           placeholder="Search product..."
           className="w-full outline-none px-2 py-1 text-amber-50"
         />

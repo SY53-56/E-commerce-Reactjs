@@ -4,7 +4,7 @@ import Button from "./Button";
 import { useTheme } from "../context/themeContext";
 
 
-function Card({ products = [], user, addCart, onSave, loading ,isSaveId}) {
+function Card({ products = [], user, addCart, onSave, loading ,isSaveId  , className}) {
   const { theme } = useTheme();
 
 
@@ -21,7 +21,7 @@ function Card({ products = [], user, addCart, onSave, loading ,isSaveId}) {
 
   return (
     <div className="px-6 py-8">
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      <div className={`grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 ${className}`}>
         {products.map((p) => {
           const imageUrl = p?.image?.[0] ?? "/placeholder.png";
  const isSave = isSaveId?.has(p?._id?.toString())

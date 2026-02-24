@@ -79,12 +79,12 @@ console.log(products)
     </aside>
 
     {/* Products Section */}
-    <main className="flex-1">
-      <Card products={filteredProducts}  addCart={handleAddToCart} />
+    <main className="w-full">
+      <Card products={filteredProducts} className="grid grid-1 lg:grid-cols-2"  addCart={handleAddToCart} />
     </main>
 
   </div>
 </div>
   );
-  
+
 }

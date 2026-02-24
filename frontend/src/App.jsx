@@ -19,6 +19,7 @@ import Products from './pages/ProductsCategoryPage'
 import DashBoard from './pages/DashBoard'
 import SaveProductPage from './pages/SaveProductPage'
 import ProdcutDiscountPage from './pages/ProductDiscountedPage'
+import SearchPage from './pages/SearchPage'
 
 function App() {
 
@@ -41,6 +42,7 @@ function App() {
           <Route path='/products/:category' element={<Products/>} />
           <Route path="/user/:id"  element={<DashBoard/>}/>
           <Route path="/saveItem/:id" element={<SaveProductPage/>}/>
+          <Route path="/search" element={<SearchPage/>}/>
       </Route>  
           <Route path="/signup" element={<SignupPage/>} />
         <Route  path='/login' element={<Login/>}/>
@@ -48,5 +50,5 @@ function App() {
     </>
   )
 }
-//mongodb+srv://yadavsahul220_db_user:3nbDPDJJrNbxs7np@e-commerce.zdvtgge.mongodb.net/?appName=e-commerce
+
 export default App
