@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { loginUser, saveProduct, signupUser, userData, } from "./authThunk";
 
  const  savedUser = JSON.parse(sessionStorage.getItem("user"))
+ console.log( "sahul save DAta", savedUser)
 const initialState = {
   users :[],
   user: savedUser || null,

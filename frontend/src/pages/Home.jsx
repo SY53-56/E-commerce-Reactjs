@@ -23,10 +23,10 @@ export default function Home() {
   const containerRef = useRef(null);
   const dispatch = useDispatch();
   const { theme } = useTheme();
-  const {handleAddToCart ,handleSave} = UseProductActions()
-  const navigate = useNavigate()
-  const searchText = useOutletContext();
- const [apiData, setApiData]= useState([])
+  const {handleAddToCart ,handleSave , isSavedId} = UseProductActions()
+
+;
+
   const { products, status,  totalPages , loading } = useSelector((state) => state.products);
   const { user,users , } = useSelector((state) => state.auth);
   const {save}= useSelector(state=> state.auth)
@@ -72,17 +72,7 @@ console.log("usersdatabsndjds",users)
 
     return () => ctx.revert();
   }, []);
-console.log(products)
- const debounceData = useRef(
-  debounce((value)=>{
-    console.log("sahul",value)
-   let filterData = products.filter(item=>item.name.toLowerCase().includes(value.toLowerCase()) || item.category.toLowerCase().includes(value.toLowerCase()))
-   console.log("filterSearch",filterData)
-   setApiData(filterData)
-  },500)
- ).current
- console.log( "search input",searchText)
- 
+
  { /*useEffect(() => {
   if (searchText) {
     debounceData(searchText);
@@ -91,13 +81,7 @@ console.log(products)
   }
 }, [searchText, products])*/}
 
-const isSavedId = useMemo(() => {
-  return new Set(
-    save?.map((item) =>
-      typeof item === "string" ? item : item._id
-    )
-  );
-}, [save]);
+
 
  
   /* ================= SEARCH ================= */

@@ -19,7 +19,7 @@ console.log( "sahul saveProduc",savedProducts)
 
       <div className="w-full">
         {savedProducts.length > 0 ? (
-          <Card products={save} user={user} addCart={handleAddToCart} onSave={handleSave}/>
+          <Card products={savedProducts} user={user} addCart={handleAddToCart} onSave={handleSave}/>
         ) : (
           <p className="text-3xl font-bold text-center">
             There are no saved products
