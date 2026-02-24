@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Menu, Moon, Sun, Search, ShoppingCart, LayoutDashboardIcon, LayoutDashboard, FormIcon , EllipsisVerticalIcon, SaveAllIcon } from "lucide-react";
 import Button from "./Button";
 import { useTheme } from "../context/themeContext.jsx";
@@ -16,6 +16,7 @@ export default function Header({ searchText, setSearchText }) {
   const {products} = useSelector((state)=> state.products)
   const dispatch = useDispatch();
   const navigate = useNavigate()
+  const dropDownRef = useRef()
   const [showItem , setShowItem] = useState(false)
 console.log("cart",cart)
 console.log("userdata",user)
@@ -31,11 +32,26 @@ console.log("userdata",user)
   
  const handleItem = ()=>{
   setShowItem(prev => !prev)
+
  }
 
-  const handleNavigate = ()=>{
-    navigate("/search")
-  }
+  useEffect(()=>{
+    const handleClickOutside= (event)=>{
+      if(dropDownRef.current && dropDownRef.current.contains(event.target)){
+        setShowItem(false)
+      }
+
+    }
+    
+    document.addEventListener("click", handleClickOutside);
+
+  return () => {
+    document.removeEventListener("click", handleClickOutside);
+  };
+  },[showItem])
+
+
+
   return (
     <header
       className={`flex z-50 justify-between items-center   py-5 px-3 lg:px-20 sticky  border-b transition-colors duration-500
@@ -54,7 +70,7 @@ console.log("userdata",user)
           value={searchText}
           name="search"
           onChange={(e) => setSearchText(e.target.value)}
-          onClick={handleNavigate}
+       
           placeholder="Search product..."
           className="w-full outline-none px-2 py-1 text-amber-50"
         />
@@ -99,7 +115,7 @@ console.log("userdata",user)
         )}
         <  EllipsisVerticalIcon onClick={handleItem}  className="cursor-pointer relative"/>
         {showItem &&
-         <div className="border absolute top-20  right-18 w-52 bg-white shadow-2xl  z-[999] rounded-md  h-auto">
+         <div ref={dropDownRef} className="border absolute top-20  right-18 w-52 bg-white shadow-2xl  z-[999] rounded-md  h-auto">
     {user && (
       <div className="flex flex-col px-6 py-5"> 
         {user.role ==="admin" &&(<div className="flex flex-col gap-4 text-black"><Link className="flex gap-2 hover:bg-gray-300 px-4 py-1 transition-all duration-500 rounded-lg" to="/add"><FormIcon/> add project</Link>  
@@ -133,7 +149,7 @@ console.log("userdata",user)
      
           <div className="flex items-center gap-2 border rounded-lg bg-white px-2 py-1">
         <Input type="text" name="search" placeholder="search..."    value={searchText}
-  onChange={(e) => setSearchText(e.target.value)} className="w-full text-black text-gray-900 focus:ring-gray-900   bg-white fou border-none outline-0 outline-none px-3"/>
+  onChange={(e) => setSearchText(e.target.value)} className="w-full  text-gray-900 focus:ring-gray-900   bg-white fou border-none outline-0 outline-none px-3"/>
             <Search className="text-black" size={22} />
           </div>
         {user &&  <p className="text-2xl font-bold">{user.username}</p>}
