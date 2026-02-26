@@ -73,21 +73,7 @@ console.log("usersdatabsndjds",users)
     return () => ctx.revert();
   }, []);
 
- { /*useEffect(() => {
-  if (searchText) {
-    debounceData(searchText);
-  } else{
-    setApiData(products)
-  }
-}, [searchText, products])*/}
-
-
-
  
-  /* ================= SEARCH ================= */
-  //const filteredProducts = products?.filter((p) =>p.name?.toLowerCase().includes(searchText?.toLowerCase() || ""));
- // console.log(filteredProducts)
-
 
   const category = [
     {img:"https://www.bing.com/th/id/OIP.ORH_mwC_R1rP2xGViNy_lwHaE8?w=265&h=211&c=8&rs=1&qlt=90&o=6&dpr=1.3&pid=3.1&rm=2", cate:"clothes"},
@@ -108,6 +94,15 @@ console.log("usersdatabsndjds",users)
         {/*  <section className="section1 relative ">
           <Poster />
         </section>*/}
+       <div className="mt-7 px-4 lg:px-24">
+  <div className="w-full mx-auto">
+    <img
+      className="w-full h-60 lg:h-80 object-cover rounded-lg"
+      src="https://images.unsplash.com/vector-1738237080330-b9d0755ede07?q=80&w=1074&auto=format&fit=crop"
+      alt=""
+    />
+  </div>
+</div>
 
 <CategoriesProduct category={category}/>
 

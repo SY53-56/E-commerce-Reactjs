@@ -20,8 +20,8 @@ export default function SearchPage() {
    },400)
 
  debouncedSearch()
-   }, [searchText])
-
+   }, [searchText,products])
+ console.log("searchData", searchData)
   return (
 
         <div className='px-10 py-5'>

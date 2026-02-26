@@ -179,7 +179,7 @@ if (status === "loading") {
 
       {/* RELATED PRODUCTS */}
       <div className="mt-16">
-        <h2 className="text-2xl font-bold mb-6">
+        <h2 className="text-2xl text-black font-bold mb-6">
           Related Products
         </h2>
 

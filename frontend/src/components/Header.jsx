@@ -51,7 +51,10 @@ console.log("userdata",user)
   },[showItem])
 
 
-
+ const handleForm= (value)=>{
+  setSearchText(value)
+  navigate("/search")
+ }
   return (
     <header
       className={`flex z-50 justify-between items-center   py-5 px-3 lg:px-20 sticky  border-b transition-colors duration-500
@@ -69,7 +72,7 @@ console.log("userdata",user)
           type="text"
           value={searchText}
           name="search"
-          onChange={(e) => setSearchText(e.target.value)}
+          onChange={(e) => handleForm(e.target.value)}
        
           placeholder="Search product..."
           className="w-full outline-none px-2 py-1 text-amber-50"

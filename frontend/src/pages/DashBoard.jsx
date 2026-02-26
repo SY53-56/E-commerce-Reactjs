@@ -34,8 +34,8 @@ useEffect(() => {
 }, [dispatch, products?.length , users?.length]);
 
   return (
-    <div className="min-h-screen w-full flex lg:flex-col gap-8">
-      <aside className={`w-72 border-black border hidden  px-10 py-7 ${theme === "dark"?"bg-gray-950":"bg-blue-700"}  text-white h-screen`}>
+    <div className="min-h-screen w-full flex lg:flex-row gap-8">
+      <aside className={`w-72 border-black border hidden lg:flex lg:flex-col  px-10 py-7 ${theme === "dark"?"bg-gray-950":"bg-blue-700"}  text-white h-screen`}>
          <h1 className="text-3xl font-bold text-yellow-500">Admin Panal</h1>
          <div className="mt-10 flex flex-col items-startm gap-5 justify-center">
         <MenuItem icon={<LayoutDashboard/>}  label="DashBord"/>
