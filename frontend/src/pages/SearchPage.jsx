@@ -20,7 +20,7 @@ export default function SearchPage() {
    },400)
 
  debouncedSearch()
-   }, [searchText, products])
+   }, [searchText])
 
   return (
 

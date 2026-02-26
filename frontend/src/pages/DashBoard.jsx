@@ -34,8 +34,8 @@ useEffect(() => {
 }, [dispatch, products?.length , users?.length]);
 
   return (
-    <div className="min-h-screen w-full flex gap-8">
-      <aside className={`w-72 border-black border px-10 py-7 ${theme === "dark"?"bg-gray-950":"bg-blue-700"}  text-white h-screen`}>
+    <div className="min-h-screen w-full flex lg:flex-col gap-8">
+      <aside className={`w-72 border-black border hidden  px-10 py-7 ${theme === "dark"?"bg-gray-950":"bg-blue-700"}  text-white h-screen`}>
          <h1 className="text-3xl font-bold text-yellow-500">Admin Panal</h1>
          <div className="mt-10 flex flex-col items-startm gap-5 justify-center">
         <MenuItem icon={<LayoutDashboard/>}  label="DashBord"/>
@@ -44,10 +44,10 @@ useEffect(() => {
         <MenuItem  icon={<Users/>} label="users"/>
          </div>
       </aside>
-      <div className="flex-col w-full flex mt-12 gap-10 px-28">
+      <div className="flex-col w-full flex mt-12 gap-10 px-10 lg:px-28">
         <div className="flex justify-between">
           <h1 className="text-5xl font-bold text-amber-50">DashBoard overview</h1>
-          <h1>Company Data</h1>
+          <h1 className="hidden lg:flex">Company Data</h1>
         </div>
         <div className="flex w-full gap-6 justify-between">
           <StateCard title="products" value={products?.length ||0}/>
