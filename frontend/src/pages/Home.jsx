@@ -5,42 +5,37 @@ import FilterProduct from "../components/FilterProduct";
 
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import toast from "react-hot-toast";
-import { Link, useNavigate, useOutletContext } from "react-router";
+
+import { Link} from "react-router";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { allProductShow } from "../features/product/productThunk";
-import { useTheme } from "../context/themeContext";
+
 import CategoriesProduct from "../components/CategoriesProduct";
-import debounce from "../uitiltes/uitiltes"
-import { addCart } from "../features/cart/cartThunk";
-import  { useCallback } from "react";
-import { saveProduct } from "../features/auth/authThunk";
+
 import UseProductActions from "../hooks/UseProductActions";
 gsap.registerPlugin(ScrollTrigger);
 
 export default function Home() {
   const containerRef = useRef(null);
   const dispatch = useDispatch();
-  const { theme } = useTheme();
+
   const {handleAddToCart ,handleSave , isSavedId} = UseProductActions()
 
 ;
 
   const { products, status,  totalPages , loading } = useSelector((state) => state.products);
-  const { user,users , } = useSelector((state) => state.auth);
-  const {save}= useSelector(state=> state.auth)
- console.log("user",user)
+  const { user } = useSelector((state) => state.auth);
+  
+
   const [currentPage, setCurrentPage] = useState(1);
- console.log("hcgzhcjzjklz",products)
+
   /* ================= FETCH PRODUCTS ================= */
   useEffect(() => {
     dispatch(allProductShow({ page: currentPage , limit: 20 }));
   }, [dispatch, currentPage]);
 
-console.log("sahul sacved" ,save)
- console.log("productsjdhjkdfjkd  12222", products)
-console.log("usersdatabsndjds",users)
+
   useEffect(()=>{
     const handleScroll= ()=>{
       const bottom =  window.innerHeight+ window.scrollY>= document.documentElement.scrollHeight-200

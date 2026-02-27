@@ -38,7 +38,7 @@ function App() {
           <Route path="/update/:id" element={<UpdateProduct/>}/>
           <Route path="/product/:id" element={<ProductPage/>} />
           <Route path="/product/page" element={<ProdcutDiscountPage/>}/>
-          <Route path='/userProfile' element={<UserProfile/>} />
+          <Route path='/userProfile/:id' element={<UserProfile/>} />
           <Route path='/products/:category' element={<Products/>} />
           <Route path="/user/:id"  element={<DashBoard/>}/>
           <Route path="/saveItem/:id" element={<SaveProductPage/>}/>

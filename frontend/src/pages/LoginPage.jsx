@@ -15,7 +15,7 @@ import { loginUser } from "../features/auth/authThunk.js";
     email:"",
     password:""
   })
-  console.log("from",form)
+ 
   const navigate= useNavigate()
   const dispatch=useDispatch()
     const formHandle=(e)=>{

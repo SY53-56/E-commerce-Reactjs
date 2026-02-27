@@ -21,7 +21,7 @@ export default function SearchPage() {
 
  debouncedSearch()
    }, [searchText,products])
- console.log("searchData", searchData)
+
   return (
 
         <div className='px-10 py-5'>

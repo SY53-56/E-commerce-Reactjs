@@ -1,103 +1,60 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from "react-router-dom";
+import Button from '../components/Button';
+import { Package2Icon, LayoutDashboard, FormIcon } from 'lucide-react';
+import { useDispatch, useSelector } from 'react-redux';
+import { allProductShow } from '../features/product/productThunk';
+import Card from '../components/Card';
+import UserDashboard from '../components/dashboard/userDashboard';
 export default function UserProfile() {
+const [isActiveTab ,setIsActiveTab ] = useState("product")
+  const {user} = useSelector(state => state.auth)
+  const { products} = useSelector(state=> state.products)
+ const dispatch = useDispatch()
+  console.log("user", user)
+  console.log("product", products)
+  const handleShowDashboard = ()=>{ 
+     setIsActiveTab("dashboard")
+  }
+ 
+  const handleShowProduct= ()=>{
+    setIsActiveTab("product")
+  }
+
   return (
-
-
-
-
-    <div className="bg-gray-50">
-      {/* HERO SECTION */}
-      <section className="max-w-7xl mx-auto px-4 py-16 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-        <div className="space-y-6">
-          <h1 className="text-4xl lg:text-5xl font-bold text-gray-900">
-            Discover Products That Fit Your Lifestyle
-          </h1>
-          <p className="text-gray-600 text-lg">
-            Shop the latest trends with unbeatable prices and fast delivery.
-          </p>
-          <div className="flex gap-4">
-            <Link
-              to="/shop"
-              className="px-6 py-3 bg-indigo-600 text-white rounded-xl hover:bg-indigo-700 transition"
-            >
-              Shop Now
-            </Link>
-            <Link
-              to="/deals"
-              className="px-6 py-3 border border-gray-300 rounded-xl hover:bg-gray-100 transition"
-            >
-              View Deals
-            </Link>
-          </div>
-        </div>
-
-        <div className="relative">
-          <img
-            src="https://images.unsplash.com/photo-1523275335684-37898b6baf30"
-            alt="Hero"
-            className="rounded-2xl shadow-lg"
-          />
-        </div>
-      </section>
-
-      {/* CATEGORIES */}
-      <section className="max-w-7xl mx-auto px-4 py-12">
-        <h2 className="text-2xl font-bold text-gray-900 mb-6">Shop by Category</h2>
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-6">
-          {['Electronics','Fashion','Shoes','Home','Beauty','Sports'].map(cat => (
-            <div
-              key={cat}
-              className="bg-white p-4 rounded-xl text-center shadow hover:shadow-lg transition cursor-pointer"
-            >
-              <p className="font-semibold text-gray-800">{cat}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* FEATURED PRODUCTS */}
-      <section className="max-w-7xl mx-auto px-4 py-12">
-        <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-bold text-gray-900">Featured Products</h2>
-          <Link to="/shop" className="text-indigo-600 hover:underline">
-            View all
-          </Link>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {[1,2,3,4].map(item => (
-            <div key={item} className="bg-white rounded-2xl shadow hover:shadow-xl transition">
-              <img
-                src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e"
-                alt="Product"
-                className="rounded-t-2xl h-48 w-full object-cover"
-              />
-              <div className="p-4 space-y-2">
-                <h3 className="font-semibold text-gray-800">Product Name</h3>
-                <p className="text-indigo-600 font-bold">₹1999</p>
-                <button className="w-full mt-2 bg-indigo-600 text-white py-2 rounded-lg hover:bg-indigo-700 transition">
-                  Add to Cart
-                </button>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* PROMO BANNER */}
-      <section className="max-w-7xl mx-auto px-4 py-16">
-        <div className="bg-indigo-600 rounded-3xl p-10 text-white flex flex-col lg:flex-row justify-between items-center gap-6">
-          <h2 className="text-3xl font-bold">Big Sale – Up to 50% Off</h2>
-          <Link
-            to="/shop"
-            className="bg-white text-indigo-600 px-6 py-3 rounded-xl font-semibold hover:bg-gray-100"
-          >
-            Grab the Deal
-          </Link>
-        </div>
-      </section>
-    </div>
+       <section className='w-full px-7 lg:px-20 my-10 flex gap-8'>
+          <aside className='w-72 h-screen rounded-md px-6 py-9 bg-gray-950 shadow-lg shadow-gray-600'>
+               <div className='flex flex-col items-center'>
+                 <h1 className='text-center text-3xl bg-blue-800 rounded-full px-5 py-3'>{user.username.charAt(0)}</h1>
+                 <p>{user?.username}</p>
+               </div>
+               <div className='flex flex-col gap-5 mt-10'>
+     <div className='flex w-full gap-2 justify-center cursor-pointer bg-gray-200 py-2 rounded-md text-black hover:bg-gray-400'>
+        <Package2Icon/>
+          <Button onClick={handleShowProduct} className="" name="product"/>
+     </div>
+       <div className='flex w-full gap-2 justify-center cursor-pointer bg-gray-200 py-2 rounded-md text-black hover:bg-gray-400'>
+        <LayoutDashboard/>
+          <Button onClick={handleShowDashboard} className="" name="dashBoard"/>
+     </div>
+       
+             <div className='flex w-full gap-2 justify-center cursor-pointer bg-gray-200 py-2 rounded-md text-black hover:bg-gray-400'>
+        <FormIcon/>
+          <Button to="/add" className="" name="Add products"/>
+     </div>
+               </div>
+          </aside>
+          {isActiveTab === "product" && (
+            <main className=''>
+                {products.length ===0 ?(<p>there are no product</p>):(<Card products={products} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"/>)}
+          </main>
+          )}
+         {isActiveTab ==="dashboard" && (
+           <main>
+          <UserDashboard/>
+          </main>
+         )}
+       </section>
   );
 }
 

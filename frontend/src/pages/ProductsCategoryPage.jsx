@@ -10,7 +10,7 @@ export default function ProductsCategoryPage() {
   const { category } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-const { handleSave, handleAddToCart } = UseProductActions();
+const {  handleAddToCart } = UseProductActions();
   const [filters, setFilters] = useState({
     category: category || "",
     minPrice: 0,
@@ -48,9 +48,7 @@ const filteredProducts = useMemo(() => {
     (p) => p.category === filters.category 
   );
 }, [products, filters.category]);
-  console.log(filteredProducts)
-console.log("filetr",filters)
-console.log(products)
+
   // Price Change (trigger API immediately)
   const handlePrice = (e) => {
     const value = Number(e.target.value);

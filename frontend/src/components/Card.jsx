@@ -21,7 +21,7 @@ function Card({ products = [], user, addCart, onSave, loading ,isSaveId  , class
 
   return (
     <div className="px-6 py-8">
-      <div className={`grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 ${className}`}>
+      <div className={` ${className|| `grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6`}`}>
         {products.map((p) => {
           const imageUrl = p?.image?.[0] ?? "/placeholder.png";
  const isSave = isSaveId?.has(p?._id?.toString())

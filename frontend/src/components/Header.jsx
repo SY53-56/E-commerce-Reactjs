@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Menu, Moon, Sun, Search, ShoppingCart, LayoutDashboardIcon, LayoutDashboard, FormIcon , EllipsisVerticalIcon, SaveAllIcon } from "lucide-react";
+import { Menu, Moon, Sun, Search, ShoppingCart, LayoutDashboardIcon, LayoutDashboard, FormIcon , EllipsisVerticalIcon, SaveAllIcon, User2Icon } from "lucide-react";
 import Button from "./Button";
 import { useTheme } from "../context/themeContext.jsx";
 import { NavLink,Link, useNavigate } from "react-router-dom";
@@ -13,13 +13,12 @@ export default function Header({ searchText, setSearchText }) {
   const [showMenu, setShowMenu] = useState(false);
   const { cart } = useSelector((state) => state.cart);
   const { user } = useSelector((state) => state.auth);
-  const {products} = useSelector((state)=> state.products)
+  
   const dispatch = useDispatch();
   const navigate = useNavigate()
   const dropDownRef = useRef()
   const [showItem , setShowItem] = useState(false)
-console.log("cart",cart)
-console.log("userdata",user)
+
   const toggleMenuHandler = () => setShowMenu(prev => !prev);
 
   async function logoutApi() {
@@ -124,6 +123,7 @@ console.log("userdata",user)
         {user.role ==="admin" &&(<div className="flex flex-col gap-4 text-black"><Link className="flex gap-2 hover:bg-gray-300 px-4 py-1 transition-all duration-500 rounded-lg" to="/add"><FormIcon/> add project</Link>  
              <Link to={`/user/${user.id}`} className="flex gap-2 hover:bg-gray-300 px-4 py-1 rounded-lg transition-all duration-500"> <LayoutDashboardIcon/> Dashboard</Link>
              <Link to={`/saveItem/${user.id}`} className="flex gap-2 hover:bg-gray-300 px-4 py-1 rounded-lg transition-all duration-500" ><SaveAllIcon/> SaveProduct  </Link>
+             <Link to={`/userProfile/${user.id}`}  className="flex gap-2 hover:bg-gray-300 px-4 py-1 rounded-lg transition-all duration-500"><User2Icon/>userProfile</Link>
              </div>
              
             )
