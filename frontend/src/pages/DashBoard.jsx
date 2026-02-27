@@ -12,7 +12,7 @@ export default function Dashboard() {
   const {users} = useSelector(state=> state.auth)
   const dispatch= useDispatch()
   const {theme}= useTheme()
- 
+ console.log("userdataffsfd",users)
  function sortProduct(products = []) {
   return [...products].sort(
     (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
