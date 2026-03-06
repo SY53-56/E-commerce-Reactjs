@@ -20,7 +20,7 @@ export default function Home() {
   const containerRef = useRef(null);
   const dispatch = useDispatch();
 
-  const {handleAddToCart ,handleSave , isSavedId} = UseProductActions()
+  const {handleAddCart ,handleSave , isSavedId} = UseProductActions()
 
 ;
 
@@ -105,7 +105,7 @@ export default function Home() {
         <section className="px-4 lg:px-20 py-10">
           <h2 className="text-3xl font-bold mb-4">🛍️ All Products</h2>
 {Array.isArray(products) && products.length > 0 ? (
-  loading ? <CardSkeleton/> : <Card products={products} user={user} addCart={handleAddToCart} loading={loading}
+  loading ? <CardSkeleton/> : <Card products={products} user={user} addCart={handleAddCart} loading={loading}
    onSave={handleSave} isSaveId={isSavedId} />
 ) : (
   <p>No product</p>

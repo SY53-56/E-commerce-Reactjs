@@ -4,7 +4,7 @@ import Button from "./Button";
 import { useTheme } from "../context/themeContext";
 
 
-function Card({ products = [], user, addCart, onSave, loading ,isSaveId  , className}) {
+function Card({ products = [], user,addCart, onSave, loading ,isSaveId  , className}) {
   const { theme } = useTheme();
 
 
@@ -62,7 +62,7 @@ function Card({ products = [], user, addCart, onSave, loading ,isSaveId  , class
                 </p>
 
                 <Button
-                  onClick={() => addCart(p._id)}
+                  onClick={(e) =>addCart(p?._id ,e)}
                   disabled={loading}
                   className="px-3 py-1 rounded-lg bg-green-600 text-white"
                   name={loading ? "Adding..." : "Add Cart"}

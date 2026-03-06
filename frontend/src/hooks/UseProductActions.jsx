@@ -41,7 +41,7 @@ export default function UseProductActions() {
   }, [dispatch, user, isSavedId])
 
 
-  const handleAddCart = useCallback((id, e) => {
+  const handleAddCart = useCallback((id,e ) => {
 
     e.preventDefault()
     e.stopPropagation()
@@ -50,8 +50,9 @@ export default function UseProductActions() {
       toast.error("Please login first")
       return
     }
-
-    dispatch(addCart(id))
+    console.log(id)
+   let productId = id
+    dispatch(addCart({ productId }))
     toast.success("Added to cart 🛒")
 
   }, [dispatch, user])

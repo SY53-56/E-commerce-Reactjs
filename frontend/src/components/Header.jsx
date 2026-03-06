@@ -13,7 +13,7 @@ export default function Header({ searchText, setSearchText }) {
   const [showMenu, setShowMenu] = useState(false);
   const { cart } = useSelector((state) => state.cart);
   const { user } = useSelector((state) => state.auth);
-  
+  console.log("cart",cart)
   const dispatch = useDispatch();
   const navigate = useNavigate()
   const dropDownRef = useRef()

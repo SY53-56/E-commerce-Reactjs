@@ -42,7 +42,9 @@ const calculateCartTotals = (cart) => {
 // ADD TO CART
 const addCart = async (req, res) => {
   try {
+
     const { productId } = req.body;
+    console.log("producyt",productId)
     if (!req.user) return res.status(401).json({ message: "Please login" });
 
     const product = await Product.findById(productId);

@@ -13,6 +13,7 @@ import { productPageAnimation } from "../animations/ProductPageAnimation";
 import toast from "react-hot-toast";
 import ProductPageSkeleton from "../components/ProductPageSkeleton";
 import { useTheme } from "../context/themeContext";
+import UseProductActions from "../hooks/UseProductActions";
 export default function ProductPage() {
   const dispatch = useDispatch();
   const { id } = useParams();
@@ -22,7 +23,7 @@ export default function ProductPage() {
     (state) => state.products
   );
  const {user}= useSelector(state=>state.auth)
-
+  const {handleAddCart ,handleSave , isSavedId} = UseProductActions()
   const [relatedProducts, setRelatedProducts] = useState([]);
 
   /* ================= FETCH PRODUCT ================= */
@@ -61,13 +62,7 @@ console.log("products",currentProduct)
   }, [currentProduct, products]);
 
   /* ================= HANDLERS ================= */
-  const handleAddCart = () => {
-    const productId = currentProduct?._id;
-    if (!productId) return;
-     if(!user) return toast.error("please login first")
-    dispatch(addCart({ productId }));
-    toast.success("Added to cart");
-  };
+
 
  const isOnwer =   
   user?.id &&
@@ -146,7 +141,7 @@ if (status === "loading") {
             {/* ADD TO CART */}
           <div className=" flex    gap-4">
              <Button
-              onClick={handleAddCart}
+              onClick={(e)=>handleAddCart(currentProduct?._id,e)}
               name="Add to Cart"
               className={`px-8 py-3 ${theme ==="dark"?"bg-gray-900 hover:bg-gray-950 ":"bg-blue-500 hover:bg-blue-600"}  text-white rounded-xl  transition`}
             />
