@@ -8,7 +8,7 @@ import {
 } from "./productThunk";
 
 const initialState = {
-  products: [],
+  products: [] ,
   currentProduct: null,
   status: "idle", // idle | loading | succeeded | failed
   page: 1,

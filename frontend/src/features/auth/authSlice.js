@@ -49,7 +49,7 @@ sessionStorage.removeItem("token")
       })
       .addCase(signupUser.fulfilled, (state, action) => {
         state.loading = false;
-        state.user = action.payload.user;
+        state.user= action.payload.user;
             state.user = action.payload.user;sessionStorage.setItem("user",JSON.stringify(action.payload.user));  
       })
       .addCase(signupUser.rejected, (state, action) => {

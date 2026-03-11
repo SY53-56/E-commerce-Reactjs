@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { Link } from "react-router-dom";
 import Button from '../components/Button';
 import { Package2Icon, LayoutDashboard, PlusCircle, UserCircle } from 'lucide-react';
@@ -9,10 +9,30 @@ import UserDashboard from '../components/dashboard/userDashboard';
 
 export default function UserProfile() {
   const [isActiveTab, setIsActiveTab] = useState("product")
-  const { user } = useSelector(state => state.auth)
-  const { products } = useSelector(state => state.products)
 
-  const userProducts = products.filter(item => item.userAdmin?._id === user?.id)
+  const { user , users } = useSelector(state => state.auth)
+  const dispatch = useDispatch()
+  const { products=[] } = useSelector(state => state.products)
+    
+     console.log(products)
+ const filterProduct = useMemo(() => {
+    if (!user) return []
+
+    return products.filter(
+      item => item.userAdmin?._id === user?.id
+    )
+
+  }, [products, user])
+    console.log("filterProduvt", filterProduct)
+    console.log(user)
+     useEffect(() => {
+
+    dispatch(allProductShow())  ;
+  
+}, [dispatch]);
+  
+console.log("sahulyadavsahul yadav", products)
+console.log("userid of user ", users)
 
   // Function to determine styles for the nav wrapper
   const getNavWrapperClass = (tab) => `
@@ -82,21 +102,21 @@ export default function UserProfile() {
           <div className='bg-gray-950/50 border border-gray-800 rounded-3xl p-8 min-h-[60vh]'>
             {isActiveTab === "product" && (
               <div>
-                {userProducts.length === 0 ? (
+                {filterProduct.length === 0 ? (
                   <div className='flex flex-col items-center justify-center py-20 text-gray-600'>
                     <Package2Icon size={60} strokeWidth={1} className='mb-4 opacity-20' />
                     <p className='text-xl'>Your shop is currently empty.</p>
                   </div>
                 ) : (
                   <Card 
-                    products={userProducts} 
+                    products={filterProduct} 
                     className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
                   />
                 )}
               </div>
             )}
 
-            {isActiveTab === "dashboard" && <UserDashboard />}
+            {isActiveTab === "dashboard" && <UserDashboard  users={users} products={products}/>}
           </div>
         </div>
       </main>

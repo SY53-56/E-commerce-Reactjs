@@ -14,6 +14,7 @@ import { allProductShow } from "../features/product/productThunk";
 import CategoriesProduct from "../components/CategoriesProduct";
 
 import UseProductActions from "../hooks/UseProductActions";
+import { userData } from "../features/auth/authThunk";
 gsap.registerPlugin(ScrollTrigger);
 
 export default function Home() {
@@ -25,9 +26,9 @@ export default function Home() {
 ;
 
   const { products, status,  totalPages , loading } = useSelector((state) => state.products);
-  const { user } = useSelector((state) => state.auth);
+  const { user , users } = useSelector((state) => state.auth);
   
-
+console.log( "usera",users)
   const [currentPage, setCurrentPage] = useState(1);
 
   /* ================= FETCH PRODUCTS ================= */
@@ -35,7 +36,9 @@ export default function Home() {
     dispatch(allProductShow({ page: currentPage , limit: 20 }));
   }, [dispatch, currentPage]);
 
-
+ useEffect(()=>{
+  dispatch(userData())
+ },[dispatch])
   useEffect(()=>{
     const handleScroll= ()=>{
       const bottom =  window.innerHeight+ window.scrollY>= document.documentElement.scrollHeight-200

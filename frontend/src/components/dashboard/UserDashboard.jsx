@@ -1,7 +1,8 @@
-import React from 'react'
+
 import StateCard from './StateCard'
 
-export default function UserDashboard() {
+export default function UserDashboard({users , products}) {
+  
   return (
     <div className='flex flex-col gap-3.5'>
      <div> <h1>DashBoard</h1></div>

@@ -14,6 +14,7 @@ export default function Header({ searchText, setSearchText }) {
   const { cart } = useSelector((state) => state.cart);
   const { user } = useSelector((state) => state.auth);
   console.log("cart",cart)
+  console.log("userfdagdsgfhdhfis", user)
   const dispatch = useDispatch();
   const navigate = useNavigate()
   const dropDownRef = useRef()
