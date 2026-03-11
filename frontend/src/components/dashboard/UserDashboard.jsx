@@ -1,7 +1,7 @@
 
 import StateCard from './StateCard'
 
-export default function UserDashboard({users , products, cart}) {
+export default function UserDashboard({  products, cart}) {
   const totalQuantity = cart.items.reduce((total , item)=> total+item.quantity, 0)
   console.log(  "sahul yadav cart",totalQuantity)
   return (

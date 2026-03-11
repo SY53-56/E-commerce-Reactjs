@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ChevronDown } from "lucide-react";
 import Button from "./Button";
 
@@ -9,7 +9,7 @@ export default function FilterProduct({
   value,
 }) {
   const [activeCategory, setActiveCategory] = useState(null);
-  const [showFilter, setShowFilter] = useState(false);
+  const [showFilter, setShowFilter] = useState(window.innerWidth>728);
 
   if (!Array.isArray(category)) return null;
 
@@ -18,26 +18,38 @@ export default function FilterProduct({
     onSelect?.(item);
   };
 
+  useEffect(()=>{
+     if(window.innerWidth >=728 ){
+      setShowFilter(true)
+     }else{
+      setShowFilter(false)
+     }
+  },[showFilter])
+
+
   const toggleFilter = () => {
     setShowFilter((prev) => !prev);
+    
   };
 
   return (
-    <aside className="w-80 bg-white dark:bg-gray-800 shadow-xl rounded-2xl p-6 border border-gray-200 dark:border-gray-700">
+    <aside className="w-full lg:w-80 bg-white dark:bg-gray-800 shadow-xl rounded-2xl p-6 border border-gray-200 dark:border-gray-700">
       
       {/* Toggle Header */}
+  <div  className="w-full flex justify-between items-center text-xl font-bold text-gray-800 dark:text-white mb-6">
+      <h1> Filter Products</h1>
       <button
         onClick={toggleFilter}
-        className="w-full flex justify-between items-center text-xl font-bold text-gray-800 dark:text-white mb-6"
+       
       >
-        Filter Products
         <ChevronDown
-          className={`transition-transform duration-300 ${
+          className={`transition-transform duration-300 lg:hidden ${
             showFilter ? "rotate-180" : ""
           }`}
         />
       </button>
 
+  </div>
       {/* Animated Content */}
       <div
         className={`transition-all duration-500 overflow-hidden ${

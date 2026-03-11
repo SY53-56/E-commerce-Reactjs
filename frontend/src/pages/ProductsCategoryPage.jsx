@@ -66,19 +66,21 @@ const filteredProducts = useMemo(() => {
   <div className="flex flex-col  lg:flex-row gap-8">
 
     {/* Sidebar */}
-    <aside className="lg:w-1/4 w-full ml-10">
-      <FilterProduct
+ 
+    <div>
+        <FilterProduct
         category={categories}
         onSelect={handleCategoryChange}
         onChange={handlePrice}
         value={filters.maxPrice}
        
       />
-    </aside>
+    </div>
+    
 
     {/* Products Section */}
     <main className="w-full">
-      <Card products={filteredProducts} className="grid grid-1 lg:grid-cols-2"  addCart={handleAddToCart} />
+      <Card products={filteredProducts} className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6"  addCart={handleAddToCart} />
     </main>
 
   </div>
