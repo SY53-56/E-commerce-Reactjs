@@ -16,7 +16,7 @@ const productSchema = new mongoose.Schema(
     },
     brand: { type: String, required: true, lowercase: true },
     unit: { type: String, required: true },
-
+  
     stock: { type: Number, required: true, min: 0 },
        
  reviews: [

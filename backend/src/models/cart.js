@@ -19,8 +19,14 @@ items: [
       type: Number,
       default: 1,
     },
-  },
+     },
+
 ],
+  status: {
+      type: String,
+      enum: ["pending", "paid", "shipped", "delivered", "cancelled"],
+      default: "pending",
+    },
 
 
     totalAmount: {
@@ -44,14 +50,7 @@ items: [
       required: true,
       default: 0,
     },
-
-   
-
-    status: {
-      type: String,
-      enum: ["pending", "paid", "shipped", "delivered", "cancelled"],
-      default: "pending",
-    },
+    
   },
   { timestamps: true }
 );

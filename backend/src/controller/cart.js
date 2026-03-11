@@ -63,7 +63,7 @@ const addCart = async (req, res) => {
     await populateCart(cart);
     calculateCartTotals(cart);
     await cart.save();
-
+  console.log("cart data", cart)
     res.status(201).json({ success: true, data: cart });
   } catch (e) {
     res.status(500).json({ message: e.message });

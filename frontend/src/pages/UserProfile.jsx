@@ -13,8 +13,9 @@ export default function UserProfile() {
   const { user , users } = useSelector(state => state.auth)
   const dispatch = useDispatch()
   const { products=[] } = useSelector(state => state.products)
-    
+  const {cart} = useSelector(state => state.cart)
      console.log(products)
+     console.log("cart product",cart )
  const filterProduct = useMemo(() => {
     if (!user) return []
 
@@ -116,7 +117,7 @@ console.log("userid of user ", users)
               </div>
             )}
 
-            {isActiveTab === "dashboard" && <UserDashboard  users={users} products={products}/>}
+            {isActiveTab === "dashboard" && <UserDashboard  cart={cart} users={users} products={filterProduct}/>}
           </div>
         </div>
       </main>
