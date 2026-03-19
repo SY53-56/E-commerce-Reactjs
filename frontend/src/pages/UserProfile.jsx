@@ -24,6 +24,7 @@ export default function UserProfile() {
     )
 
   }, [products, user])
+  
     console.log("filterProduvt", filterProduct)
     console.log(user)
      useEffect(() => {
@@ -47,9 +48,9 @@ console.log("userid of user ", users)
   `;
 
   return (
-    <section className='min-h-screen w-full flex bg-[#0f1115] text-gray-100'>
+    <section className='min-h-screen w-full flex-col flex lg:flex-row bg-[#0f1115] text-gray-100'>
       {/* Sidebar */}
-      <aside className='w-80 border-r border-gray-800 bg-gray-950 px-6 py-10 flex flex-col'>
+      <aside className=' w-full lg:w-80 border-r border-gray-800 bg-gray-950 px-6 py-10 flex flex-col'>
         
         {/* User Profile Header */}
         <div className='flex flex-col items-center mb-12'>
