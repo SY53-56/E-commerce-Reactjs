@@ -14,18 +14,21 @@ import { useTheme } from "../context/themeContext";
 export default function Cart() {
   const dispatch = useDispatch();
   const { cart, loading } = useSelector((state) => state.cart);
-  const { user } = useSelector((state) => state.auth);
+
   const navigate = useNavigate()
 //console.log("cartdata",cart.items.map(item=>item.product.name))
  const {theme} = useTheme()
   useEffect(() => {
-    if (user) dispatch(getCart());
-  }, [dispatch, user]);
+   
+      
+   dispatch(getCart())
+    
+  }, [dispatch]);
 useEffect(() => {
   console.log("cart changed", cart)
 }, [cart])
 
-
+ console.log("cart changed", cart)
   const handleCheckout = () => {
     alert("Checkout successful!");
     dispatch(clearCart());
@@ -51,7 +54,7 @@ dispatch(removeSingleCart(id))
       </div>
     );
 
-  if (!cart || cart.items.length === 0)
+if (!cart || !cart.items || cart.items.length === 0)
     return (
       <div className="min-h-screen flex items-center justify-center text-gray-400 text-xl">
         🛒 Your cart is empty
@@ -65,7 +68,7 @@ dispatch(removeSingleCart(id))
       <div className="flex flex-col lg:flex-row gap-8">
         {/* Cart Items */}
         <div className="flex-1 space-y-6">
-          {cart.items.map((item) => (
+          {cart?.items?.map((item) => (
           <CartCard key={item._id} item={item}
            handleDecreaseQuantity={handleDecreaseQuantity}
             handleIncreaseQuantity={handleIncreaseQuantity}

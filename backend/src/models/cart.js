@@ -6,37 +6,30 @@ const CartSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       required: true,
+      index: true,
+     unique: true,
     },
 
-items: [
-  {
-    product: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Product",
-      required: true,
-    },
-    quantity: {
-      type: Number,
-      default: 1,
-    },
-     },
-
-],
-  status: {
-      type: String,
-      enum: ["pending", "paid", "shipped", "delivered", "cancelled"],
-      default: "pending",
-    },
-
+    items: [
+      {
+        product: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Product",
+          required: true,
+        },
+        quantity: {
+          type: Number,
+          default: 1,
+        },
+        price: {
+          type: Number, // 🔥 snapshot price
+          required: true,
+        },
+      },
+    ],
 
     totalAmount: {
       type: Number,
-      required: true,
-      default: 0,
-    },
-
-    discount: {
-      type: Number, // percentage
       default: 0,
     },
 
@@ -47,17 +40,17 @@ items: [
 
     finalAmount: {
       type: Number,
-      required: true,
       default: 0,
     },
-    
+    status:{
+      type:String,
+      default:"pending"
+    }
   },
   { timestamps: true }
 );
 
-
 module.exports = mongoose.model("Cart", CartSchema);
-
 /*
 const mongoose = require("mongoose");
 

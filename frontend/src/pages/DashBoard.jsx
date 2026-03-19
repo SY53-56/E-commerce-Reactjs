@@ -8,8 +8,8 @@ import Products from "../components/dashboard/Products";
 import { allProductShow } from "../features/product/productThunk";
 import { useTheme } from "../context/themeContext";
 export default function Dashboard() {
-  const {products} = useSelector(state=>state.products)
-  const {users} = useSelector(state=> state.auth)
+  const products = useSelector(state=>state.products.products)
+  const users = useSelector(state=> state.auth.users)
   const dispatch= useDispatch()
   const {theme}= useTheme()
  console.log("userdataffsfd",users)

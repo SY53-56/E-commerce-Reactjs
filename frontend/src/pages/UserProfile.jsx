@@ -31,6 +31,9 @@ export default function UserProfile() {
     dispatch(allProductShow())  ;
   
 }, [dispatch]);
+const userProdcutStatus= useMemo(()=>{
+
+},[])
   
 console.log("sahulyadavsahul yadav", products)
 console.log("userid of user ", users)

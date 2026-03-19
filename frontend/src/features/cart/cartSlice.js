@@ -26,7 +26,7 @@ const cartSlice = createSlice({
     builder
       // GET CART
       .addCase(getCart.pending, (state) => { state.loading = true; state.error = null; })
-      .addCase(getCart.fulfilled, (state, action) => { state.loading = false; state.cart = action.payload.data; })
+      .addCase(getCart.fulfilled, (state, action) => { state.loading = false;state.cart = action.payload?.data || state.cart; })
       .addCase(getCart.rejected, (state, action) => { state.loading = false; state.error = action.payload; })
 
       // ADD CART
@@ -41,17 +41,17 @@ const cartSlice = createSlice({
 
       // REMOVE ITEM
       .addCase(removeSingleCart.pending, (state) => { state.loading = true; state.error = null; })
-      .addCase(removeSingleCart.fulfilled, (state, action) => { state.loading = false; state.cart = action.payload.data; })
+      .addCase(removeSingleCart.fulfilled, (state, action) => { state.loading = false;state.cart = action.payload?.data || state.cart; })
       .addCase(removeSingleCart.rejected, (state, action) => { state.loading = false; state.error = action.payload; })
 
       // INCREASE
       .addCase(increaseQuantity.pending, (state) => { state.loading = true; state.error = null; })
-      .addCase(increaseQuantity.fulfilled, (state, action) => { state.loading = false; state.cart = action.payload.data; })
+      .addCase(increaseQuantity.fulfilled, (state, action) => { state.loading = false;state.cart = action.payload?.data || state.cart; })
       .addCase(increaseQuantity.rejected, (state, action) => { state.loading = false; state.error = action.payload; })
 
       // DECREASE
       .addCase(decreaseQuantity.pending, (state) => { state.loading = true; state.error = null; })
-      .addCase(decreaseQuantity.fulfilled, (state, action) => { state.loading = false; state.cart = action.payload.data; })
+      .addCase(decreaseQuantity.fulfilled, (state, action) => { state.loading = false; state.cart = action.payload?.data || state.cart; })
       .addCase(decreaseQuantity.rejected, (state, action) => { state.loading = false; state.error = action.payload; })
 
     
