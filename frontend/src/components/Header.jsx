@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { Menu, Moon, Sun, Search, ShoppingCart, LayoutDashboardIcon, LayoutDashboard, FormIcon , EllipsisVerticalIcon, SaveAllIcon, User2Icon } from "lucide-react";
 import Button from "./Button";
 import { useTheme } from "../context/themeContext.jsx";
-import { NavLink,Link, useNavigate } from "react-router-dom";
+import { NavLink,Link, useNavigate, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../features/auth/authSlice.js";
 import { getCart } from "../features/cart/cartThunk.js";
@@ -11,13 +11,14 @@ import Input from "./Input.jsx";
 export default function Header({ searchText, setSearchText }) {
   const { theme, toggleTheme } = useTheme();
   const [showMenu, setShowMenu] = useState(false);
-  const { cart } = useSelector((state) => state.cart);
-  const { user } = useSelector((state) => state.auth);
+  const  cart  = useSelector((state) => state.cart.cart);
+  const  user  = useSelector((state) => state.auth.user);
   console.log("cart",cart)
   console.log("userfdagdsgfhdhfis", user)
   const dispatch = useDispatch();
   const navigate = useNavigate()
   const dropDownRef = useRef()
+  const location= useLocation()
   const [showItem , setShowItem] = useState(false)
 
   const toggleMenuHandler = () => setShowMenu(prev => !prev);
@@ -28,7 +29,7 @@ export default function Header({ searchText, setSearchText }) {
 
   useEffect(() => {
     if (user) dispatch(getCart());
-  }, [dispatch, user]);
+  }, [dispatch, user?.id]);
   
  const handleItem = ()=>{
   setShowItem(prev => !prev)
@@ -40,7 +41,6 @@ export default function Header({ searchText, setSearchText }) {
       if(dropDownRef.current && dropDownRef.current.contains(event.target)){
         setShowItem(false)
       }
-
     }
     
     document.addEventListener("click", handleClickOutside);
@@ -50,6 +50,9 @@ export default function Header({ searchText, setSearchText }) {
   };
   },[showItem])
 
+   useEffect(()=>{
+     setShowMenu(false)
+   },[location.pathname])
 
  const handleForm= (value)=>{
   setSearchText(value)
