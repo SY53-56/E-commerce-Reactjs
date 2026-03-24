@@ -16,9 +16,9 @@ export default function UseProductActions() {
         typeof item === "string" ? item : item._id
       )
     )
-  }, [user])
+  }, [user?.saveItem])
 
-  const handleSave = useCallback((id, e) => {
+  const handleSave = useCallback( async(id, e) => {
 
     e.preventDefault()
     e.stopPropagation()
@@ -30,7 +30,7 @@ export default function UseProductActions() {
 
     const alreadySaved = isSavedId.has(id)
 
-    dispatch(saveProduct(id))
+   await dispatch(saveProduct(id))
 
     if (alreadySaved) {
       toast.success("Product removed from saved")
@@ -41,7 +41,7 @@ export default function UseProductActions() {
   }, [dispatch, user, isSavedId])
 
 
-  const handleAddCart = useCallback((id,e ) => {
+  const handleAddCart = useCallback(async(id,e ) => {
 
     e.preventDefault()
     e.stopPropagation()
@@ -50,9 +50,9 @@ export default function UseProductActions() {
       toast.error("Please login first")
       return
     }
-    console.log(id)
+  
    let productId = id
-    dispatch(addCart({ productId }))
+   await dispatch(addCart({ productId }))
     toast.success("Added to cart 🛒")
 
   }, [dispatch, user])

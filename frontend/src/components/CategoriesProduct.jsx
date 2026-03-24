@@ -24,6 +24,9 @@ export default function CategoriesProduct({ category = [] }) {
                 <img
                   src={item.img}
                   alt={item.cate}
+                  loading='lazy'
+                  decoding='asyn'
+                  
                   className="h-24 object-contain group-hover:scale-110 transition-transform duration-300"
                 />
               </div>

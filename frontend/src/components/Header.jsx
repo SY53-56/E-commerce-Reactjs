@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { memo, useEffect, useRef, useState } from "react";
 import { Menu, Moon, Sun, Search, ShoppingCart, LayoutDashboardIcon, LayoutDashboard, FormIcon , EllipsisVerticalIcon, SaveAllIcon, User2Icon } from "lucide-react";
 import Button from "./Button";
 import { useTheme } from "../context/themeContext.jsx";
@@ -8,13 +8,12 @@ import { logout } from "../features/auth/authSlice.js";
 import { getCart } from "../features/cart/cartThunk.js";
 import Input from "./Input.jsx";
 
-export default function Header({ searchText, setSearchText }) {
+ function Header({ searchText, setSearchText }) {
   const { theme, toggleTheme } = useTheme();
   const [showMenu, setShowMenu] = useState(false);
   const  cart  = useSelector((state) => state.cart.cart);
   const  user  = useSelector((state) => state.auth.user);
-  console.log("cart",cart)
-  console.log("userfdagdsgfhdhfis", user)
+ 
   const dispatch = useDispatch();
   const navigate = useNavigate()
   const dropDownRef = useRef()
@@ -201,3 +200,5 @@ export default function Header({ searchText, setSearchText }) {
     </header>
   );
 }
+
+export default memo(Header)

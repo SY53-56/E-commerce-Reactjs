@@ -24,11 +24,9 @@ export default function Cart() {
    dispatch(getCart())
     
   }, [dispatch]);
-useEffect(() => {
-  console.log("cart changed", cart)
-}, [cart])
 
- console.log("cart changed", cart)
+
+ 
   const handleCheckout = () => {
     alert("Checkout successful!");
     dispatch(clearCart());

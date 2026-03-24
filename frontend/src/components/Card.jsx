@@ -24,9 +24,9 @@ function Card({ products = [], user,addCart, onSave, loading ,isSaveId  , classN
       <div className={` ${className|| `grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6`}`}>
         {products.map((p) => {
           const imageUrl = p?.image?.[0] ?? "/placeholder.png";
- const isSave = isSaveId?.has(p?._id?.toString())
-   console.log(isSave)
-   console.log( "productid",p._id)
+      const isSave = isSaveId?.has(p?._id?.toString())
+     const handleSave = (e) => onSave(p._id, e);
+  const handleAdd = (e) => addCart(p._id, e);
           return (
             <div
               key={p?._id}
@@ -42,13 +42,18 @@ function Card({ products = [], user,addCart, onSave, loading ,isSaveId  , classN
                   <img
                     src={imageUrl}
                     alt={p?.name}
+                    loading="lazy"
+                    decoding="async"
+                    width="320"
+height="208"
+                    
                     className="w-80 h-full object-cover hover:scale-105  rounded-md transition-transform duration-300"
                   />
                 </div>
               </Link>
 
               {user && (
-              <Button name={ isSave?"saved":"save" }    className="absolute top-6 cursor-pointer right-6 bg-gray-500 p-2 rounded-md text-white"  onClick={(e) => onSave(p?._id,e)} />
+              <Button name={ isSave?"saved":"save" }    className="absolute top-6 cursor-pointer right-6 bg-gray-500 p-2 rounded-md text-white"  onClick={handleSave} />
                
               )}
 
@@ -62,7 +67,7 @@ function Card({ products = [], user,addCart, onSave, loading ,isSaveId  , classN
                 </p>
 
                 <Button
-                  onClick={(e) =>addCart(p?._id ,e)}
+                  onClick={handleAdd}
                   disabled={loading}
                   className="px-3 py-1 rounded-lg bg-green-600 text-white"
                   name={loading ? "Adding..." : "Add Cart"}

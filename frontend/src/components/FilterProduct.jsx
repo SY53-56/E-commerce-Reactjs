@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { memo, useEffect, useState } from "react";
 import { ChevronDown } from "lucide-react";
 import Button from "./Button";
 
-export default function FilterProduct({
+function FilterProduct({
   category = [],
   onSelect,
   onChange,
@@ -104,3 +104,5 @@ export default function FilterProduct({
     </aside>
   );
 }
+
+export default memo(FilterProduct)

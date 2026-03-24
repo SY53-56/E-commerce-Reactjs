@@ -14,8 +14,7 @@ export default function UserProfile() {
   const dispatch = useDispatch()
   const { products=[] } = useSelector(state => state.products)
   const {cart} = useSelector(state => state.cart)
-     console.log(products)
-     console.log("cart product",cart )
+     
  const filterProduct = useMemo(() => {
     if (!user) return []
 
@@ -25,19 +24,11 @@ export default function UserProfile() {
 
   }, [products, user])
   
-    console.log("filterProduvt", filterProduct)
-    console.log(user)
-     useEffect(() => {
+        useEffect(() => {
 
     dispatch(allProductShow())  ;
   
 }, [dispatch]);
-const userProdcutStatus= useMemo(()=>{
-
-},[])
-  
-console.log("sahulyadavsahul yadav", products)
-console.log("userid of user ", users)
 
   // Function to determine styles for the nav wrapper
   const getNavWrapperClass = (tab) => `

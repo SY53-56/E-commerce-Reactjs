@@ -1,9 +1,9 @@
-import { useState } from "react";
+import  {Suspense, lazy, useState } from "react";
 import { useTheme } from "./context/themeContext";
-import Header from "./components/Header"
-import { Outlet } from "react-router";
-import Footer from "./components/Footer"  
 
+import { Outlet } from "react-router";
+const Footer= lazy(()=>import("./components/Footer"))
+const Header = lazy(()=> import("./components/Header"))
 export default function Layout() {
   const { theme } = useTheme();
   let [searchText, setSearchText] = useState("");
@@ -16,14 +16,17 @@ export default function Layout() {
           : "bg-gray-50 text-gray-900"
       } transition-colors duration-100`}
     >
-      <Header searchText={searchText} setSearchText={setSearchText} />
-
+     
+<Suspense fallback={<div>Loading...</div>}>
+   <Header searchText={searchText} setSearchText={setSearchText} />
+</Suspense>
       {/* Main Content */}
       <main className="flex-grow">
         <Outlet context={searchText} />
       </main>
-
+<Suspense fallback={<div>Loading...</div>}>
       <Footer />
+      </Suspense>
     </div>
   );
 }

@@ -8,7 +8,7 @@ export default function SearchPage() {
     const searchText = useOutletContext()
    const [searchData , setSearchData] = useState([])
    const {handleAddToCart ,handleSave} = UseProductActions()
-   const {products} = useSelector(state => state.products)
+   const products = useSelector(state => state.products.products)
    useEffect(()=>{
    const debouncedSearch =  debounce(()=>{
       if(!searchData){

@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { loginUser, saveProduct, signupUser, userData, } from "./authThunk";
 
  const  savedUser = JSON.parse(sessionStorage.getItem("user"))
- console.log( "sahul save DAta", savedUser)
+
 const initialState = {
   users :[],
   user: savedUser || null,
@@ -76,7 +76,7 @@ sessionStorage.removeItem("token")
   state.user= action.payload
         // Backend returns updated user with populated saveItem
         state.save = action.payload.saveItem
-console.log("PAYLOAD FROM BACKEND:", action.payload);
+
     sessionStorage.setItem(
     "user",
     JSON.stringify(action.payload)

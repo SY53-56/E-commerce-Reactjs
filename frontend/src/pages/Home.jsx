@@ -1,6 +1,4 @@
-import Poster from "../components/Poster";
-import Button from "../components/Button";
-import Card from "../components/Card";
+
 import FilterProduct from "../components/FilterProduct";
 
 import gsap from "gsap";
@@ -8,13 +6,15 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 import { Link} from "react-router";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { lazy, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+const Card = lazy(()=> import("../components/Card"))
 import { allProductShow } from "../features/product/productThunk";
 
 import CategoriesProduct from "../components/CategoriesProduct";
 
 import UseProductActions from "../hooks/UseProductActions";
 import { userData } from "../features/auth/authThunk";
+
 gsap.registerPlugin(ScrollTrigger);
 
 export default function Home() {
@@ -25,10 +25,13 @@ export default function Home() {
 
 ;
 
-  const { products, status,  totalPages , loading } = useSelector((state) => state.products);
-  const { user , users } = useSelector((state) => state.auth);
+  const {  status,  totalPages , loading } = useSelector((state) => state.products)
   
-console.log( "usera",users)
+   
+  const products = useSelector(state=> state.products.products)
+ const user= useSelector(state=>state.auth.user)
+
+
   const [currentPage, setCurrentPage] = useState(1);
 
   /* ================= FETCH PRODUCTS ================= */
@@ -40,8 +43,11 @@ console.log( "usera",users)
   dispatch(userData())
  },[dispatch])
   useEffect(()=>{
+    const ticking= false
+
     const handleScroll= ()=>{
-      const bottom =  window.innerHeight+ window.scrollY>= document.documentElement.scrollHeight-200
+    if(!ticking){
+        const bottom =  window.innerHeight+ window.scrollY>= document.documentElement.scrollHeight-200
    if (
         bottom &&
         status !== "loading" &&
@@ -49,6 +55,7 @@ console.log( "usera",users)
       ) {
         setCurrentPage((prev) => prev + 1);
       }
+    }
     }
     window.addEventListener("scroll",handleScroll)
     return ()=>window.removeEventListener("scroll",handleScroll)
@@ -73,13 +80,15 @@ console.log( "usera",users)
 
  
 
-  const category = [
+  const category = useMemo(()=>{
+   return [
     {img:"https://www.bing.com/th/id/OIP.ORH_mwC_R1rP2xGViNy_lwHaE8?w=265&h=211&c=8&rs=1&qlt=90&o=6&dpr=1.3&pid=3.1&rm=2", cate:"clothes"},
     {  img:"https://www.bing.com/th/id/OIP.iZmRJpSySKsI7x8gUlTSyAHaEz?w=262&h=211&c=8&rs=1&qlt=90&o=6&dpr=1.3&pid=3.1&rm=2" , cate:"food"},
     {img:"https://www.bing.com/th/id/OIP.3cIGk8wliMY7sK3HLnsZJgHaH6?w=181&h=211&c=8&rs=1&qlt=90&o=6&dpr=1.3&pid=3.1&rm=2",cate:"electronics"},
     {img:"https://www.bing.com/th/id/OIP.agaM_r4qvG1OTLipo_yAOwHaHa?w=168&h=211&c=8&rs=1&qlt=90&o=6&dpr=1.3&pid=3.1&rm=2", cate:"toyes"}
   ]
 
+  },[])
 
  
 
@@ -97,7 +106,11 @@ console.log( "usera",users)
     <img
       className="w-full h-60 lg:h-80 object-cover rounded-lg"
       src="https://images.unsplash.com/vector-1738237080330-b9d0755ede07?q=80&w=1074&auto=format&fit=crop"
-      alt=""
+      alt="cateImg"
+      loading="lazy"
+    decoding="async"
+  width="1200"
+  height="400"
     />
   </div>
 </div>
@@ -128,7 +141,7 @@ console.log( "usera",users)
         </section>
       </div>
 
-    
+  
     </>
   );
 }

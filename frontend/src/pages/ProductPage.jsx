@@ -1,13 +1,8 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, Link } from "react-router-dom";
 import { showOneProduct } from "../features/product/productThunk";
-import {
-  addCart,
-
-  getCart,
-
-} from "../features/cart/cartThunk";
+import {addCart,} from "../features/cart/cartThunk";
 import Button from "../components/Button";
 import { productPageAnimation } from "../animations/ProductPageAnimation";
 import toast from "react-hot-toast";
@@ -19,22 +14,22 @@ export default function ProductPage() {
   const { id } = useParams();
   const pageRef = useRef(null);
  const {theme} = useTheme()
-  const { currentProduct, products, status, error } = useSelector(
+  const { status, error } = useSelector(
     (state) => state.products
   );
- const {user}= useSelector(state=>state.auth)
-  const {handleAddCart ,handleSave , isSavedId} = UseProductActions()
-  const [relatedProducts, setRelatedProducts] = useState([]);
+  const currentProduct = useSelector(state=> state.products.currentProduct)
+  const products = useSelector(state=> state.products.products)
+ const user= useSelector(state=>state.auth.user)
+  const {handleAddCart } = UseProductActions()
+
 
   /* ================= FETCH PRODUCT ================= */
   useEffect(() => {
     if (id) dispatch(showOneProduct(id));
   }, [dispatch, id]);
-console.log("products",currentProduct)
+
   /* ================= FETCH CART ================= */
-  useEffect(() => {
-    dispatch(getCart());
-  }, [dispatch]);
+
 
   /* ================= ANIMATION ================= */
   useEffect(() => {
@@ -42,32 +37,27 @@ console.log("products",currentProduct)
     return productPageAnimation(pageRef.current);
   }, [currentProduct]);
 
-  /* ================= CART ITEM ================= */
- 
+  
+  const relatedProducts = useMemo(()=>{
+     if (!currentProduct || !products?.length) return;
 
-  /* ================= RELATED PRODUCTS ================= */
-  useEffect(() => {
-    if (!currentProduct || !products?.length) return;
-
-    const data = products
+   return products
       .filter(
         (p) =>
           p?._id !== currentProduct?._id &&
           p.category?.toLowerCase() ===
             currentProduct.category?.toLowerCase()
       )
-      .slice(0, 4);
-
-    setRelatedProducts(data);
-  }, [currentProduct, products]);
-
+      .slice(0, 5);
+  },[products, currentProduct])
   /* ================= HANDLERS ================= */
+console.log( "realtedsProduct",relatedProducts)
 
-
- const isOnwer =   
-  user?.id &&
+ const isOnwer =   useMemo(()=>{
+ return user?.id &&
   (user.id === currentProduct?.userAdmin?._id ||
    user.id === currentProduct?.userAdmin);
+ },[user?.id, currentProduct])
 
 
 
@@ -95,6 +85,7 @@ if (status === "loading") {
             <img
               src={currentProduct.image[0]}
               alt={currentProduct.name}
+              loading="lazy"
               className="h-full object-contain rounded-lg transition-transform hover:scale-105"
             />
           </div>
@@ -105,6 +96,7 @@ if (status === "loading") {
               <img
                 key={i}
                 src={img}
+                loading="lazy"
                 className="w-20 h-20 bg-gray-100 rounded-xl object-contain border hover:border-green-500 cursor-pointer"
               />
             ))}
@@ -185,6 +177,8 @@ if (status === "loading") {
               <Link to={`/product/${p._id}`}>
                 <div className="h-40 bg-gray-100 rounded-t-2xl flex items-center justify-center">
                   <img
+                  loading="lazy"
+                  decoding="asyn"
                     src={p.image[0]}
                     className="h-full object-contain hover:scale-105 transition"
                   />

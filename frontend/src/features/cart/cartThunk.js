@@ -16,7 +16,7 @@ export const getCart = createAsyncThunk("cart/get", async (_, { rejectWithValue 
 export const addCart = createAsyncThunk("cart/add", async ({ productId }, { rejectWithValue }) => {
   try {
     const res = await API.post("/cart/add", { productId });
-     console.log("check api data of cartadd",res.data)
+
     return res.data;
   } catch (e) {
     return rejectWithValue(e.response?.data?.message || e.message);
