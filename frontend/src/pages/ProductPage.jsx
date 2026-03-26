@@ -1,15 +1,16 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { memo, useCallback, useEffect, useMemo, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, Link } from "react-router-dom";
 import { showOneProduct } from "../features/product/productThunk";
-import {addCart,} from "../features/cart/cartThunk";
+
 import Button from "../components/Button";
 import { productPageAnimation } from "../animations/ProductPageAnimation";
 import toast from "react-hot-toast";
 import ProductPageSkeleton from "../components/ProductPageSkeleton";
 import { useTheme } from "../context/themeContext";
 import UseProductActions from "../hooks/UseProductActions";
-export default function ProductPage() {
+import Card from "../components/Card";
+ function ProductPage() {
   const dispatch = useDispatch();
   const { id } = useParams();
   const pageRef = useRef(null);
@@ -58,7 +59,10 @@ console.log( "realtedsProduct",relatedProducts)
   (user.id === currentProduct?.userAdmin?._id ||
    user.id === currentProduct?.userAdmin);
  },[user?.id, currentProduct])
-
+  
+ const handleCart = useCallback(async(e)=>{
+        handleAddCart(relatedProducts?._id , e)
+ },[relatedProducts?._id])
 
 
   /* ================= UI STATES ================= */
@@ -83,7 +87,7 @@ if (status === "loading") {
         <div>
           <div className=" flex items-center justify-center h-[420px]">
             <img
-              src={currentProduct.image[0]}
+              src={currentProduct?.image[0]}
               alt={currentProduct.name}
               loading="lazy"
               className="h-full object-contain rounded-lg transition-transform hover:scale-105"
@@ -116,7 +120,7 @@ if (status === "loading") {
               Brand: <span className="font-medium">{currentProduct.brand}</span>
             </p>
 
-            <p className="text-gray-700 leading-relaxed mb-6 w-80  lg:max-w-md">
+            <p className="text-gray-700 leading-relaxed  max-w-md">
               {currentProduct.description}
             </p>
 
@@ -168,42 +172,8 @@ if (status === "loading") {
           Related Products
         </h2>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-          {relatedProducts.map((p) => (
-            <div
-              key={p._id}
-              className="bg-white rounded-2xl shadow-sm hover:shadow-lg transition"
-            >
-              <Link to={`/product/${p._id}`}>
-                <div className="h-40 bg-gray-100 rounded-t-2xl flex items-center justify-center">
-                  <img
-                  loading="lazy"
-                  decoding="asyn"
-                    src={p.image[0]}
-                    className="h-full object-contain hover:scale-105 transition"
-                  />
-                </div>
-              </Link>
-
-              <div className="p-4">
-                <h3 className="text-sm font-medium truncate mb-1">
-                  {p.name}
-                </h3>
-
-                <p className="font-bold text-gray-900 mb-3">
-                  ₹{p.price}
-                </p>
-
-                <Button
-                  onClick={() =>
-                    dispatch(addCart({ productId: p._id }))
-                  }
-                  name="Add"
-                  className="w-full bg-green-600 hover:bg-green-700 text-white py-2 rounded-lg text-sm"
-                />
-              </div>
-            </div>
-          ))}
+        <div className="">
+           <Card products={relatedProducts} addCart={handleCart}/>
         </div>
       </div>
 
@@ -212,3 +182,5 @@ if (status === "loading") {
 )
 
 }
+
+export default memo(ProductPage)

@@ -26,6 +26,7 @@ function Card({ products = [], user,addCart, onSave, loading ,isSaveId  , classN
           const imageUrl = p?.image?.[0] ?? "/placeholder.png";
       const isSave = isSaveId?.has(p?._id?.toString())
      const handleSave = (e) => onSave(p._id, e);
+     
   const handleAdd = (e) => addCart(p._id, e);
           return (
             <div

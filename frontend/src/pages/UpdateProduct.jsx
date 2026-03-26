@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import Input from "../components/Input";
 import TextArea from "../components/TextArea";
 import Select from "../components/Select";
@@ -6,6 +6,7 @@ import Button from "../components/Button";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import { updateProduct } from "../features/product/productThunk";
+import toast from "react-hot-toast";
 
 export default function UpdateProduct() {
   const { currentProduct, status, error } = useSelector(state => state.products);
@@ -39,23 +40,29 @@ export default function UpdateProduct() {
         newImages: [],
       });
     }
-  }, [currentProduct]);
+  }, [currentProduct?._id]);
 
-  const handleForm = (e) => {
+  const handleForm = useCallback((e)=>{
+   
     const { name, value } = e.target;
     setForm(prev => ({ ...prev, [name]: value }));
-  };
+  
+  },[])
 
-  const handleFile = (e) => {
-    setForm(prev => ({
+  const handleFile = useCallback((e)=>{
+     setForm(prev => ({
       ...prev,
       newImages: Array.from(e.target.files),
     }));
-  };
-
+  },[])
+  
   const formSubmit = async (e) => {
     e.preventDefault();
-
+ if (!form.productName || !form.productPrice) {
+      toast.error("Name and price are required");
+      return;
+    }
+    if(status === "loading") return
     const formData = new FormData();
     formData.append("name", form.productName);
     formData.append("price", form.productPrice);
@@ -71,10 +78,12 @@ export default function UpdateProduct() {
   }
 
     try {
+       toast.loading("Updating product...", { id: "update" });
       await dispatch(updateProduct({ id: currentProduct._id, data: formData })).unwrap();
+       toast.success("Product updated ✅", { id: "update" });
       navigate("/");
     } catch (err) {
-      console.log(err);
+  toast.error("Update failed ❌",err, { id: "update" });
     }
   };
 

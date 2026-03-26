@@ -22,7 +22,7 @@ export default function Layout() {
 </Suspense>
       {/* Main Content */}
       <main className="flex-grow">
-        <Outlet context={searchText} />
+        <Outlet context={{searchText , setSearchText}}  />
       </main>
 <Suspense fallback={<div>Loading...</div>}>
       <Footer />

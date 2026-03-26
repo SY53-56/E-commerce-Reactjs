@@ -4,7 +4,7 @@ import FilterProduct from "../components/FilterProduct";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-import { Link} from "react-router";
+
 import { useDispatch, useSelector } from "react-redux";
 import { lazy, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 const Card = lazy(()=> import("../components/Card"))
@@ -14,6 +14,9 @@ import CategoriesProduct from "../components/CategoriesProduct";
 
 import UseProductActions from "../hooks/UseProductActions";
 import { userData } from "../features/auth/authThunk";
+import SearchPage from "./SearchPage";
+import SearchInput from "../components/SearchInput";
+
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -27,7 +30,7 @@ export default function Home() {
 
   const {  status,  totalPages , loading } = useSelector((state) => state.products)
   
-   
+  
   const products = useSelector(state=> state.products.products)
  const user= useSelector(state=>state.auth.user)
 
@@ -42,6 +45,7 @@ export default function Home() {
  useEffect(()=>{
   dispatch(userData())
  },[dispatch])
+
   useEffect(()=>{
     const ticking= false
 
@@ -78,6 +82,7 @@ export default function Home() {
     return () => ctx.revert();
   }, []);
 
+
  
 
   const category = useMemo(()=>{
@@ -90,11 +95,14 @@ export default function Home() {
 
   },[])
 
- 
+
 
   return (
     <>
       <div ref={containerRef}>
+
+
+       <SearchInput/>
         {/* HERO */}
        
       

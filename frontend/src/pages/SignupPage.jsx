@@ -1,155 +1,154 @@
-import React, { useState } from "react";
-
-import Button from "../components/Button.jsx"
+import React, { useState, useCallback } from "react";
+import Button from "../components/Button.jsx";
 import { Link, useNavigate } from "react-router-dom";
-
-  import { signupUser } from "../features/auth/authThunk.js";
+import { signupUser } from "../features/auth/authThunk.js";
 import { useDispatch, useSelector } from "react-redux";
-import { useCallback } from "react";
+import toast from "react-hot-toast";
 
 export default function SignupPage() {
-  const [form ,setForm]= useState({
-    username:"",
-    email:"",
-    password:"",
-    role:"user",
-    phone:""
-  })
-  const dispatch= useDispatch()
 
-const navigate= useNavigate()
-const {loading, error}= useSelector(state=>state.auth)
+  const [form, setForm] = useState({
+    username: "",
+    email: "",
+    password: "",
+    role: "user",
+    phone: ""
+  });
 
-   function formHandle(e){
-     const {name,value}= e.target
-     setForm((prev)=> ({...prev,[name]:value, ...(name ==="role" && value === "user"? {phone:""}:{})}))
-   }
-  
- 
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { loading } = useSelector(state => state.auth);
 
-   const formSubmit = useCallback((e)=>{
-e.preventDefault(); 
-     if (form.role === "admin" && !form.phone) {
-    alert("Phone number is required for seller");
-    return;
-  }
-    console.log("form",form)
- dispatch(signupUser(form)).unwrap()
- .then(()=>  navigate("/"))
- .catch((err) => {
-      console.error("Signup failed", err);
-    });
-   },[form, dispatch, navigate])
- 
+  /* ================= INPUT ================= */
+  const formHandle = useCallback((e) => {
+    const { name, value } = e.target;
 
+    setForm(prev => ({
+      ...prev,
+      [name]: value,
+      ...(name === "role" && value === "user" ? { phone: "" } : {})
+    }));
+  }, []);
 
-  
+  /* ================= SUBMIT ================= */
+  const formSubmit = useCallback(async (e) => {
+    e.preventDefault();
+
+    // ✅ VALIDATION
+    if (!form.username || !form.email || !form.password) {
+      toast.error("All fields are required");
+      return;
+    }
+
+    if (form.role === "admin" && !form.phone) {
+      toast.error("Phone number required for seller");
+      return;
+    }
+
+    if (loading) return; // prevent spam
+
+    try {
+      toast.loading("Creating account...", { id: "signup" });
+
+      await dispatch(signupUser(form)).unwrap();
+
+      toast.success("Account created 🎉", { id: "signup" });
+
+      navigate("/");
+    } catch (err) {
+      toast.error(err?.message || "Signup failed ❌", { id: "signup" });
+    }
+
+  }, [form, dispatch, navigate, loading]);
+
   return (
-    <div className={`min-h-screen flex items-center justify-center  px-4 bg-gray-900 text-white border-gray-700`}>
-      <form onSubmit={formSubmit}
-        className={`w-full max-w-md rounded-2xl border shadow-lg p-6 sm:p-8 space-y-6 transition-colors duration-300 `}
+    <div className="min-h-screen flex items-center justify-center px-4 bg-gray-900 text-white">
+
+      <form
+        onSubmit={formSubmit}
+        className="w-full max-w-md rounded-2xl border shadow-lg p-6 sm:p-8 space-y-6 border-gray-700"
       >
+
         {/* Heading */}
         <div className="text-center space-y-2">
-          <h1 className="text-3xl sm:text-4xl font-bold">Welcome Back</h1>
-          <p className="text-sm text-gray-500 dark:text-gray-400">
-            Please signup to your account
+          <h1 className="text-3xl font-bold">Create Account</h1>
+          <p className="text-sm text-gray-400">
+            Sign up to get started
           </p>
         </div>
+
         {/* Username */}
-        <div className="flex flex-col gap-1">
-          <label htmlFor="username" className="text-sm font-medium">
-            Username
-          </label>
-          <input
+        <input
           value={form.username}
-           onChange={formHandle}
-            id="username"
-            type="text"
-            name="username"
-            placeholder="Enter your username"
-            className="rounded-lg border px-3 py-2 outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition"
-          />
-        </div>
+          onChange={formHandle}
+          name="username"
+          required
+          placeholder="Username"
+          className="input"
+        />
 
         {/* Email */}
-        <div className="flex flex-col gap-1">
-          <label htmlFor="email" className="text-sm font-medium">
-            Email
-          </label>
-          <input
+        <input
           value={form.email}
           onChange={formHandle}
           name="email"
-            id="email"
-            type="email"
-            placeholder="Enter your email"
-            className="rounded-lg border px-3 py-2 outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition"
-          />
-        </div>
+          type="email"
+          required
+          placeholder="Email"
+          className="input"
+        />
 
         {/* Password */}
-        <div className="flex flex-col gap-1">
-          <label htmlFor="password" className="text-sm font-medium">
-            Password
-          </label>
-          <input
+        <input
           value={form.password}
-           onChange={formHandle}
-            id="password"
-            name="password"
-            type="password"
-            placeholder="Enter your password"
-            className="rounded-lg border px-3 py-2 outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition"
-          />
-        </div>
-       <div className="flex flex-col gap-1">
-  <label htmlFor="role" className="text-sm font-medium">
-    Select Role
-  </label>
-  <select
-    id="role"
-    name="role"
-    value={form.role}
-    onChange={formHandle}
-    className="rounded-lg border px-3 py-2 outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition" >
-    <option value="user">User</option>
-    <option value="admin">Seller</option>
-  </select>
-   {form.role ==="admin"&&(
-      <div className="flex flex-col gap-1">
-          <label htmlFor="Number" className="text-sm font-medium">
-         [phone NO]
-          </label>
-          <input
-          value={form.phone}
-           onChange={formHandle}
-            id="Number"
-            name="phone"
-            type="number"
-            placeholder="Enter your phone no"
-            className="rounded-lg border px-3 py-2 outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition"
-          />
-        </div>
-   )}
-</div>
+          onChange={formHandle}
+          name="password"
+          type="password"
+          required
+          placeholder="Password"
+          className="input"
+        />
 
-      
+        {/* Role */}
+        <select
+          name="role"
+          value={form.role}
+          onChange={formHandle}
+          className="input"
+        >
+          <option value="user">User</option>
+          <option value="admin">Seller</option>
+        </select>
+
+        {/* Phone (conditional) */}
+        {form.role === "admin" && (
+          <input
+            value={form.phone}
+            onChange={formHandle}
+            name="phone"
+            type="tel"
+            required
+            placeholder="Phone number"
+            className="input"
+          />
+        )}
 
         {/* Button */}
-        <Button type="submit" className="w-full py-2.5 rounded-lg bg-green-600 hover:bg-green-700 transition text-white font-semibold" name={loading ?"...loading":"submit"}/>
-          
-         {error && <p>{error.message}</p>}
+        <Button
+          type="submit"
+          disabled={loading}
+          className="w-full py-2.5 bg-green-600 rounded-lg disabled:opacity-50"
+          name={loading ? "Creating..." : "Sign Up"}
+        />
 
         {/* Footer */}
-        <p className="text-center text-sm text-gray-500 dark:text-gray-400">
-          Don’t have an account?{" "}
-         <Link to="/login">
-          <span className="text-green-600 cursor-pointer hover:underline">
-            login
-          </span>
-         </Link>
+        <p className="text-center text-sm text-gray-400">
+          Already have an account?{" "}
+          <Link to="/login" className="text-green-500 hover:underline">
+            Login
+          </Link>
         </p>
+
       </form>
     </div>
   );
