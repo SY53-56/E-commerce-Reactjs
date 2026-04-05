@@ -8,6 +8,7 @@ const cors = require("cors");
 const UserRoutes = require("./src/router/user");
 const ProductRouter = require("./src/router/product");
 const CartRouter = require("./src/router/cart");
+const Order = require("./src/models/order");
 
 // CORS
 app.use(
@@ -25,7 +26,7 @@ app.use(cookieParser());
 app.use("/user", UserRoutes);
 app.use("/product", ProductRouter);
 app.use("/cart", CartRouter);
-
+app.use("/order" , Order)
 // ✅ START SERVER ONLY AFTER DB CONNECTS
 const PORT = 5000;
 
