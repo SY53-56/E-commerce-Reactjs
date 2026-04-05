@@ -1,7 +1,7 @@
-import React from "react";
+import React, { memo } from "react";
 import { NavLink } from "react-router-dom";
 
-export default function Button({
+ function Button({
   name,
   to,
   className,
@@ -33,3 +33,5 @@ export default function Button({
     </button>
   );
 }
+
+export default memo(Button)
