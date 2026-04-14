@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getCart,
@@ -6,14 +6,24 @@ import {
   increaseQuantity,
   decreaseQuantity,
 } from "../features/cart/cartThunk";
-import  {clearCart} from "../features/cart/cartSlice";
+
 import CartCard  from "../components/CartCard";
 import { useNavigate } from "react-router";
 import { useTheme } from "../context/themeContext";
-
+import Input from "../components/Input"
+import { getCreateOrder } from "../features/order/orderThunk";
 export default function Cart() {
   const dispatch = useDispatch();
   const { cart, loading } = useSelector((state) => state.cart);
+ const user = useSelector(state=>state.auth.user)
+ const [ShowOrderForm, setShowOrderForm] = useState(false)
+  const [form, setForm] = useState({
+    name: "",
+    state: "",
+    city: "",
+    pinCode: "",
+    gali: "",
+  });
 
   const navigate = useNavigate()
 //console.log("cartdata",cart.items.map(item=>item.product.name))
@@ -22,19 +32,36 @@ export default function Cart() {
    
       
    dispatch(getCart())
-    
+
   }, [dispatch]);
 
-
+ const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
  
   const handleCheckout = () => {
-    alert("Checkout successful!");
-    dispatch(clearCart());
-  navigate("/")
+   setShowOrderForm(prev=> !prev)
   };
+  
+const handleOrder = useCallback(async(e)=>{
+   e.preventDefault();
+      
+     await dispatch(getCreateOrder({address:form})).unwrap();
+     setForm({
+  name: "",
+  state: "",
+  city: "",
+  pinCode: "",
+  gali: "",
+});
+      navigate(`/product/order/${user._id}`);
+
+},[dispatch,navigate,user , form])
+
 
   const handleIncreaseQuantity= useCallback((id)=>{
       dispatch(increaseQuantity(id))
+      
   },[dispatch])
  
   const handleDecreaseQuantity = useCallback((id)=>{
@@ -60,10 +87,10 @@ if (!cart || !cart.items || cart.items.length === 0)
     );
 
   return (
-    <div className="min-h-screen bg-gray-100 py-10 px-4 lg:px-20">
+    <div className={`min-h-screen relative bg-gray-100 py-10 px-4 lg:px-20`}>
       <h1 className="text-4xl font-bold mb-10 text-gray-900">Shopping Cart</h1>
 
-      <div className="flex flex-col lg:flex-row gap-8">
+      <div className={`flex flex-col lg:flex-row  ${ShowOrderForm === true ? ("opacity-20"):("opacity-100")} gap-8`}>
         {/* Cart Items */}
         <div className="flex-1 space-y-6">
           {cart?.items?.map((item) => (
@@ -101,8 +128,74 @@ if (!cart || !cart.items || cart.items.length === 0)
               Checkout
             </button>
           </div>
+          
         </div>
       </div>
+       {ShowOrderForm&&(
+             <div className={` ${ShowOrderForm === true?"z-50":""} w-full absolute top-28 right-1/3 max-w-2xl bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl shadow-xl p-6`}>
+        
+        {/* Heading */}
+        <h1 className="text-2xl md:text-3xl font-bold text-black mb-6 text-center">
+          Place Your Order 🛒
+        </h1>
+
+        {/* Form */}
+    
+<form   onSubmit={handleOrder} className="grid grid-cols-1 md:grid-cols-2 gap-4">
+  
+          <Input
+            name="name"
+            value={form.name}
+            onChange={handleChange}
+            placeholder="Full Name"
+            className="bg-white/10  px-4 py-2 rounded-lg outline-none"
+          />
+
+          <Input
+            name="city"
+            value={form.city}
+            onChange={handleChange}
+            placeholder="City"
+            className="bg-white/10 px-4 py-2 rounded-lg outline-none"
+          />
+
+          <Input
+            name="state"
+            value={form.state}
+            onChange={handleChange}
+            placeholder="State"
+            className="bg-white/10  px-4 py-2 rounded-lg outline-none"
+          />
+
+          <Input
+            name="pinCode"
+            value={form.pinCode}
+            onChange={handleChange}
+            placeholder="Pincode"
+            className="bg-white/10 px-4 py-2 rounded-lg outline-none"
+          />
+
+          <Input
+            name="gali"
+            value={form.gali}
+            onChange={handleChange}
+            placeholder="Street / Gali"
+            className="bg-white/10  px-4 py-2 rounded-lg outline-none md:col-span-2"
+          />
+            <button type="submit"
+          className="w-full mt-6 bg-amber-500 hover:bg-amber-600 text-white font-semibold py-3 rounded-xl transition-all shadow-md"
+        >
+          Place Order 🚀
+        </button>
+</form>
+
+  
+
+      
+      
+
+      </div>
+           )}
     </div>
   );
 }

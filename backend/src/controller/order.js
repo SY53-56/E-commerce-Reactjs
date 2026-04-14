@@ -1,13 +1,14 @@
 const Cart = require("../models/cart")
-const order = require("../models/order")
+
 const Order = require("../models/order")
 
 
 const createOrder = async(req,res)=>{
      const userId = req.user.id
      const {address} = req.body
+     console.log("address",address)
     try{
-    const cart= await Cart.findById({user:userId})
+    const cart= await Cart.findOne({user:userId})
        if (!cart || cart.items.length === 0) {
       return res.status(400).json({ message: "Cart is empty" });
     }
@@ -16,7 +17,7 @@ const createOrder = async(req,res)=>{
     user:userId,
     items:cart.items,
     totalAmount:cart.totalAmount,
-    addres:address
+    address:address
    })
    await order.save();
 
@@ -25,7 +26,7 @@ const createOrder = async(req,res)=>{
   cart.totalAmount= 0
  
   await cart.save()
-    res.status(201).json({
+  return  res.status(201).json({
       success: true,
       message: "Order created successfully",
       order,
@@ -43,11 +44,13 @@ const getAllOrder= async(req,res)=>{
      const userId = req.user.id
 
      const order= await Order.find({user:userId})
-       res.status(201).json({
+     console.log(order)
+      return res.status(201).json({
       success: true,
       message: "Order created successfully",
       order,
     });
+  
     }catch(e){
      res.status(500).json({
       success: false,
@@ -58,8 +61,8 @@ const getAllOrder= async(req,res)=>{
 const getSingleOrder =async(req,res)=>{
     try{
         const productId = req.params.id
-        const order = await Order.findOne(productId)
-          res.status(201).json({
+        const order = await Order.findById(productId)
+        return  res.status(200).json({
       success: true,
       message: "Order created successfully",
       order,
@@ -95,9 +98,9 @@ const getOrderStatus= async(req,res)=>{
 if (!validStatus.includes(status)) {
   return res.status(400).json({ message: "Invalid status" });
 }
-order.status= validStatus
+order.status= status
   await order.save()
-  res.status(201).json({
+  res.status(200).json({
       success: true,
       message: "Order created successfully",
       order,

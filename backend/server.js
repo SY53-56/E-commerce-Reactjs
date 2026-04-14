@@ -8,7 +8,7 @@ const cors = require("cors");
 const UserRoutes = require("./src/router/user");
 const ProductRouter = require("./src/router/product");
 const CartRouter = require("./src/router/cart");
-const Order = require("./src/models/order");
+const Order = require("./src/router/order");
 
 // CORS
 app.use(

@@ -76,9 +76,9 @@ const addCart = async (req, res) => {
 ======================= */
 const getCart = async (req, res) => {
   try {
-    console.log(req.user.id)
+  
     let cart = await Cart.findOne({ user: req.user.id });
- console.log("cart", cart)
+
     if (!cart) {
       return res.status(200).json({
         success: true,
@@ -94,7 +94,7 @@ const getCart = async (req, res) => {
     calculateCartTotals(cart);
     await cart.save();
     await cart.populate("items.product");
-  console.log(cart)
+
     res.status(200).json({ success: true, data: cart });
   } catch (e) {
     res.status(400).json({ message: e.message });

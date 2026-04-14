@@ -57,7 +57,7 @@ const showOneProduct = async (req, res) => {
 const addProduct = async (req, res) => {
   try {
     const { name, price, description, category,unit,brand,stock } = req.body;
-  console.log("data ",req.body)
+
     if (!name || !price  || !description || !category || !unit|| !brand ||      stock === undefined ) {
       return res.status(400).json({ message: "Please fill all fields" });
     }

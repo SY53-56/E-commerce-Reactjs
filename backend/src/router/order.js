@@ -5,8 +5,8 @@ const isAdmin = require("../middleware/adminMiddleware");
 const router = express.Router();
 
 
-router.post("/", createOrder)
-router.get("/allorder/:userId", userMiddleware, getAllOrder)
+router.post("/",userMiddleware, createOrder)
+router.get("/allorder", userMiddleware, getAllOrder)
 router.get("/singleOrder/:orderId" ,userMiddleware, getSingleOrder)
 router.post("/:id",userMiddleware, isAdmin ,getOrderStatus )
 module.exports =router

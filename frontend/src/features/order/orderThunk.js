@@ -13,6 +13,7 @@ export const getCreateOrder = createAsyncThunk("/order" , async( address , { rej
 export const getAllOrder = createAsyncThunk("/allorder" , async( _ , { rejectWithValue })=>{
  try{
      const response =await API.get(`/order/allorder`)
+     console.log(response.data)
      return response.data
  }catch(e){
         return rejectWithValue(e.response?.data?.message || e.message);
@@ -20,7 +21,8 @@ export const getAllOrder = createAsyncThunk("/allorder" , async( _ , { rejectWit
 })
 export const getSingleOrder = createAsyncThunk("/singleorder" , async( orderId , { rejectWithValue })=>{
  try{
-     const response =await API.get(`/order/singleorder/${orderId}`)
+     const response =await API.get(`/order/singleOrder/${orderId}`)
+        console.log(response.data)
      return response.data
  }catch(e){
         return rejectWithValue(e.response?.data?.message || e.message);
@@ -29,6 +31,7 @@ export const getSingleOrder = createAsyncThunk("/singleorder" , async( orderId ,
 export const updataOrderStatus = createAsyncThunk("/orderstatus" , async({ orderId , status}, { rejectWithValue })=>{
  try{
      const response =await API.post(`/order/${orderId}`, {status})
+        console.log(response.data)
      return response.data
  }catch(e){
         return rejectWithValue(e.response?.data?.message || e.message);
