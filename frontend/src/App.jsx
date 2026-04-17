@@ -8,7 +8,7 @@ import Layout from './Layout'
 import Home from './pages/Home'
 import Login from "./pages/LoginPage"
 import SignupPage from './pages/signupPage'
-import {OrderPage} from './pages/OrderPage';
+import OrderPage from './pages/OrderPage';
 
 // ✅ LAZY (heavy pages)
 const Cart = lazy(() => import("./pages/Cart"))
