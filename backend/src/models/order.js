@@ -1,5 +1,3 @@
-const mongoose = require("mongoose");
-
 const orderSchema = new mongoose.Schema(
   {
     user: {
@@ -20,13 +18,24 @@ const orderSchema = new mongoose.Schema(
           required: true,
         },
         price: {
-          type: Number, // snapshot price
+          type: Number,
           required: true,
         },
       },
     ],
 
     totalAmount: {
+      type: Number,
+      required: true,
+    },
+
+    //  ADD THESE
+    discountAmount: {
+      type: Number,
+      default: 0,
+    },
+
+    finalAmount: {
       type: Number,
       required: true,
     },
@@ -46,5 +55,3 @@ const orderSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
-
-module.exports = mongoose.model("Order", orderSchema);

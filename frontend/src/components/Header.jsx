@@ -28,7 +28,7 @@ import Input from "./Input.jsx";
 
   useEffect(() => {
     if (user) dispatch(getCart());
-  }, [dispatch, user?.id]);
+  }, [dispatch, user?.id ]);
   
  const handleItem = ()=>{
   setShowItem(prev => !prev)
@@ -122,17 +122,21 @@ import Input from "./Input.jsx";
         {showItem &&
          <div ref={dropDownRef} className="border absolute top-20  right-18 w-52 bg-white shadow-2xl  z-[999] rounded-md  h-auto">
     {user && (
-      <div className="flex flex-col px-6 py-5"> 
+      <div className="flex flex-col px-6 py-5 text-black"> 
         {user.role ==="admin" &&(<div className="flex flex-col gap-4 text-black"><Link className="flex gap-2 hover:bg-gray-300 px-4 py-1 transition-all duration-500 rounded-lg" to="/add"><FormIcon/> add project</Link>  
              <Link to={`/user/${user.id}`} className="flex gap-2 hover:bg-gray-300 px-4 py-1 rounded-lg transition-all duration-500"> <LayoutDashboardIcon/> Dashboard</Link>
-             <Link to={`/saveItem/${user.id}`} className="flex gap-2 hover:bg-gray-300 px-4 py-1 rounded-lg transition-all duration-500" ><SaveAllIcon/> SaveProduct  </Link>
+             
              <Link to={`/userProfile/${user.id}`}  className="flex gap-2 hover:bg-gray-300 px-4 py-1 rounded-lg transition-all duration-500"><User2Icon/>userProfile</Link>
+             
              </div>
              
             )
                
              }
-             
+            <div className="flex flex-col gap-4 text-black mt-4">
+               <Link to={`/saveItem/${user.id}`} className="flex gap-2 hover:bg-gray-300 px-4 py-1 rounded-lg transition-all duration-500" ><SaveAllIcon/> SaveProduct  </Link>
+                        <Link to={`/product/order/${user.id}`}  className="flex gap-2 hover:bg-gray-300 px-4 py-1 rounded-lg transition-all duration-500"><User2Icon/>order</Link>
+            </div>
              </div>
              
     )}
