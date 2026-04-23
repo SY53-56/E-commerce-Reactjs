@@ -11,12 +11,15 @@ import CartCard  from "../components/CartCard";
 import { useNavigate } from "react-router";
 import { useTheme } from "../context/themeContext";
 import Input from "../components/Input"
-import { getCreateOrder } from "../features/order/orderThunk";
+import { getAllOrder, getCreateOrder, getSingleOrder } from "../features/order/orderThunk";
 export default function Cart() {
   const dispatch = useDispatch();
   const { cart, loading } = useSelector((state) => state.cart);
  const user = useSelector(state=>state.auth.user)
  const [ShowOrderForm, setShowOrderForm] = useState(false)
+ const {order, orders} = useSelector(state=>state.order)
+ console.log("cartorder",order)
+ console.log("orders",orders)
   const [form, setForm] = useState({
     name: "",
     state: "",
@@ -24,7 +27,7 @@ export default function Cart() {
     pinCode: "",
     gali: "",
   });
-
+console.log(   "userada",user)
   const navigate = useNavigate()
 //console.log("cartdata",cart.items.map(item=>item.product.name))
  const {theme} = useTheme()
@@ -34,6 +37,12 @@ export default function Cart() {
    dispatch(getCart())
 
   }, [dispatch]);
+  useEffect(() => {
+  dispatch(getAllOrder());
+}, [dispatch]);
+  useEffect(()=>{
+    dispatch(getSingleOrder())
+  },[dispatch])
 
  const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -43,22 +52,31 @@ export default function Cart() {
    setShowOrderForm(prev=> !prev)
   };
   
-const handleOrder = useCallback(async(e)=>{
-   e.preventDefault();
-      
-     await dispatch(getCreateOrder({address:form})).unwrap();
-     setForm({
-  name: "",
-  state: "",
-  city: "",
-  pinCode: "",
-  gali: "",
-});
-      navigate(`/product/order/${user._id}`);
+const handleOrder = useCallback(async (e) => {
+  e.preventDefault();
 
-},[dispatch,navigate,user , form])
+  const existAddresOrder = orders?.[0]?.address;
+console.log(existAddresOrder)
+  try {
+    if (existAddresOrder) {
+      //  Use existing address
+      await dispatch(getCreateOrder({ address: existAddresOrder })
+       
+      ).unwrap();
+    } else {
+      // Use form address
+      await dispatch(
+        getCreateOrder({ address: form })
+      ).unwrap();
+    }
 
+    navigate(`/product/order/${user.id}`);
 
+  } catch (err) {
+    console.error(err);
+  }
+
+}, [dispatch, navigate, form, orders, user]);
   const handleIncreaseQuantity= useCallback((id)=>{
       dispatch(increaseQuantity(id))
       
@@ -87,7 +105,7 @@ if (!cart || !cart.items || cart.items.length === 0)
     );
 
   return (
-    <div className={`min-h-screen relative bg-gray-100 py-10 px-4 lg:px-20`}>
+    <div className={`min-h-screen relative  bg-gray-100 py-10 px-4 lg:px-20`}>
       <h1 className="text-4xl font-bold mb-10 text-gray-900">Shopping Cart</h1>
 
       <div className={`flex flex-col lg:flex-row  ${ShowOrderForm === true ? ("opacity-20"):("opacity-100")} gap-8`}>
@@ -132,10 +150,10 @@ if (!cart || !cart.items || cart.items.length === 0)
         </div>
       </div>
        {ShowOrderForm&&(
-             <div className={` ${ShowOrderForm === true?"z-50":""} w-full absolute top-28 right-1/3 max-w-2xl bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl shadow-xl p-6`}>
+             <div className={` ${ShowOrderForm === true?"z-50":""} w-full ml-20 lg:ml-0 absolute top-28 right-1/3 flex flex-col  justify-center  max-w-2xl bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl shadow-xl p-6`}>
         
         {/* Heading */}
-        <h1 className="text-2xl md:text-3xl font-bold text-black mb-6 text-center">
+        <h1 className="text-2xl  md:text-3xl font-bold text-black mb-6 text-center">
           Place Your Order 🛒
         </h1>
 
@@ -148,7 +166,7 @@ if (!cart || !cart.items || cart.items.length === 0)
             value={form.name}
             onChange={handleChange}
             placeholder="Full Name"
-            className="bg-white/10  px-4 py-2 rounded-lg outline-none"
+            className="bg-white/10 text-gray-950   border border-gray-700  outline-none focus:ring-2 focus:ring-amber-400 transition  px-4 py-2 rounded-lg outline-none"
           />
 
           <Input
@@ -156,7 +174,7 @@ if (!cart || !cart.items || cart.items.length === 0)
             value={form.city}
             onChange={handleChange}
             placeholder="City"
-            className="bg-white/10 px-4 py-2 rounded-lg outline-none"
+            className="bg-white/10 text-gray-950  border border-gray-700 rounded-lg outline-none focus:ring-2 focus:ring-amber-400 transition  px-4 py-2 rounded-lg outline-none"
           />
 
           <Input
@@ -164,7 +182,7 @@ if (!cart || !cart.items || cart.items.length === 0)
             value={form.state}
             onChange={handleChange}
             placeholder="State"
-            className="bg-white/10  px-4 py-2 rounded-lg outline-none"
+            className="bg-white/10 text-gray-950   px-4 py-2  border border-gray-700 rounded-lg outline-none focus:ring-2 focus:ring-amber-400 transition rounded-lg outline-none"
           />
 
           <Input
@@ -172,7 +190,7 @@ if (!cart || !cart.items || cart.items.length === 0)
             value={form.pinCode}
             onChange={handleChange}
             placeholder="Pincode"
-            className="bg-white/10 px-4 py-2 rounded-lg outline-none"
+            className="bg-white/10  border border-gray-700 rounded-lg outline-none focus:ring-2 focus:ring-amber-400 transition text-gray-950 px-4 py-2 rounded-lg outline-none"
           />
 
           <Input
@@ -180,7 +198,7 @@ if (!cart || !cart.items || cart.items.length === 0)
             value={form.gali}
             onChange={handleChange}
             placeholder="Street / Gali"
-            className="bg-white/10  px-4 py-2 rounded-lg outline-none md:col-span-2"
+            className="bg-white/10  border border-gray-700 rounded-lg outline-none focus:ring-2 focus:ring-amber-400 transition text-gray-950   px-4 py-2 rounded-lg outline-none md:col-span-2"
           />
             <button type="submit"
           className="w-full mt-6 bg-amber-500 hover:bg-amber-600 text-white font-semibold py-3 rounded-xl transition-all shadow-md"

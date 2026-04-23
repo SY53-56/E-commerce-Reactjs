@@ -1,135 +1,122 @@
-import React, { useState, useCallback } from "react";
-import Button from "../components/Button.jsx";
-import { Link, useNavigate } from "react-router-dom";
-import { signupUser } from "../features/auth/authThunk.js";
-import { useDispatch, useSelector } from "react-redux";
-import toast from "react-hot-toast";
+import { useDispatch, useSelector } from 'react-redux';
+
+import { useState, useCallback } from 'react';
+
+import Input from '../components/Input';
+import Select from '../components/Select';
+import Button from '../components/Button';
+import { signupUser } from '../features/auth/authThunk';
+import { useNavigate, Link } from 'react-router-dom';
+import toast from 'react-hot-toast';
 
 export default function SignupPage() {
 
-  const [form, setForm] = useState({
-    username: "",
-    email: "",
-    password: "",
-    role: "user",
-    phone: ""
-  });
-
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { loading } = useSelector(state => state.auth);
+  const { loading } = useSelector((state) => state.auth);
 
-  /* ================= INPUT ================= */
+  const [form, setForm] = useState({
+    username: '',
+    email: '',
+    password: '',
+    role: 'user',
+    phone: '',
+  });
+
   const formHandle = useCallback((e) => {
     const { name, value } = e.target;
-
-    setForm(prev => ({
+    setForm((prev) => ({
       ...prev,
       [name]: value,
-      ...(name === "role" && value === "user" ? { phone: "" } : {})
     }));
   }, []);
 
-  /* ================= SUBMIT ================= */
-  const formSubmit = useCallback(async (e) => {
-    e.preventDefault();
+  const formSubmit = useCallback(
+    async (e) => {
+      e.preventDefault();
 
-    // ✅ VALIDATION
-    if (!form.username || !form.email || !form.password) {
-      toast.error("All fields are required");
-      return;
-    }
+      if (!form.username || !form.email || !form.password) {
+        toast.error('All fields are required');
+        return;
+      }
 
-    if (form.role === "admin" && !form.phone) {
-      toast.error("Phone number required for seller");
-      return;
-    }
+      if (form.role === 'admin' && !form.phone) {
+        toast.error('Phone number required for seller');
+        return;
+      }
 
-    if (loading) return; // prevent spam
-
-    try {
-      toast.loading("Creating account...", { id: "signup" });
-
-      await dispatch(signupUser(form)).unwrap();
-
-      toast.success("Account created 🎉", { id: "signup" });
-
-      navigate("/");
-    } catch (err) {
-      toast.error(err?.message || "Signup failed ❌", { id: "signup" });
-    }
-
-  }, [form, dispatch, navigate, loading]);
+      try {
+        toast.loading('Creating account...', { id: 'signup' });
+        await dispatch(signupUser(form)).unwrap();
+        toast.success('Account created 🎉', { id: 'signup' });
+        navigate('/');
+      } catch (err) {
+        toast.error(err?.message || 'Signup failed ❌', { id: 'signup' });
+      }
+    },
+    [form, dispatch, navigate]
+  );
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 bg-gray-900 text-white">
-
+    <div
+      className={`min-h-screen flex items-center justify-center px-4 bg-gray-900 text-white`}
+    >
       <form
         onSubmit={formSubmit}
-        className="w-full max-w-md rounded-2xl border shadow-lg p-6 sm:p-8 space-y-6 border-gray-700"
+        className="w-full max-w-md bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-xl space-y-6"
       >
-
         {/* Heading */}
-        <div className="text-center space-y-2">
+        <div className="text-center">
           <h1 className="text-3xl font-bold">Create Account</h1>
-          <p className="text-sm text-gray-400">
-            Sign up to get started
-          </p>
+          <p className="text-sm opacity-60 mt-1">Join us today 🚀</p>
         </div>
 
         {/* Username */}
-        <input
+        <Input
+          label="Username"
+          name="username"
           value={form.username}
           onChange={formHandle}
-          name="username"
-          required
-          placeholder="Username"
-          className="input"
+          placeholder="Enter username"
         />
 
         {/* Email */}
-        <input
-          value={form.email}
-          onChange={formHandle}
+        <Input
+          label="Email"
           name="email"
           type="email"
-          required
-          placeholder="Email"
-          className="input"
+          value={form.email}
+          onChange={formHandle}
+          placeholder="Enter email"
         />
 
         {/* Password */}
-        <input
-          value={form.password}
-          onChange={formHandle}
+        <Input
+          label="Password"
           name="password"
           type="password"
-          required
-          placeholder="Password"
-          className="input"
+          value={form.password}
+          onChange={formHandle}
+          placeholder="Enter password"
         />
 
         {/* Role */}
-        <select
+        <Select
+          label="Role"
           name="role"
           value={form.role}
           onChange={formHandle}
-          className="input"
-        >
-          <option value="user">User</option>
-          <option value="admin">Seller</option>
-        </select>
+          options={["user", "admin"]}
+        />
 
-        {/* Phone (conditional) */}
-        {form.role === "admin" && (
-          <input
+        {/* Phone (only admin) */}
+        {form.role === 'admin' && (
+          <Input
+            label="Phone"
+            name="phone"
             value={form.phone}
             onChange={formHandle}
-            name="phone"
-            type="tel"
-            required
-            placeholder="Phone number"
-            className="input"
+            placeholder="Enter phone number"
           />
         )}
 
@@ -137,18 +124,17 @@ export default function SignupPage() {
         <Button
           type="submit"
           disabled={loading}
-          className="w-full py-2.5 bg-green-600 rounded-lg disabled:opacity-50"
-          name={loading ? "Creating..." : "Sign Up"}
+          className="w-full py-2.5 rounded-lg bg-green-600 hover:bg-green-700 text-white font-semibold"
+          name={loading ? 'Creating...' : 'Signup'}
         />
 
         {/* Footer */}
-        <p className="text-center text-sm text-gray-400">
-          Already have an account?{" "}
+        <p className="text-center text-sm opacity-70">
+          Already have an account?{' '}
           <Link to="/login" className="text-green-500 hover:underline">
             Login
           </Link>
         </p>
-
       </form>
     </div>
   );

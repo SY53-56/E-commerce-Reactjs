@@ -15,9 +15,7 @@ const Input = React.memo(({ label, name, placeholder, value, multiple, className
     multiple={multiple}
       onChange={onChange}
       placeholder={placeholder}    
-        className={`w-full ${className} px-4 py-2 bg-gray-900 text-black
-      border border-gray-700 rounded-lg outline-none
-      focus:ring-2 focus:ring-amber-400 transition `}
+        className={` ${className ? className : "w-full  px-4 py-2 bg-gray-900 text-white border border-gray-700 rounded-lg outline-none focus:ring-2 focus:ring-amber-400 transition"} `}
     />
   </div>
 ));

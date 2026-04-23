@@ -13,7 +13,7 @@ export const getCreateOrder = createAsyncThunk("/order" , async( address , { rej
 export const getAllOrder = createAsyncThunk("/allorder" , async( _ , { rejectWithValue })=>{
  try{
      const response =await API.get(`/order/allorder`)
-     console.log(response.data)
+     console.log( "sahul",response.data)
      return response.data
  }catch(e){
         return rejectWithValue(e.response?.data?.message || e.message);

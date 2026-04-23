@@ -1,19 +1,24 @@
-import { useDispatch, useSelector } from 'react-redux';
+import {  useDispatch, useSelector } from 'react-redux';
 import { useTheme } from '../context/themeContext';
 import { useEffect } from 'react';
-import { getAllOrder } from '../features/order/orderThunk';
+import { getAllOrder,} from '../features/order/orderThunk';
 
 export default function OrderPage() {
   const { theme } = useTheme();
-  const dispatch = useDispatch();
-  const { orders, order } = useSelector((state) => state.order);
+const dispatch= useDispatch()
+  const {  order , orders } = useSelector((state) => state.order);
 
-
-  console.log("order",order)
-  useEffect(() => {
-    dispatch(getAllOrder());
-  }, [dispatch]);
-
+ useEffect(()=>{
+   if(orders){
+    dispatch(getAllOrder())
+   }
+ },[dispatch, orders])
+ /*
+ useEffect(()=>{
+  dispatch(getSingleOrder())
+ },[dispatch])*/
+ console.log("orders",orders)
+ console.log( "sahuklordeer",order)
   return (
     <div
       className={`min-h-screen px-4 md:px-10 lg:px-20 py-10 ${
@@ -25,7 +30,9 @@ export default function OrderPage() {
       
         <div className="grid gap-6">
        
-            <div
+        {orders.length ===0 ?(<p>there are no data</p>):(orders.map(order=>(
+          <div>
+                <div
               key={order._id}
               className="bg-white dark:bg-gray-800 rounded-2xl shadow-md p-5 hover:shadow-xl transition"
             >
@@ -94,6 +101,8 @@ export default function OrderPage() {
                 {order.address.state} - {order.address.pinCode}
               </div>
             </div>
+          </div>
+        )))}
           
         </div>
   
