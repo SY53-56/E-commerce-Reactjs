@@ -17,7 +17,7 @@ app.use(
     credentials: true,
   })
 );
-
+   
 // Middlewares
 app.use(express.json());
 app.use(cookieParser());
@@ -28,13 +28,16 @@ app.use("/product", ProductRouter);
 app.use("/cart", CartRouter);
 app.use("/order" , Order)
 // ✅ START SERVER ONLY AFTER DB CONNECTS
-const PORT = 5000;
+const port= process.env.PORT ||5000
 
+  app.get("/backend",(req,res)=>{
+    res.send("hii sahul")
+  })
 const startServer = async () => {
   try {
     await connectDb(); // ⬅️ THIS FIXES EVERYTHING
-    app.listen(PORT, () => {
-      console.log("Server running on port", PORT);
+    app.listen(port, () => {
+      console.log("Server running on port", port);
     });
   } catch (err) {
     console.error("Failed to start server ❌", err);

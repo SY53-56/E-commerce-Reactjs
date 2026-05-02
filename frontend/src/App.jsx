@@ -20,7 +20,7 @@ const SaveProductPage = lazy(() => import("./pages/SaveProductPage"))
 const UpdateProduct = lazy(() => import("./pages/UpdateProduct"))
 const AddProduct = lazy(() => import("./pages/addProduct"))
 const UserProfile = lazy(() => import("./pages/UserProfile"))
-const ProductDiscountPage = lazy(() => import("./pages/ProductDiscountedPage"))
+
 
 function App() {
   return (
@@ -50,7 +50,7 @@ function App() {
 
             <Route path='/add' element={<AddProduct />} />
             <Route path="/update/:id" element={<UpdateProduct />} />
-            <Route path="/product/page" element={<ProductDiscountPage />} />
+      
             <Route  path='/product/order/:id' element={<OrderPage/>}/>
           </Route>
 

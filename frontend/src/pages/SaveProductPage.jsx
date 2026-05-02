@@ -6,9 +6,9 @@ import UseProductActions from "../hooks/UseProductActions";
 export default function SaveProductPage() {
   const {handleSave, handleAddToCart} = UseProductActions()
   const { user } = useSelector((state) => state.auth);
-
+   console.log("saveProductuser",user)
   const savedProducts = user?.saveItem || [];
-
+ console.log("saveProducts",savedProducts)
   return (
     <div className="my-10 flex flex-col w-full px-12 lg:px-20">
       <h1 className="text-4xl mb-9 lg:text-5xl font-bold text-center">
