@@ -1,5 +1,5 @@
 import React, { memo, useEffect, useRef, useState } from "react";
-import { Menu, Moon, Sun, Search, ShoppingCart, LayoutDashboardIcon, LayoutDashboard, FormIcon , EllipsisVerticalIcon, SaveAllIcon, User2Icon } from "lucide-react";
+import { Menu, Moon, Sun, Search, ShoppingCart, LayoutDashboardIcon, LayoutDashboard, FormIcon , EllipsisVerticalIcon, SaveAllIcon, User2Icon, User } from "lucide-react";
 import Button from "./Button";
 import { useTheme } from "../context/themeContext.jsx";
 import { NavLink,Link, useNavigate, useLocation } from "react-router-dom";
@@ -151,7 +151,7 @@ import Input from "./Input.jsx";
           ${theme === "light" ? "bg-indigo-600 text-white" : "bg-gray-900 text-gray-100"}
         `}
       >
-        <div className="flex flex-col gap-6 p-5">
+        <div className="flex flex-col gap-3 p-5">
           <div className="flex justify-between">
             <h1 className="text-2xl font-bold">main mart</h1>
           <button onClick={toggleMenuHandler} className="self-end text-2xl font-bold">X</button>
@@ -179,11 +179,16 @@ import Input from "./Input.jsx";
             
             <div className="flex flex-col gap-4">
              
+             {user?.role ==="admin" &&(<div className="flex flex-col gap-3">
               <Link to={`/user/${user.id}`}  className="flex items-center gap-2  hover:bg-gray-300  rounded-lg transition-all duration-500">
                  <LayoutDashboard size={22}/>
                 <p>DashBord</p>
               </Link>
-           
+              <Link to={`/userProfile/${user.id}`}  className="flex items-center gap-2  hover:bg-gray-300  rounded-lg transition-all duration-500">
+              <User/>
+              <p>userProfile</p>
+              </Link>
+              </div> )}
            <Link to={"/add"} className="flex items-center gap-2  hover:bg-gray-300  rounded-lg transition-all duration-500">
            <FormIcon/>
            <p>Add product</p>
@@ -192,6 +197,7 @@ import Input from "./Input.jsx";
                         <Link to={`/saveItem/${user.id}`} className="flex items-center gap-2 hover:bg-gray-300  rounded-lg transition-all duration-500" ><SaveAllIcon/> SaveProduct  </Link>
               
               <Button onClick={logoutApi} className="bg-red-500 px-4 py-2 rounded-lg text-white" name="Logout" />
+         
             </div>
           ) : (
             <div className="flex flex-col gap-2">

@@ -13,7 +13,7 @@ const dispatch= useDispatch()
     dispatch(getAllOrder())
    
  },[dispatch,])
-
+console.log(orders)
   return (
     <div
       className={`min-h-screen px-4 md:px-10 lg:px-20 py-10 ${
