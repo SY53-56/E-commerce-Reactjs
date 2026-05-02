@@ -6,19 +6,14 @@ import { getAllOrder,} from '../features/order/orderThunk';
 export default function OrderPage() {
   const { theme } = useTheme();
 const dispatch= useDispatch()
-  const {  order , orders } = useSelector((state) => state.order);
+  const {  orders } = useSelector((state) => state.order);
 
  useEffect(()=>{
-   if(orders){
+   
     dispatch(getAllOrder())
-   }
- },[dispatch, orders])
- /*
- useEffect(()=>{
-  dispatch(getSingleOrder())
- },[dispatch])*/
- console.log("orders",orders)
- console.log( "sahuklordeer",order)
+   
+ },[dispatch,])
+
   return (
     <div
       className={`min-h-screen px-4 md:px-10 lg:px-20 py-10 ${
@@ -31,9 +26,8 @@ const dispatch= useDispatch()
         <div className="grid gap-6">
        
         {orders.length ===0 ?(<p>there are no data</p>):(orders.map(order=>(
-          <div>
-                <div
-              key={order._id}
+          <div key={order._id}>
+                <div 
               className="bg-white dark:bg-gray-800 rounded-2xl shadow-md p-5 hover:shadow-xl transition"
             >
               {/* Header */}

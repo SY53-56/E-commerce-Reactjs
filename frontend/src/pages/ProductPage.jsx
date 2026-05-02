@@ -5,7 +5,7 @@ import { showOneProduct } from "../features/product/productThunk";
 
 import Button from "../components/Button";
 import { productPageAnimation } from "../animations/ProductPageAnimation";
-import toast from "react-hot-toast";
+
 import ProductPageSkeleton from "../components/ProductPageSkeleton";
 import { useTheme } from "../context/themeContext";
 import UseProductActions from "../hooks/UseProductActions";

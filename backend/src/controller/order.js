@@ -1,6 +1,7 @@
 const Cart = require("../models/cart");
 const Order = require("../models/order");
 
+
 /* =======================
    CREATE ORDER
 ======================= */
@@ -118,8 +119,15 @@ const getSingleOrder = async (req, res) => {
 ======================= */
 const getOrderStatus = async (req, res) => {
   try {
-    const { status } = req.body;
+    const {status } = req.body;
     const orderId = req.params.id;
+
+     if (req.user.role !== "admin") {
+      return res.status(403).json({
+        success: false,
+        message: "Unauthorized",
+      });
+    }
 
     const order = await Order.findById(orderId);
 
@@ -130,14 +138,6 @@ const getOrderStatus = async (req, res) => {
       });
     }
 
-    //  Admin check
-    if (req.user.role !== "admin") {
-      return res.status(403).json({
-        success: false,
-        message: "Unauthorized",
-      });
-    }
-
     const validStatus = ["placed", "shipped", "delivered"];
 
     if (!validStatus.includes(status)) {
@@ -145,6 +145,13 @@ const getOrderStatus = async (req, res) => {
         success: false,
         message: "Invalid status",
       });
+    }
+    if(order.status ===  "delivered"){
+             return res.status(400).json({
+        success: false,
+        message: "Order already delivered. Cannot update.",
+      });
+
     }
 
     order.status = status;
@@ -159,6 +166,45 @@ const getOrderStatus = async (req, res) => {
     return res.status(500).json({
       success: false,
       message: e.message,
+    });
+  }
+};
+
+const deleteOrder = async (req, res) => {
+  try {
+    const orderId = req.params.id;
+
+    const order = await Order.findOne({
+      _id: orderId,
+      user: req.user.id,
+    });
+
+    if (!order) {
+      return res.status(404).json({
+        success: false,
+        message: "Order not found",
+      });
+    }
+
+    // Only allow delete if delivered
+    if (order.status !== "delivered") {
+      return res.status(400).json({
+        success: false,
+        message: "Only delivered orders can be deleted",
+      });
+    }
+
+    await order.deleteOne();
+
+    return res.status(200).json({
+      success: true,
+      message: "Order deleted successfully",
+    });
+
+  } catch (err) {
+    return res.status(500).json({
+      success: false,
+      message: err.message,
     });
   }
 };
