@@ -11,15 +11,15 @@ import SignupPage from './pages/SignupPage'
 import OrderPage from './pages/OrderPage';
 
 // ✅ LAZY (heavy pages)
-const Cart = lazy(() => import("./pages/Cart"))
-const ProductPage = lazy(() => import("./pages/ProductPage"))
-const DashBoard = lazy(() => import("./pages/DashBoard"))
-const SearchPage = lazy(() => import("./pages/SearchPage"))
-const Products = lazy(() => import("./pages/ProductsCategoryPage"))
-const SaveProductPage = lazy(() => import("./pages/SaveProductPage"))
-const UpdateProduct = lazy(() => import("./pages/UpdateProduct"))
-const AddProduct = lazy(() => import("./pages/AddProduct"))
-const UserProfile = lazy(() => import("./pages/UserProfile"))
+const Cart = lazy(() => import("./pages/Cart.jsx"))
+const ProductPage = lazy(() => import("./pages/ProductPage.jsx"))
+const DashBoard = lazy(() => import("./pages/DashBoard.jsx"))
+const SearchPage = lazy(() => import("./pages/SearchPage.jsx"))
+const Products = lazy(() => import("./pages/ProductsCategoryPage.jsx"))
+const SaveProductPage = lazy(() => import("./pages/SaveProductPage.jsx"))
+const UpdateProduct = lazy(() => import("./pages/UpdateProduct.jsx"))
+const AddProduct = lazy(() => import("./pages/AddProduct.jsx"))
+const UserProfile = lazy(() => import("./pages/UserProfile.jsx"))
 
 
 function App() {

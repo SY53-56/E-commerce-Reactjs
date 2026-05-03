@@ -6,6 +6,7 @@ import { useNavigate } from "react-router";
 import Input from "../components/Input";
 import TextArea from "../components/TextArea";
 import Select from "../components/Select"
+
 const AddProduct = React.memo(() => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
