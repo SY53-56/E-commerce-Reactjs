@@ -124,9 +124,9 @@ import Input from "./Input.jsx";
     {user && (
       <div className="flex flex-col px-6 py-5 text-black"> 
         {user.role ==="admin" &&(<div className="flex flex-col gap-4 text-black"><Link className="flex gap-2 hover:bg-gray-300 px-4 py-1 transition-all duration-500 rounded-lg" to="/add"><FormIcon/> add project</Link>  
-             <Link to={`/user/${user.id}`} className="flex gap-2 hover:bg-gray-300 px-4 py-1 rounded-lg transition-all duration-500"> <LayoutDashboardIcon/> Dashboard</Link>
+             <Link to={`/user/${user._id}`} className="flex gap-2 hover:bg-gray-300 px-4 py-1 rounded-lg transition-all duration-500"> <LayoutDashboardIcon/> Dashboard</Link>
              
-             <Link to={`/userProfile/${user.id}`}  className="flex gap-2 hover:bg-gray-300 px-4 py-1 rounded-lg transition-all duration-500"><User2Icon/>userProfile</Link>
+             <Link to={`/userProfile/${user._id}`}  className="flex gap-2 hover:bg-gray-300 px-4 py-1 rounded-lg transition-all duration-500"><User2Icon/>userProfile</Link>
              
              </div>
              
@@ -134,8 +134,8 @@ import Input from "./Input.jsx";
                
              }
             <div className="flex flex-col gap-4 text-black mt-4">
-               <Link to={`/saveItem/${user.id}`} className="flex gap-2 hover:bg-gray-300 px-4 py-1 rounded-lg transition-all duration-500" ><SaveAllIcon/> SaveProduct  </Link>
-                        <Link to={`/product/order/${user.id}`}  className="flex gap-2 hover:bg-gray-300 px-4 py-1 rounded-lg transition-all duration-500"><User2Icon/>order</Link>
+               <Link to={`/saveItem/${user?._id}`} className="flex gap-2 hover:bg-gray-300 px-4 py-1 rounded-lg transition-all duration-500" ><SaveAllIcon/> SaveProduct  </Link>
+                        <Link to={`/product/order/${user?._id}`}  className="flex gap-2 hover:bg-gray-300 px-4 py-1 rounded-lg transition-all duration-500"><User2Icon/>order</Link>
             </div>
              </div>
              

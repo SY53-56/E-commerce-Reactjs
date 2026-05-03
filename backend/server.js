@@ -30,7 +30,7 @@ app.use("/order" , Order)
 // ✅ START SERVER ONLY AFTER DB CONNECTS
 const port= process.env.PORT ||5000
 
-  app.get("/backend",(req,res)=>{
+  app.get("/",(req,res)=>{
     res.send("hii sahul")
   })
 const startServer = async () => {
