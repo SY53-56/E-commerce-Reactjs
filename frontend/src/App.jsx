@@ -7,7 +7,7 @@ import { Toaster } from "react-hot-toast";
 import Layout from './Layout'
 import Home from './pages/Home'
 import Login from "./pages/LoginPage"
-import SignupPage from './pages/signupPage'
+import SignupPage from './pages/SignupPage'
 import OrderPage from './pages/OrderPage';
 
 // ✅ LAZY (heavy pages)
