@@ -52,13 +52,12 @@ const userRegister = async (req, res) => {
 
     const token = generateToken(newUser);
 
-    res.cookie("token", token, {
-      httpOnly: true,
-      secure: true,
-sameSite: "none",
-      maxAge: 7 * 24 * 60 * 60 * 1000,
-    });
-
+ res.cookie("token", token, {
+  httpOnly: true,
+  secure: process.env.NODE_ENV === "production",
+  sameSite: "none",
+  maxAge: 7 * 24 * 60 * 60 * 1000,
+});
     res.status(201).json({
       message: "User registered successfully",
       user: {
@@ -94,13 +93,12 @@ const userLogin = async (req, res) => {
 
     const token = generateToken(userExist);
 
-    res.cookie("token", token, {
-      httpOnly: true,
-    secure: true,
-sameSite: "none",
-      maxAge: 7 * 24 * 60 * 60 * 1000,
-    });
-
+  res.cookie("token", token, {
+  httpOnly: true,
+  secure: process.env.NODE_ENV === "production",
+  sameSite: "none",
+  maxAge: 7 * 24 * 60 * 60 * 1000,
+});
     res.status(200).json({
       message: "Successful login",
       user: {
