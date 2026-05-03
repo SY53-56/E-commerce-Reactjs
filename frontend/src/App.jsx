@@ -18,7 +18,7 @@ const SearchPage = lazy(() => import("./pages/SearchPage"))
 const Products = lazy(() => import("./pages/ProductsCategoryPage"))
 const SaveProductPage = lazy(() => import("./pages/SaveProductPage"))
 const UpdateProduct = lazy(() => import("./pages/UpdateProduct"))
-const AddProduct = lazy(() => import("./pages/addProduct"))
+const AddProduct = lazy(() => import("./pages/AddProduct"))
 const UserProfile = lazy(() => import("./pages/UserProfile"))
 
 

@@ -5,7 +5,7 @@ import { Package2Icon, LayoutDashboard, PlusCircle, UserCircle } from 'lucide-re
 import { useDispatch, useSelector } from 'react-redux';
 import { allProductShow } from '../features/product/productThunk';
 import Card from '../components/Card';
-import UserDashboard from '../components/dashboard/userDashboard';
+import UserDashboard from '../components/dashboard/UserDashboard';
 
 export default function UserProfile() {
   const [isActiveTab, setIsActiveTab] = useState("product")
