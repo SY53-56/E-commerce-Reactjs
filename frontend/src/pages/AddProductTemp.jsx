@@ -7,7 +7,7 @@ import Input from "../components/Input";
 import TextArea from "../components/TextArea";
 import Select from "../components/Select"
 
-const AddProduct = React.memo(() => {
+const AddProductTemp = React.memo(() => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { status, error } = useSelector((state) => state.products);
@@ -162,7 +162,7 @@ bg-gradient-to-br from-gray-900 via-gray-800 to-black px-4 py-10">
   );
 });
 
-export default AddProduct;
+export default AddProductTemp;
 
 // ================= REUSABLE INPUT COMPONENTS =================
 

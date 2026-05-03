@@ -40,7 +40,7 @@ export default function UpdateProduct() {
         newImages: [],
       });
     }
-  }, [currentProduct?._id]);
+  }, [currentProduct?._id,currentProduct]);
 
   const handleForm = useCallback((e)=>{
    

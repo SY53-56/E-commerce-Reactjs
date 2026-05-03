@@ -18,7 +18,7 @@ const SearchPage = lazy(() => import("./pages/SearchPage.jsx"))
 const Products = lazy(() => import("./pages/ProductsCategoryPage.jsx"))
 const SaveProductPage = lazy(() => import("./pages/SaveProductPage.jsx"))
 const UpdateProduct = lazy(() => import("./pages/UpdateProduct.jsx"))
-const AddProduct = lazy(() => import("./pages/AddProduct.jsx"))
+const AddProduct = lazy(() => import("./pages/AddProductTemp.jsx"))
 const UserProfile = lazy(() => import("./pages/UserProfile.jsx"))
 
 
