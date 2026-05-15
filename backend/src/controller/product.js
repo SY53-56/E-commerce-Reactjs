@@ -32,7 +32,7 @@ const showProduct = async (req, res) => {
   Product.find(filter).skip(skip).limit(limit).populate("userAdmin", "username email").select("-__v").lean() , 
   Product.countDocuments(filter)
  ])
-
+console.log(product)
     res.status(200).json({ products:product, page , totalProduct:total, totalPages: Math.ceil(total/limit) });
   } catch (e) {
     res.status(500).json({ message: e.message });

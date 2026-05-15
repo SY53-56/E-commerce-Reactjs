@@ -36,11 +36,14 @@ export default function Home() {
 
 
   const [currentPage, setCurrentPage] = useState(1);
-
+console.log("allProduct",products)
   /* ================= FETCH PRODUCTS ================= */
   useEffect(() => {
-    dispatch(allProductShow({ page: currentPage , limit: 20 }));
-  }, [dispatch, currentPage]);
+ 
+     dispatch(allProductShow({ page: currentPage , limit: 20, minPrice: 0,
+    maxPrice: 10000 }));
+   
+  }, [dispatch, currentPage,products]);
 
  useEffect(()=>{
   dispatch(userData())

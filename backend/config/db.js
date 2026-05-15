@@ -8,6 +8,8 @@ const mongoose = require("mongoose")
        console.log("mongoose successfully connected")
   }catch(e){
   console.log("mongoose is not connected", e)
+  throw e
+  
   } 
   }
   
