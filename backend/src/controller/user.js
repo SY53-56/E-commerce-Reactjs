@@ -52,12 +52,18 @@ const userRegister = async (req, res) => {
 
     const token = generateToken(newUser);
 
- res.cookie("token", token, {
+const cookieOptions = {
   httpOnly: true,
   secure: process.env.NODE_ENV === "production",
-  sameSite: "none",
+  sameSite:
+    process.env.NODE_ENV === "production"
+      ? "none"
+      : "lax",
   maxAge: 7 * 24 * 60 * 60 * 1000,
-});
+};
+
+res.cookie("token", token, cookieOptions);
+
     res.status(201).json({
       message: "User registered successfully",
       user: {
@@ -92,13 +98,18 @@ const userLogin = async (req, res) => {
     }
 
     const token = generateToken(userExist);
-
-  res.cookie("token", token, {
+const cookieOptions = {
   httpOnly: true,
   secure: process.env.NODE_ENV === "production",
-  sameSite: "none",
+  sameSite:
+    process.env.NODE_ENV === "production"
+      ? "none"
+      : "lax",
   maxAge: 7 * 24 * 60 * 60 * 1000,
-});
+};
+
+res.cookie("token", token, cookieOptions);
+
     res.status(200).json({
       message: "Successful login",
       user: {
@@ -116,12 +127,14 @@ const userLogin = async (req, res) => {
 
 const userLogout = async (req, res) => {
   try {
-    res.clearCookie("token", {
-      httpOnly: true,
-   secure: true,
-sameSite: "none",
-    });
-
+  res.clearCookie("token", {
+  httpOnly: true,
+  secure: process.env.NODE_ENV === "production",
+  sameSite:
+    process.env.NODE_ENV === "production"
+      ? "none"
+      : "lax",
+});
     res.status(200).json({ message: "Logged out successfully" });
   } catch (e) {
     res.status(500).json({ message: e.message });

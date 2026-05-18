@@ -11,16 +11,25 @@ const CartRouter = require("./src/router/cart");
 const Order = require("./src/router/order");
 
 // CORS
+
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://e-commerce-reactjs-eight.vercel.app",
+];
+
 app.use(
   cors({
-    origin: [
-      "http://localhost:5173",
-      "https://e-commerce-reactjs-eight.vercel.app"
-    ],
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("CORS not allowed"));
+      }
+    },
     credentials: true,
   })
 );
-   
+   app.set("trust proxy", 1);
 // Middlewares
 app.use(express.json());
 app.use(cookieParser());
