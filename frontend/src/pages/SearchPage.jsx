@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import debounce from '../uitiltes/uitiltes'
+
 import { useOutletContext } from 'react-router'
 import { useSelector } from 'react-redux'
 import Card from '../components/Card'
@@ -11,19 +11,25 @@ export default function SearchPage() {
    const {handleAddToCart ,handleSave} = UseProductActions()
    const products = useSelector(state => state.products.products)
    console.log(searchText)
-   console.log(typeof searchText, searchText)
-   useEffect(()=>{
-   const debouncedSearch =  debounce(()=>{
-      if(!searchText){
-        setSearchData([])
-           return
-        }
-       const filtered = products.filter(item => item.name.toLowerCase().includes(searchText.toLowerCase()))
-     setSearchData(filtered)
-   },400)
 
- debouncedSearch()
-   }, [searchText,products])
+  useEffect(() => {
+  const timer = setTimeout(() => {
+    if (!searchText) {
+      setSearchData([]);
+      return;
+    }
+
+    const filtered = products.filter((item) =>
+      item.name
+        ?.toLowerCase()
+        .includes(searchText.toLowerCase())
+    );
+
+    setSearchData(filtered);
+  }, 500);
+
+  return () => clearTimeout(timer);
+}, [searchText, products]);
 
   return (
 

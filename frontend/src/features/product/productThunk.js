@@ -8,7 +8,7 @@ export const allProductShow = createAsyncThunk(
       const res = await API.get(
     `/product?page=${page}&limit=${limit}&minPrice=${minPrice}&maxPrice=${maxPrice}`
       );
-      console.log( "data",res.data)
+     
       return res.data;
     } catch (e) {
       return rejectWithValue(
@@ -20,8 +20,7 @@ export const allProductShow = createAsyncThunk(
 export const showOneProduct = createAsyncThunk(  "show/prduct",async(id ,{rejectWithValue})=>{
   try{
     let res= await API.get(`/product/${id}`)
-       console.log(res.data)
-     return res.data
+            return res.data
   }catch(e){
   return rejectWithValue(e.response?.data?.message || e.message);
   }

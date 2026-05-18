@@ -36,7 +36,7 @@ export default function Home() {
 
 
   const [currentPage, setCurrentPage] = useState(1);
-console.log("allProduct",products)
+
   /* ================= FETCH PRODUCTS ================= */
   useEffect(() => {
  

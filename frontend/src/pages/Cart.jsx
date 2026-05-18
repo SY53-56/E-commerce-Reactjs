@@ -34,7 +34,6 @@ export default function Cart() {
   }, [dispatch]);
 
 
-console.log("cart",cart)
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
