@@ -145,7 +145,7 @@ npm run dev
 
 ## 📌 Live Demo
 
-(https://e-commerce-reactjs-eight.vercel.app/)
+"https://e-commerce-reactjs-eight.vercel.app/"
 
 ---
 
