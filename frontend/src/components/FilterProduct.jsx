@@ -9,7 +9,7 @@ function FilterProduct({
   value,
 }) {
   const [activeCategory, setActiveCategory] = useState(null);
-  const [showFilter, setShowFilter] = useState(window.innerWidth>728);
+  const [showFilter, setShowFilter] = useState(true);
 
   if (!Array.isArray(category)) return null;
 
@@ -18,13 +18,7 @@ function FilterProduct({
     onSelect?.(item);
   };
 
-  useEffect(()=>{
-     if(window.innerWidth >=728 ){
-      setShowFilter(true)
-     }else{
-      setShowFilter(false)
-     }
-  },[showFilter])
+  
 
 
   const toggleFilter = () => {
@@ -53,7 +47,7 @@ function FilterProduct({
       {/* Animated Content */}
       <div
         className={`transition-all duration-500 overflow-hidden ${
-          showFilter ? "max-h-[800px] opacity-100" : "max-h-0 opacity-0"
+          showFilter ===window.innerWidth>749 ? "max-h-[800px] opacity-100" : "max-h-0 opacity-0"
         }`}
       >
         {/* Categories */}

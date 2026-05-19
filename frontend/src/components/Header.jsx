@@ -173,7 +173,10 @@ import Input from "./Input.jsx";
             <ShoppingCart size={22} />
             <span>Cart: {cart?.items?.length || 0}</span>
             </Link>
-       
+         <Link to={`/product/order/${user?.id}`}  className="flex items-center gap-2  hover:bg-gray-300  rounded-lg transition-all duration-500">
+                 <LayoutDashboard size={22}/>
+                <p>orders</p>
+              </Link>
           
           {user ? (
             

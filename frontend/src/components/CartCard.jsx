@@ -10,12 +10,12 @@ const CartCard= React.memo(({item , handleDecreaseQuantity,handleIncreaseQuantit
               <img
                 src={item.product.image[0]}
                 alt={item.product.name}
-                className="w-48 lg:w-28 h-28 object-cover rounded-xl flex-shrink-0"
+                className="w-40 lg:w-28 h-28 object-cover rounded-xl flex-shrink-0"
               />
               <div className="flex-1 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                 <div>
                  <div className="flex lg:flex-col gap-2.5 lg:gap-1">
-                   <h3 className="text-lg font-semibold text-gray-800">
+                   <h3 className="text-[18px] lg:text-lg font-semibold text-gray-800">
                     {item.product.name}
                   </h3>
                   <p className="text-indigo-600 font-bold mt-1">₹{item.product.price}</p>

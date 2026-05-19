@@ -16,6 +16,7 @@ import UseProductActions from "../hooks/UseProductActions";
 import { userData } from "../features/auth/authThunk";
 import SearchPage from "./SearchPage";
 import SearchInput from "../components/SearchInput";
+import { useLocation, useNavigate } from "react-router";
 
 
 gsap.registerPlugin(ScrollTrigger);
@@ -29,8 +30,8 @@ export default function Home() {
 ;
 
   const {  status,  totalPages , loading } = useSelector((state) => state.products)
-  
-  
+  const location = useLocation()
+  const navigate = useNavigate()
   const products = useSelector(state=> state.products.products)
  const user= useSelector(state=>state.auth.user)
 
@@ -87,6 +88,11 @@ export default function Home() {
 
 
  
+  useEffect(()=>{
+ if(navigate){
+   
+ }
+  })
 
   const category = useMemo(()=>{
    return [

@@ -20,13 +20,14 @@ const SaveProductPage = lazy(() => import("./pages/SaveProductPage.jsx"))
 const UpdateProduct = lazy(() => import("./pages/UpdateProduct.jsx"))
 const AddProduct = lazy(() => import("./pages/AddProductTemp.jsx"))
 const UserProfile = lazy(() => import("./pages/UserProfile.jsx"))
-
+import ScrolltoTop from "./hooks/ScrollToTop.jsx"
 
 function App() {
   return (
     <>
+     <ScrolltoTop/>
       <Toaster position="top-right" />
-
+ 
       {/* ✅ Suspense wraps only routes */}
       <Suspense
         fallback={
