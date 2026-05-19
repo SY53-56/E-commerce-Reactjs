@@ -172,7 +172,7 @@ if (status === "loading") {
           Related Products
         </h2>
 
-        <div className="">
+        <div className="w-full">
            <Card products={relatedProducts} addCart={handleCart}/>
         </div>
       </div>

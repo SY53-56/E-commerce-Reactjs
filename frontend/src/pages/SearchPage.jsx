@@ -10,7 +10,7 @@ export default function SearchPage() {
    const [searchData , setSearchData] = useState([])
    const {handleAddToCart ,handleSave} = UseProductActions()
    const products = useSelector(state => state.products.products)
-   console.log(searchText)
+
 
   useEffect(() => {
   const timer = setTimeout(() => {
@@ -26,7 +26,7 @@ export default function SearchPage() {
     );
 
     setSearchData(filtered);
-  }, 500);
+  }, 700);
 
   return () => clearTimeout(timer);
 }, [searchText, products]);
@@ -34,9 +34,9 @@ export default function SearchPage() {
   return (
 
 
-        <div className='px-10 py-5'>
+        <div className='px-3lg:px-10 py-5'>
            <SearchInput/>
-                 <h1 className="text-2xl text-center mt-1.5  font-bold mb-4">
+                 <h1 className="text-2xl text-center mt-4  font-bold mb-4">
         Search Results
       </h1>
       <div>
