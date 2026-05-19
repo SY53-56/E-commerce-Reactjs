@@ -64,7 +64,7 @@ import Input from "./Input.jsx";
     >
       {/* Logo + Hamburger */}
       <div className="flex items-center w-full lg:w-auto justify-between">
-        <h1 className="font-bold text-3xl lg:text-2xl italic">main mart</h1>
+       <Link to="/" className="font-bold text-3xl lg:text-2xl italic"> main mart</Link>
         <Menu onClick={toggleMenuHandler} className="lg:hidden cursor-pointer" size={28} />
       </div>
 

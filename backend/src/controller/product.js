@@ -1,9 +1,12 @@
 const { cloudinary_js_config } = require("../config/cloudinaryConfig");
-
+const data = require("../project/data")
 const Product = require("../models/product");
 const uploadBufferToCloudinary = require("../utility/uploadBufferToCloudinary");
 
+
 // 1️⃣ Get all products
+
+
 const showProduct = async (req, res) => {
   try {
    const page = Number(req.query.page)|| 1
